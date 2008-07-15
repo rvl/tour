@@ -1,0 +1,3 @@
+Photos here. Directory structure by date:
+
+exiftool "-Directory<DateTimeOriginal" -d "%Y/%m/%d" .
