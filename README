@@ -1,0 +1,18 @@
+Bike Tour 2008
+
+These are just dodgy scripts to deal with Bike Tour data such as GPS
+tracklogs and photos.
+
+Things that are done:
+ * Conversion of multiple NMEA files from GPS into one GPX per day.
+ * Calculation of statistics from the GPX file.
+ * Creation of a KML file viewable in Google Maps, and some javascript
+   code to display it.
+ * Plotting of altitude graphs from GPS tracks.
+ * Geotagging of photos.
+ * Posting of skeleton blog entries to WordPress.
+
+It is Makefile driven. New GPS tracklogs are dropped into the gps
+directory, and new photos are dropped into the photos directory. The
+file data.py defines the days of bike tour, and the start and finish
+towns.

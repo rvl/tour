@@ -1,3 +1,7 @@
 Photos here. Directory structure by date:
 
 exiftool "-Directory<DateTimeOriginal" -d "%Y/%m/%d" .
+
+Update timestamps with:
+
+exiftool -r -overwrite_original -AllDates-=0:0:05s 2008

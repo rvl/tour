@@ -107,7 +107,7 @@ p.ParseFile(open("%s.gpx" % d))
 cmd = open("%s.gnuplot" % d, "w")
 
 cmd.write("""# gnuplot command script for %(d)s
-set terminal png
+set terminal png truecolor
 
 unset key
 
