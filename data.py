@@ -1,9 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-data = [ ("20080617", "Wroclaw", "Swidnica", "10:30", "17:30", 95.0),
-         ("20080618", "Swidnica", "Kamieniec Zabkowicki", None, None, .0),
-         ("20080619", "Kamieniec Zabkowicki", "Nysa", None, None, .0),
+C = "camping"
+W = "wildcamping"
+J = "hostel"
+H = "hotel"
+
+data = [ ("20080617", "Wrocław", "Świdnica",
+          "10:30", "17:30", 95.0,
+          C, ""),
+         ("20080618", "Świdnica", "Kamieniec Ząbkowicki", None, None, .0),
+         ("20080619", "Kamieniec Ząbkowicki", "Nysa", None, None, .0),
          ("20080620", "Nysa", "Jesenik", None, None, .0),
          ("20080621", "Jesenik", None, None, None, .0),
          ("20080622", "Jesenik", None, None, None, .0),
@@ -13,8 +20,8 @@ data = [ ("20080617", "Wroclaw", "Swidnica", "10:30", "17:30", 95.0),
          ("20080626", "Olomouc", "Olomouc", None, None, .0),
          ("20080627", "Olomouc", "Sloup", None, None, .0),
          ("20080628", "Sloup", None, None, None, .0),
-         ("20080629", "Sloup", "Hustopece", None, None, .0),
-         ("20080630", "Hustopece", "Lednice", None, None, .0),
+         ("20080629", "Sloup", "Hustopeče", None, None, .0),
+         ("20080630", "Hustopeče", "Lednice", None, None, .0),
          ("20080701", "Lednice", "Poysdorf", None, None, .0),
          ("20080702", "Poysdorf", "Wien", None, None, .0),
          ("20080703", "Wien", None, None, None, .0),
@@ -34,7 +41,7 @@ data = [ ("20080617", "Wroclaw", "Swidnica", "10:30", "17:30", 95.0),
          ("20080717", "Salzburg", None, None, None, .0),
          ("20080718", "Salzburg", "Sankt Johann im Pongau", None, None, .0),
          ("20080719", "Sankt Johann", "Zell am See", None, None, .0),
-         ("20080720", "Grossglocknerstrasse", None, None, None, .0),
+         ("20080720", "Großglocknerstraße", None, None, None, .0),
          ("20080721", "Zell am See", None, None, None, .0),
          ("20080722", "Zell am See", "Zell am Ziller", None, None, .0),
          ("20080723", "Zell am Ziller", None, None, None, .0),
@@ -94,3 +101,9 @@ data = [ ("20080617", "Wroclaw", "Swidnica", "10:30", "17:30", 95.0),
          ("20080913", "Tatranská Štrba", "Zakopane", "10:00", "15:45", 79.0),
          ("20080914", "Zakopane", "Wrocław", None, None, 0.0)
          ]
+
+def pathify(date):
+    return "%s/%s/%s" % chop(date)
+
+def chop(date):
+    return (date[0:4], date[4:6], date[6:8])

@@ -73,6 +73,12 @@ def start_element(name, attrs):
         last_point = cur_point
         cur_point = GpxPoint(float(attrs["lat"]), float(attrs["lon"]))
 
+def gpx_time(cdata):
+    # ignore milliseconds
+    FMT = "%Y-%m-%dT%H:%M:%S"
+    LEN = 19
+    return strptime(cdata[0:LEN], FMT)
+
 def end_element(name):
     global in_map, cur_point, last_point, stats, cdata
 
@@ -80,7 +86,7 @@ def end_element(name):
         if in_elem("ele"):
             cur_point.ele = float(cdata)
         if in_elem("time"):
-            cur_point.time_gmt = strptime(cdata, "%Y-%m-%dT%H:%M:%SZ")
+            cur_point.time_gmt = gpx_time(cdata)
         if in_elem("speed"):
             cur_point.speed = float(cdata)
 
@@ -103,25 +109,3 @@ stats = Stats(open("%s.dat" % d, "w"))
 stats.header()
 
 p.ParseFile(open("%s.gpx" % d))
-
-cmd = open("%s.gnuplot" % d, "w")
-
-cmd.write("""# gnuplot command script for %(d)s
-set terminal png truecolor
-
-unset key
-
-set output "%(d)s-ele.png"
-set xlabel "Distance (km)"
-set ylabel "Elevation (m above s.l.)"
-plot "%(d)s.dat" using 4:2 with lines linetype rgb "%(colour)s"
-
-set output "%(d)s-spd.png"
-set xdata time
-set timefmt "%%H:%%M:%%S"
-set xlabel "Time (HH:MM)"
-set ylabel "Speed (km/h)"
-plot "%(d)s.dat" using 1:3 with lines linetype rgb "%(colour)s"
-
-""" % {"d" : d, "colour" : gnuplot_colour(d)})
-

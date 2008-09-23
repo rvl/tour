@@ -21,6 +21,15 @@ def google_colour(d):
 def gnuplot_colour(d):
     return "#%s%s%s" % colours[weekday(d)]
 
-
+# silly silly silly silly
 if __name__ == "__main__":
-    print google_colour(argv[1])
+    f = google_colour
+    d = argv[1]
+
+    if argv[1] == '-g':
+        f = gnuplot_colour
+        d = argv[2]
+    elif argv[1] == '-k':
+        d = argv[2]
+
+    print f(d)
