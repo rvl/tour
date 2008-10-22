@@ -31,6 +31,12 @@ class Stats:
     def header(self):
         self.outfile.write("# time\taltitude\tspeed\tdistance\n")
 
+    def footer(self):
+        if self.total_dist == 0:
+            # gnuplot doesn't accept datafiles with no points
+            # so write a zero point in the case where there was no data
+            self.outfile.write("0\t0\t0\t0\n")
+
     def do_stats(self, cur_point, last_point):
         if last_point is not None:
             b = point.Point(cur_point.lat, cur_point.lon)
@@ -109,3 +115,5 @@ stats = Stats(open("%s.dat" % d, "w"))
 stats.header()
 
 p.ParseFile(open("%s.gpx" % d))
+
+stats.footer()

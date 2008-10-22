@@ -1,19 +1,9 @@
 #!/usr/bin/python
 
 from data import data
+from tracktitle import track_title
 
-PREFIX = "http://rodney.id.au/~rodney/gps/"
-
-print "var trackOverlays = new Array(%d);" % len(data)
-
-print "function addTrackOverlays() {"
+print "var tourData = new Array(%d);" % len(data)
+print
 for i, day in enumerate(data):
-    print "  trackOverlays[%d] = new GGeoXml(\"%s%s.kml\");" % (i, PREFIX, day[0])
-    print "  map.addOverlay(trackOverlays[%d]);" % i
-print "}"
-
-print "function addPhotos() {"
-for day in data:
-    print "  mgr.addMarkers(photos%s(), 9);" % day[0]
-print "  mgr.refresh();"
-print "}"
+    print "tourData[%d] = ['%s', '%s'];" % (i, day[0], track_title(day[0]))

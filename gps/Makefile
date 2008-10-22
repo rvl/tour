@@ -25,6 +25,9 @@ ALL_GPX = $(foreach date,$(DATES),$(date).gpx)
 
 ALL_TRACK_KML = $(foreach date,$(DATES),$(date).kml)
 
+ALL_LAYERS = $(foreach date,$(DATES),$(date)-layer.m4)
+ALL_SHAPES = $(foreach date,$(DATES),$(date)_trk.shp $(date)_trk.shx $(date)_trk.dbf)
+
 all: all-kml all-graphs all-js
 
 all-kml: $(ALL_TRACK_KML)
@@ -33,18 +36,20 @@ all-gpx: $(ALL_GPX)
 
 all-gc: $(foreach date,$(DATES),$(date).gc)
 
-ALL_GRAPHS = $(foreach date,$(DATES),$(date)-ele.png $(date)-ele2.png $(date)-spd.png)
+ALL_GRAPHS = $(foreach date,$(DATES),$(date)-ele.png $(date)-ele2.png $(date)-spd.png) empty-ele2.png
 
 all-graphs: $(ALL_GRAPHS)
 
-ALL_JS = tracks.js photos.js
+ALL_JS = tracks.js photos.js colours.js
 all-js: $(ALL_JS)
+
+all-shapes: $(ALL_SHAPES)
 
 %.gpx: $(wildcard $(GPS_PREFIX)%*.TXT)
 	gpsbabel -i nmea $(foreach nmea,$(wildcard $(GPS_PREFIX)$**.TXT),-f $(nmea)) -x discard,sat=3 -x duplicate,location -x track,merge,sdistance=0.1k -x simplify,error=0.001k -x sort,time -o gpx -F $@
 
 %.kml: %.gpx
-	gpsbabel -i gpx -f $^ -o kml,points=0,lines=1,line_width=4,line_color=$(shell $(TRACKCOLOUR) $*),units=m -F $@
+	gpsbabel -i gpx -f $^ -o kml,units=m,points=0,lines=1,line_width=4,line_color=$(shell $(TRACKCOLOUR) $*) -F $@
 	sed -e 's=GPS device=$(shell $(TRACKTITLE) $*)=' -e 's=Path=$*=' -i $@
 
 ### graphs
@@ -80,7 +85,10 @@ blog-%: %.kml %.dat
 	$(BLOGPOST) $*
 
 photos.js: $(foreach date,$(DATES),$(date)-photos.js)
-	cat $^ > $@
+	@echo "Building $@"
+	@echo "var photos = new Array();" > $@
+	@echo >> $@
+	@cat $^ >> $@
 
 %-geotag: %.gpx
 	exiftool -t -S -q -f -n -Directory -FileName -GpsLatitude -GpsLongitude $(GALLERY_DIR)$(shell echo $* | sed -e 's=\(....\)\(..\)\(..\)=\1/\2/\3=') > $@
@@ -91,7 +99,38 @@ photos.js: $(foreach date,$(DATES),$(date)-photos.js)
 tracks.js:
 	$(MAKE_MAP) > $@
 
-clean: clean-gpx clean-kml clean-gc clean-graphs clean-js
+colours.js:
+	$(TRACKCOLOUR) -j > $@
+
+# ArcGIS Shapefiles
+%_trk.shp %_trk.dbf %_trk.shx: %.gpx
+	gpx2shp -t $^
+
+# Mapserver MAP file generation
+#.INTERMEDIATE: layers.m4 $(ALL_LAYERS)
+
+%-layer.m4: ../layer.m4
+	m4 -DM_DATE=$* \
+		-DM_NAME="$(shell $(TRACKTITLE) $*)" \
+		-DM_COLOUR="$(shell $(TRACKCOLOUR) -m $*)" \
+		$< > $@
+
+layers.m4: $(ALL_LAYERS)
+	cat $^ > $@
+
+tour.map: ../map.m4 ../layer.m4 layers.m4
+	m4 -DM_SHAPEPATH=$(shell pwd) $< > $@
+
+# photo icons shape file
+photos_wpt.shp photos_wpt.dbf photos_wpt.shx: photos.gpx
+	gpx2shp -w $^
+
+photos.gpx: $(foreach date,$(DATES),$(date)-geotag)
+	cat $^ | awk -f ../gpxphotos.awk > $@
+
+# clean targets
+
+clean: clean-gpx clean-kml clean-gc clean-graphs clean-js clean-shapes tour.map 
 
 clean-gpx:
 	rm -f $(ALL_GPX)
@@ -107,3 +146,6 @@ clean-graphs:
 
 clean-js:
 	rm -f $(foreach date,$(DATES),$(date)-photos.js) $(ALL_JS)
+
+clean-shapes:
+	rm -f $(ALL_SHAPES)
