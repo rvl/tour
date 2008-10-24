@@ -1,0 +1,4 @@
+# A datafile used to generate an empty graph
+# gnuplot doesn't accept datafiles with no points
+# time	altitude	speed	distance
+0 0 0 0

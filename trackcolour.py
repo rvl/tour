@@ -23,12 +23,15 @@ def rgb(d):
 def hex(n):
     return "%02x" % n
 
+def hrgb(d):
+    return tuple(map(hex, rgb(d)))
+
 def google_colour(d):
-    c = map(hex, colours[weekday(d)])
+    c = hrgb(d)
     return "c0%s%s%s" % (c[2], c[1], c[0])
 
 def gnuplot_colour(d):
-    return "#%s%s%s" % map(hex, rgb(d))
+    return "#%s%s%s" % hrgb(d)
 
 def mapserver_colour(d):
     return "%d %d %d" % rgb(d)

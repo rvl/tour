@@ -1,11 +1,12 @@
-GPS_PREFIX = RODNEY_833000060_
-
+TRACK_DIR = ../trackdata
 GALLERY_DIR = $(HOME)/g2data/albums/tour
-
 SCRIPT_PATH = ..
+
+GPS_PREFIX = $(TRACK_DIR)/RODNEY_833000060_
 
 TRACKCOLOUR = $(SCRIPT_PATH)/trackcolour.py
 TRACKCOLOUR_GNUPLOT = $(SCRIPT_PATH)/trackcolour.py -g
+TRACKCOLOUR_MAPSERVER = $(SCRIPT_PATH)/trackcolour.py -m
 TRACKTITLE = $(SCRIPT_PATH)/tracktitle.py
 DATE2PATH = $(SCRIPT_PATH)/date2path.py
 PROCESS_GPX = $(SCRIPT_PATH)/processgpx.py
@@ -13,30 +14,29 @@ ALLDAYS = $(SCRIPT_PATH)/alldays.py
 BLOGPOST = $(SCRIPT_PATH)/blogpost.py
 MAKE_PHOTOS = $(SCRIPT_PATH)/makephotos.py
 MAKE_MAP = $(SCRIPT_PATH)/make-map.py
+GPXPHOTOS = awk -f $(SCRIPT_PATH)/gpxphotos.awk
 
 PLOT_TEMPLATE = $(SCRIPT_PATH)/gnuplot-template.m4
 
-PYTHONPATH = $(HOME)/lib/python
+# all dates custom function
+DATES := $(shell $(ALLDAYS))
+dates = $(foreach date,$(DATES),$(2)$(date)$(1))
 
-DATES = $(shell $(ALLDAYS))
+ALL_GPX	      = $(call dates,.gpx)
+ALL_TRACK_KML = $(call dates,.kml)
+ALL_LAYERS    = $(call dates,-layer.m4)
+ALL_SHAPES    = $(foreach fmt,shp shx dbf,$(call dates,_trk.$(fmt)))
+ALL_GRAPHS    = $(foreach type,ele ele2 spd,$(call dates,-$(type).png)) \
+                empty-ele2.png
 
-ALL_GPX = $(foreach date,$(DATES),$(date).gpx)
-#ALL_TRACK_KML = $(foreach gpx,$(ALL_GPX),$(basename $(gpx)).kml)
 
-ALL_TRACK_KML = $(foreach date,$(DATES),$(date).kml)
-
-ALL_LAYERS = $(foreach date,$(DATES),$(date)-layer.m4)
-ALL_SHAPES = $(foreach date,$(DATES),$(date)_trk.shp $(date)_trk.shx $(date)_trk.dbf)
-
-all: all-kml all-graphs all-js
+all: all-kml all-graphs all-js tour.map
 
 all-kml: $(ALL_TRACK_KML)
 
 all-gpx: $(ALL_GPX)
 
-all-gc: $(foreach date,$(DATES),$(date).gc)
-
-ALL_GRAPHS = $(foreach date,$(DATES),$(date)-ele.png $(date)-ele2.png $(date)-spd.png) empty-ele2.png
+all-gc: $(call dates,.gc)
 
 all-graphs: $(ALL_GRAPHS)
 
@@ -45,8 +45,10 @@ all-js: $(ALL_JS)
 
 all-shapes: $(ALL_SHAPES)
 
-%.gpx: $(wildcard $(GPS_PREFIX)%*.TXT)
-	gpsbabel -i nmea $(foreach nmea,$(wildcard $(GPS_PREFIX)$**.TXT),-f $(nmea)) -x discard,sat=3 -x duplicate,location -x track,merge,sdistance=0.1k -x simplify,error=0.001k -x sort,time -o gpx -F $@
+NMEA = $(wildcard $(GPS_PREFIX)$**.TXT)
+
+%.gpx:
+	gpsbabel -i nmea $(foreach nmea,$(NMEA),-f $(nmea)) -x discard,sat=3 -x duplicate,location -x track,merge,sdistance=0.1k -x simplify,error=0.001k -x sort,time -o gpx -F $@ || true
 
 %.kml: %.gpx
 	gpsbabel -i gpx -f $^ -o kml,units=m,points=0,lines=1,line_width=4,line_color=$(shell $(TRACKCOLOUR) $*) -F $@
@@ -61,6 +63,9 @@ all-shapes: $(ALL_SHAPES)
 # And make a gnuplot command file
 %.gnuplot: $(PLOT_TEMPLATE)
 	m4 -DDATE=$* -DCOLOUR=$(shell $(TRACKCOLOUR_GNUPLOT) $*) $(PLOT_TEMPLATE) > $@
+
+.INTERMEDIATE: $(foreach type,ele ele2 spd,$(call dates,-$(type).ps))
+.INTERMEDIATE: $(call dates,.gnuplot) $(call dates,.dat)
 
 # Run gnuplot to make postscript graphs
 %-ele.ps %-ele2.ps %-spd.ps: %.gnuplot %.dat
@@ -84,13 +89,13 @@ tour2008.kml: ../stops.kml $(ALL_TRACK_KML)
 blog-%: %.kml %.dat
 	$(BLOGPOST) $*
 
-photos.js: $(foreach date,$(DATES),$(date)-photos.js)
+photos.js: $(call dates,-photos.js)
 	@echo "Building $@"
 	@echo "var photos = new Array();" > $@
 	@echo >> $@
 	@cat $^ >> $@
 
-%-geotag: %.gpx
+%-geotag:
 	exiftool -t -S -q -f -n -Directory -FileName -GpsLatitude -GpsLongitude $(GALLERY_DIR)$(shell echo $* | sed -e 's=\(....\)\(..\)\(..\)=\1/\2/\3=') > $@
 
 %-photos.js: %-geotag
@@ -105,32 +110,34 @@ colours.js:
 # ArcGIS Shapefiles
 %_trk.shp %_trk.dbf %_trk.shx: %.gpx
 	gpx2shp -t $^
+%_wpt.shp %_wpt.dbf %_wpt.shx: %.gpx
+	gpx2shp -w $^
 
 # Mapserver MAP file generation
 #.INTERMEDIATE: layers.m4 $(ALL_LAYERS)
 
 %-layer.m4: ../layer.m4
 	m4 -DM_DATE=$* \
-		-DM_NAME="$(shell $(TRACKTITLE) $*)" \
-		-DM_COLOUR="$(shell $(TRACKCOLOUR) -m $*)" \
-		$< > $@
+	   -DM_NAME="$(shell $(TRACKTITLE) $*)" \
+	   -DM_COLOUR="$(shell $(TRACKCOLOUR_MAPSERVER) $*)" \
+	   $< > $@
 
 layers.m4: $(ALL_LAYERS)
 	cat $^ > $@
 
-tour.map: ../map.m4 ../layer.m4 layers.m4
+tour.map: ../map.m4 ../layer.m4 layers.m4 photos_wpt.shp $(ALL_SHAPES)
 	m4 -DM_SHAPEPATH=$(shell pwd) $< > $@
 
-# photo icons shape file
-photos_wpt.shp photos_wpt.dbf photos_wpt.shx: photos.gpx
-	gpx2shp -w $^
-
-photos.gpx: $(foreach date,$(DATES),$(date)-geotag)
-	cat $^ | awk -f ../gpxphotos.awk > $@
+# Generate a waypoint GPX from all geotags
+photos.gpx: $(call dates,-geotag)
+	$(GPXPHOTOS) $^ > $@
 
 # clean targets
 
-clean: clean-gpx clean-kml clean-gc clean-graphs clean-js clean-shapes tour.map 
+clean: clean-gpx clean-kml clean-gc clean-graphs clean-js clean-shapes clean-map
+
+superclean: clean clean-geotags
+	rm -f *~
 
 clean-gpx:
 	rm -f $(ALL_GPX)
@@ -144,8 +151,14 @@ clean-gc:
 clean-graphs:
 	rm -f $(ALL_GRAPHS)
 
+clean-geotags:
+	rm -f $(call dates,-geotag)
+
 clean-js:
-	rm -f $(foreach date,$(DATES),$(date)-photos.js) $(ALL_JS)
+	rm -f $(call dates,-photos.js) $(ALL_JS)
 
 clean-shapes:
-	rm -f $(ALL_SHAPES)
+	rm -f $(ALL_SHAPES) photos_wpt.dbf photos_wpt.shp photos_wpt.shx photos.gpx
+
+clean-map:
+	rm -f tour.map $(call dates,-layer.m4) layers.m4
