@@ -15,6 +15,7 @@ BLOGPOST = $(SCRIPT_PATH)/blogpost.py
 MAKE_PHOTOS = $(SCRIPT_PATH)/makephotos.py
 MAKE_MAP = $(SCRIPT_PATH)/make-map.py
 GPXPHOTOS = awk -f $(SCRIPT_PATH)/gpxphotos.awk
+GET_GEOTAG = $(SCRIPT_PATH)/get_geotag.php
 
 PLOT_TEMPLATE = $(SCRIPT_PATH)/gnuplot-template.m4
 
@@ -47,7 +48,10 @@ all-shapes: $(ALL_SHAPES)
 
 NMEA = $(wildcard $(GPS_PREFIX)$**.TXT)
 
-%.gpx:
+%.gpx: %-gps.gpx
+	gpsbabel -i gpx -f $< $(foreach gpx,$(wildcard ../handmade/$*.gpx),-f $(gpx)) -o gpx -F $@
+
+%-gps.gpx:
 	gpsbabel -i nmea $(foreach nmea,$(NMEA),-f $(nmea)) -x discard,sat=3 -x duplicate,location -x track,merge,sdistance=0.1k -x simplify,error=0.001k -x sort,time -o gpx -F $@ || true
 
 %.kml: %.gpx
@@ -57,7 +61,7 @@ NMEA = $(wildcard $(GPS_PREFIX)$**.TXT)
 ### graphs
 
 # Get data from GPX
-%.dat: %.gpx
+%.dat: %-gps.gpx
 	$(PROCESS_GPX) $*
 
 # And make a gnuplot command file
@@ -96,7 +100,7 @@ photos.js: $(call dates,-photos.js)
 	@cat $^ >> $@
 
 %-geotag:
-	exiftool -t -S -q -f -n -Directory -FileName -GpsLatitude -GpsLongitude $(GALLERY_DIR)$(shell echo $* | sed -e 's=\(....\)\(..\)\(..\)=\1/\2/\3=') > $@
+	$(GET_GEOTAG) $* 2> /dev/null > $@ 
 
 %-photos.js: %-geotag
 	$(MAKE_PHOTOS) $* < $^ > $@

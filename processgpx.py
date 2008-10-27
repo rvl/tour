@@ -114,6 +114,6 @@ p.CharacterDataHandler = char_data
 stats = Stats(open("%s.dat" % d, "w"))
 stats.header()
 
-p.ParseFile(open("%s.gpx" % d))
+p.ParseFile(open("%s-gps.gpx" % d))
 
 stats.footer()
