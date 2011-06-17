@@ -7,7 +7,7 @@ from data import data
 def date_num(d):
     for n, stuff in enumerate(data):
          if d == stuff[0]:
-            return n
+             return stuff[8]
     return None
 
 def find_date(d):
@@ -18,7 +18,7 @@ def find_date(d):
 
 def track_title(d):
     stuff = find_date(d)
-    n = date_num(d) + 1
+    n = date_num(d)
 
     title = "Day %d: %s" % (n, stuff[1])
     if stuff[2] is not None:

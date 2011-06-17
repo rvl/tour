@@ -24,18 +24,26 @@ DATES := $(shell $(ALLDAYS))
 dates = $(foreach date,$(DATES),$(2)$(date)$(1))
 
 ALL_GPX	      = $(call dates,.gpx)
+ALL_GPX_MIN   = $(call dates,.min.gpx)
 ALL_TRACK_KML = $(call dates,.kml)
 ALL_LAYERS    = $(call dates,-layer.m4)
 ALL_SHAPES    = $(foreach fmt,shp shx dbf,$(call dates,_trk.$(fmt)))
 ALL_GRAPHS    = $(foreach type,ele ele2 spd,$(call dates,-$(type).png)) \
                 empty-ele2.png
 
+GPS_DATA := $(HOME)/GPS_DATA
+
+links:
+	make -C $(GPS_DATA)
+	ln -sf $(GPS_DATA)/20??????.gpx .
 
 all: all-kml all-graphs all-js tour.map
 
 all-kml: $(ALL_TRACK_KML)
 
 all-gpx: $(ALL_GPX)
+
+all-gpx-min: $(ALL_GPX_MIN)
 
 all-gc: $(call dates,.gc)
 
@@ -48,11 +56,18 @@ all-shapes: $(ALL_SHAPES)
 
 NMEA = $(wildcard $(GPS_PREFIX)$**.TXT)
 
-%.gpx: %-gps.gpx
-	gpsbabel -i gpx -f $< $(foreach gpx,$(wildcard ../handmade/$*.gpx),-f $(gpx)) -o gpx -F $@
+%.min.gpx: %.gpx
+	gpsbabel -t -i gpx -f $^ -x simplify,crosstrack,error=0.05k -o gpx -F $@
 
-%-gps.gpx:
-	gpsbabel -i nmea $(foreach nmea,$(NMEA),-f $(nmea)) -x discard,sat=3 -x duplicate,location -x track,merge,sdistance=0.1k -x simplify,error=0.001k -x sort,time -o gpx -F $@ || true
+#%.gpx: %-gps.gpx
+#	gpsbabel -i gpx -f $< $(foreach gpx,$(wildcard ../handmade/$*.gpx),-f $(gpx)) -o gpx -F $@
+
+%.gpx: $(GPS_DATA)/%.gpx
+#%.gpx:
+	@./linkday.sh $(GPS_DATA) $@
+
+#%-gps.gpx:
+#	gpsbabel -i nmea $(foreach nmea,$(NMEA),-f $(nmea)) -x discard,sat=3 -x duplicate,location -x track,merge,sdistance=0.1k -x simplify,error=0.001k -x sort,time -o gpx -F $@ || true
 
 %.kml: %.gpx
 	gpsbabel -i gpx -f $^ -o kml,units=m,points=0,lines=1,line_width=4,line_color=$(shell $(TRACKCOLOUR) $*) -F $@
@@ -61,7 +76,7 @@ NMEA = $(wildcard $(GPS_PREFIX)$**.TXT)
 ### graphs
 
 # Get data from GPX
-%.dat: %-gps.gpx
+%.dat: %.gpx
 	$(PROCESS_GPX) $*
 
 # And make a gnuplot command file
@@ -83,8 +98,11 @@ NMEA = $(wildcard $(GPS_PREFIX)$**.TXT)
 all.kml: $(ALL_GPX)
 	gpsbabel -i gpx $(foreach GPX,$^,-f $(GPX)) -x simplify,count=1000 -o kml,points=0,lines=1,line_width=4,line_color=c0606060,units=m -F $@
 
-tour2008.kml: ../stops.kml $(ALL_TRACK_KML)
+tour2011.kml: ../stops.kml $(ALL_TRACK_KML)
 	gpsbabel -i kml $(foreach KML,$(ALL_TRACK_KML),-f $(KML)) -x simplify,count=1000 -o kml,points=0,lines=1,units=m -F $@
+
+all.gpx: $(ALL_GPX)
+	gpsbabel -i gpx $(foreach GPX,$^,-f $(GPX)) -x simplify,count=200 -o gpx -F - | egrep -v '<(fix|sat|hdop|course|speed)>' | sed -e 's/ 	//g' > $@
 
 %.gc: %.gpx
 	gpscorrelate -v -z +2 -g $^ ../photos/$(shell $(DATE2PATH) $*)/*.JPG
@@ -166,3 +184,8 @@ clean-shapes:
 
 clean-map:
 	rm -f tour.map $(call dates,-layer.m4) layers.m4
+
+.PHONY: upload
+
+upload: all-gpx-min all.gpx
+	rsync *.min.gpx all.gpx rodney.id.au:public_html/tour2011

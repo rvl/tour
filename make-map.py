@@ -3,11 +3,12 @@
 from data import data
 from tracktitle import track_title
 from subprocess import Popen, PIPE
+import json
 
 # hmm I wish python had a builtin XSLT module
 def get_bounds(day):
     xslt = Popen(["xsltproc", "../jsbounds.xsl", day + ".gpx"], stdout=PIPE)
-    return xslt.stdout.read()
+    return xslt.stdout.read() or "null"
 
 def quote(s):
     return "'%s'" % s[0]

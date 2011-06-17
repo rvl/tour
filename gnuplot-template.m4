@@ -31,8 +31,8 @@ set zeroaxis
 unset x2tics
 unset y2tics
 unset border
-set xrange [0:200]
-set yrange [-100:2600]
+set xrange [0:100]
+set yrange [-100:1000]
 set style fill solid
 set size 1,1
 plot "DATE.dat" using 4:2 with filledcurves y1=0 linetype rgb "COLOUR"

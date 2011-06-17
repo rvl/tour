@@ -1,105 +1,74 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-C = "camping"
-W = "wildcamping"
-J = "hostel"
-H = "hotel"
+AC = "camping"
+AW = "wildcamping"
+AJ = "hostel"
+AH = "hotel"
 
-data = [ ("20080617", "Wrocław", "Świdnica",
-          "10:30", "17:30", 95.0,
-          C, ""),
-         ("20080618", "Świdnica", "Kamieniec Ząbkowicki", None, None, .0),
-         ("20080619", "Kamieniec Ząbkowicki", "Nysa", None, None, .0),
-         ("20080620", "Nysa", "Jesenik", None, None, .0),
-         ("20080621", "Jesenik", None, None, None, .0),
-         ("20080622", "Jesenik", None, None, None, .0),
-         ("20080623", "Jesenik", "Mohelnice", None, None, .0),
-         ("20080624", "Mohelnice", "Olomouc", None, None, .0),
-         ("20080625", "Olomouc", None, None, None, .0),
-         ("20080626", "Olomouc", "Olomouc", None, None, .0),
-         ("20080627", "Olomouc", "Sloup", None, None, .0),
-         ("20080628", "Sloup", None, None, None, .0),
-         ("20080629", "Sloup", "Hustopeče", None, None, .0),
-         ("20080630", "Hustopeče", "Lednice", None, None, .0),
-         ("20080701", "Lednice", "Poysdorf", None, None, .0),
-         ("20080702", "Poysdorf", "Wien", None, None, .0),
-         ("20080703", "Wien", None, None, None, .0),
-         ("20080704", "Wien", None, None, None, .0),
-         ("20080705", "Wien", None, None, None, .0),
-         ("20080706", "Wien", "Krems", None, None, .0),
-         ("20080707", "Krems", "Melk", None, None, .0),
-         ("20080708", "Melk", "Gauning (Strengberg)", None, None, .0),
-         ("20080709", "Gauning", "Linz", None, None, .0),
-         ("20080710", "Linz", None, None, None, .0),
-         ("20080711", "Linz", None, None, None, .0),
-         ("20080712", "Linz", "Passau", None, None, .0),
-         ("20080713", "Passau", "Braunau", None, None, .0),
-         ("20080714", "Braunau", "Burghausen", None, None, .0),
-         ("20080715", "Burghausen", "Salzburg", None, None, .0),
-         ("20080716", "Salzburg", None, None, None, .0),
-         ("20080717", "Salzburg", None, None, None, .0),
-         ("20080718", "Salzburg", "Sankt Johann im Pongau", None, None, .0),
-         ("20080719", "Sankt Johann", "Zell am See", None, None, .0),
-         ("20080720", "Großglocknerstraße", None, None, None, .0),
-         ("20080721", "Zell am See", None, None, None, .0),
-         ("20080722", "Zell am See", "Zell am Ziller", None, None, .0),
-         ("20080723", "Zell am Ziller", None, None, None, .0),
-         ("20080724", "Zell am Ziller", "Innsbruck", None, None, .0),
-         ("20080725", "Innsbruck", "Landeck", None, None, .0),
-         ("20080726", "Landeck", "Feldkirch", None, None, .0),
-         ("20080727", "Feldkirch", "Sitterdorf", None, None, .0),
-         ("20080728", "Sitterdorf", "Zurich", None, None, .0),
-         ("20080729", "Zurich", None, None, None, .0),
-         ("20080730", "Zurich", "Unterbozberg", None, None, .0),
-         ("20080731", "Unterbozberg", "Solothurn", None, None, .0),
-         ("20080801", "Solothurn", "Bern", None, None, .0),
-         ("20080802", "Bern", "Cheyres", None, None, .0),
-         ("20080803", "Cheyres", "Lausanne", None, None, .0),
-         ("20080804", "Lausanne", "Geneva", None, None, .0),
-         ("20080805", "Geneva", None, None, None, .0),
-         ("20080806", "Geneva", "Chanaz", None, None, .0),
-         ("20080807", "Chanaz", "Hieres-sur-Amby", None, None, .0),
-         ("20080808", "Hieres-sur-Amby", "Lyon", None, None, .0),
-         ("20080809", "Lyon", None, None, None, .0),
+T0 = ""
+TC = "cycle"
+TT = "train"
+TF = "ferry"
+TP = "plane"
 
-         ("20080810", "Lyon", None, None, None, .0),
-         ("20080811", "Lyon", "Unknown", None, None, .0),
-         ("20080812", "Unknown", "Chanas", None, None, .0),
-         ("20080813", "Chanas", "Pont-en-Royans", None, None, .0),
-         ("20080814", "Pont-en-Royans", "Die", None, None, .0),
-         ("20080815", "Die", None, None, None, .0),
-         ("20080816", "Die", "Montmaur", None, None, .0),
-         ("20080817", "Montmaur", "Sisteron", None, None, .0),
-         ("20080818", "Sisteron", "Digne-les-Bains", None, None, .0),
-         ("20080819", "Digne-les-Bains", "Castellane", None, None, .0),
-         ("20080820", "Castellane", "La Colle-sur-Loup", None, None, .0),
-         ("20080821", "La Colle-sur-Loup", "Nice", None, None, .0),
-         ("20080822", "Nice", None, None, None, .0),
-
-         ("20080823", "Nice", "Isolabona", "9:45", "15:30", 68.0),
-         ("20080824", "Isolabona", "Laiguéglia", "11:15", "19:45", 107.0),
-         ("20080825", "Laiguéglia", None, None, None, 0.0),
-         ("20080826", "Laiguéglia", "Alba", "9:15", "19:30", 135.0),
-         ("20080827", "Alba", "Torino", "11:15", "18:00", 90.0),
-         ("20080828", "Torino", None, None, None, 0.0),
-         ("20080829", "Torino", "Frassineto Po", "12:30", "20:00", 102.0),
-         ("20080830", "Frassineto Po", "Piava", "9:10", "17:45", 118.0),
-         ("20080831", "Piava", "Cremona", "9:20", "17:00", 115.0),
-         ("20080901", "Cremona", "Póggio Rusco", "9:30", "19:20", 145.0),
-         ("20080902", "Póggio Rusco", "Lido delle Nazione (Comacchio)", "9:20", "20:30", 179.0),
-         ("20080903", "Lido delle Nazione", "San Servolo", "9:30", "19:30", 131.0),
-         ("20080904", "Venezia (San Nicolo)", None, None, None, 0.0),
-         ("20080905", "Venezia", None, None, None, 0.0),
-         ("20080906", "San Nicolo", "Wien", None, None, 0.0),
-         ("20080907", "Wien", None, None, None, 0.0),
-         ("20080908", "Wien", "Plavecký Štvrtok", "8:30", "18:00", 110.0),
-         ("20080909", "Plavecký Štvrtok", "Nove Mesto", "10:40", "17:15", 106.0),
-         ("20080910", "Nové Mesto", "Považská Bystrica", "9:15", "17:45", 105.0),
-         ("20080911", "Považská Bystrica", "Námestovo", "9:20", "17:50", 145.0),
-         ("20080912", "Námestovo", "Tatranská Štrba", "9:20", "17:45", 131.0),
-         ("20080913", "Tatranská Štrba", "Zakopane", "10:00", "15:45", 79.0),
-         ("20080914", "Zakopane", "Wrocław", None, None, 0.0)
+data = [ ("20110421", "London", None, None, None, .0, AJ, T0, 0),
+         ("20110422", "London", None, None, None, .0, AJ, T0, 0),
+         ("20110423", "London", None, None, None, .0, AJ, T0, 0),
+         ("20110424", "London", None, None, None, .0, AJ, T0, 0),
+         ("20110425", "London", "Rochester", "08:00", "20:00", 87.0, AH, TC, 1),
+         ("20110426", "Rochester", "Canterbury", "09:00", "18:00", 69.0, AC, TC, 2),
+         ("20110427", "Canterbury", "Dunkerque", "09:00", "20:00", 65.0, AC, TC, 3),
+         ("20110428", "Dunkerque", None, None, None, .0, AC, T0, 0),
+         ("20110429", "Dunkerque", "Strasbourg", None, None, .0, AJ, TT, 0),
+         ("20110430", "Strasbourg", "München", None, None, .0, AJ, TT, 0),
+         ("20110501", "München", None, None, None, .0, AJ, T0, 0),
+         ("20110502", "München", None, None, None, .0, AJ, T0, 0),
+         ("20110503", "München", "Plzen", None, None, .0, AJ, TT, 0),
+         ("20110504", "Plzen", None, None, None, .0, AJ, T0, 0),
+         ("20110505", "Plzen", None, None, None, .0, AJ, T0, 0),
+         ("20110506", "Plzen", "Praha", None, None, .0, AJ, TT, 0),
+         ("20110507", "Praha", None, None, None, .0, AJ, T0, 0),
+         ("20110508", "Praha", None, None, None, .0, AJ, T0, 0),
+         ("20110509", "Praha", None, None, None, .0, AJ, T0, 0),
+         ("20110510", "Praha", "Týnec", None, None, .0, AC, TC, 4),
+         ("20110511", "Týnec", "Borotin", None, None, .0, AH, TC, 5),
+         ("20110512", "Borotin", "Sobeslav", None, None, .0, AC, TC, 6),
+         ("20110513", "Sobeslav", "Ceské Budejovice", None, None, .0, AC, TC, 7),
+         ("20110514", "Ceské Budejovice", "Cesky Krumlov", None, None, .0, AC, TC, 8),
+         ("20110515", "Cesky Krumlov", None, None, None, .0, AC, TC, 0),
+         ("20110516", "Cesky Krumlov", "Freistadt", None, None, .0, AC, TC, 9),
+         ("20110517", "Freistadt", "Au", None, None, .0, AC, TC, 10),
+         ("20110518", "Au", "Melk", None, None, .0, AC, TC, 11),
+         ("20110519", "Melk", "Tulln", None, None, .0, AC, TC, 12),
+         ("20110520", "Tulln", "Wien", None, None, .0, AC, TC, 13),
+         ("20110521", "Wien", None, None, None, .0, AC, T0, 0),
+         ("20110522", "Wien", None, None, None, .0, AC, T0, 0),
+         ("20110523", "Wien", "Breiterbrunn", None, None, .0, AC, TC, 14),
+         ("20110524", "Breiterbrunn", "Markt St. Martin", None, None, .0, AC, TC, 15),
+         ("20110525", "Markt St. Martin", "Bad Tatzmannsdorf", None, None, .0, AC, TC, 16),
+         ("20110526", "Bad Tatzmannsdorf", "Fürstenfeld", None, None, .0, AC, TC, 17),
+         ("20110527", "Fürstenfeld", None, None, None, .0, AC, TC, 0),
+         ("20110528", "Fürstenfeld", None, None, None, .0, AC, TC, 0),
+         ("20110529", "Fürstenfeld", "St. Peter am Ottersbach", None, None, .0, AC, TC, 18),
+         ("20110530", "St. Peter am Ottersbach", "Maribor", None, None, .0, AC, TC, 19),
+         ("20110531", "Maribor", None, None, None, .0, AJ, T0, 0),
+         ("20110601", "Maribor", "Rajkovec", None, None, .0, AC, TC, 20),
+         ("20110602", "Rajkovec", "Prebold", None, None, .0, AC, TC, 21),
+         ("20110603", "Prebold", "Kamnik", None, None, .0, AC, TC, 22),
+         ("20110604", "Kamnik", "Bled", None, None, .0, AC, TC, 23),
+         ("20110605", "Bled", None, None, None, .0, AC, T0, 0),
+         ("20110606", "Bled", None, None, None, .0, AC, T0, 0),
+         ("20110607", "Bled", "Kranjska Gora", None, None, .0, AC, TC, 24),
+         ("20110608", "Kranjska Gora", "Bovec", None, None, .0, AC, TC, 25),
+         ("20110609", "Bovec", "Kobarid", None, None, .0, AC, TC, 26),
+         ("20110610", "Kobarid", "Ozeljian", None, None, .0, AC, TC, 27),
+         ("20110611", "Ozeljian", "Monfalcone", None, None, .0, AC, TC, 28),
+         ("20110612", "Monfalcone", "Lido di Venezia", None, None, .0, AC, TC, 29),
+         ("20110613", "Lido di Venezia", None, None, None, .0, AC, T0, 0),
+         ("20110614", "Lido di Venezia", None, None, None, .0, AC, T0, 0),
+         ("20110615", "Lido di Venezia", "Ferrara", None, None, .0, AC, TC, 30),
+         ("20110616", "Ferrara", None, None, None, .0, AC, T0, 0),
          ]
 
 def pathify(date):
@@ -107,3 +76,13 @@ def pathify(date):
 
 def chop(date):
     return (date[0:4], date[4:6], date[6:8])
+
+def get_dates():
+    return [day[0] for day in data]
+
+def print_dates():
+    for date in get_dates():
+        print date
+
+if __name__ == '__main__':
+    print_dates()
