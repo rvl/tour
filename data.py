@@ -5,6 +5,7 @@ AC = "camping"
 AW = "wildcamping"
 AJ = "hostel"
 AH = "hotel"
+AS = "warmshowers"
 
 T0 = ""
 TC = "cycle"
@@ -69,6 +70,37 @@ data = [ ("20110421", "London", None, None, None, .0, AJ, T0, 0),
          ("20110614", "Lido di Venezia", None, None, None, .0, AC, T0, 0),
          ("20110615", "Lido di Venezia", "Ferrara", None, None, .0, AC, TC, 30),
          ("20110616", "Ferrara", None, None, None, .0, AC, T0, 0),
+         ("20110617", "Ferrara", "Spoleto", None, None, .0, AC, TT, 0),
+         ("20110618", "Spoleto", "Bevagne", None, None, .0, AC, TC, 31), #
+         ("20110619", "Bevagne", "Magione", None, None, .0, AC, TC, 32),
+         ("20110620", "Magione", "Cortona", None, None, .0, AC, TC, 33), #
+         ("20110621", "Cortona", "Búcine", None, None, .0, AC, TC, 34),
+         ("20110622", "Búcine", "Firenze", None, None, .0, AC, TC, 35), #
+         ("20110623", "Firenze", None, None, None, .0, AC, T0, 0),
+         ("20110624", "Firenze", None, None, None, .0, AC, T0, 0),
+         ("20110625", "Firenze", "Nice", None, None, .0, AJ, TT, 0),
+         ("20110626", "Nice", None, None, None, .0, AJ, T0, 0),
+         ("20110627", "Nice", "Paris", None, None, .0, AJ, TT, 0),
+         ("20110628", "Paris", None, None, None, .0, AJ, T0, 0),
+         ("20110629", "Paris", "London", None, None, .0, AJ, TT, 0),
+         ("20110630", "London", None, None, None, .0, AJ, T0, 0),
+         ("20110701", "London", None, None, None, .0, AJ, T0, 0),
+         ("20110702", "London", None, None, None, .0, AJ, T0, 0),
+         ("20110703", "London", None, None, None, .0, AJ, T0, 0),
+         ("20110704", "London", "Paris", None, None, .0, AH, TT, 0),
+         ("20110705", "Paris", "Toulouse", None, None, .0, AS, TT, 0),
+         ("20110706", "Toulouse", "Samatan", None, None, .0, AC, TC, 36),
+         ("20110707", "Samatan", None, None, None, .0, AC, T0, 0),
+         ("20110708", "Samatan", "Tibiran-Jaunac", None, None, .0, AC, TC, 37),
+         ("20110709", "Tibiran-Jaunac", "Arreau", None, None, .0, AC, TC, 38),
+         ("20110710", "Arreau", "Esterre", None, None, .0, AC, TC, 39),
+         ("20110711", "Esterre", "Lourdes", None, None, .0, AC, TC, 40),
+         ("20110712", "Lourdes", "Ste-Marie-de-Campan", None, None, .0, AC, TC, 41),
+         ("20110713", "Ste-Marie-de-Campan", None, None, None, .0, AC, T0, 0),
+         ("20110714", "Ste-Marie-de-Campan", "Ste-Marie-de-Campan", None, None, .0, AC, TC, 42),
+         ("20110715", "Ste-Marie-de-Campan", "Tarbes", None, None, .0, AC, TC, 43),
+         ("20110716", "Paris", "Leuven", None, None, .0, AJ, TT, 0),
+         ("20110910", "Leuven", "Genk", None, None, .0, AJ, TC, 0),
          ]
 
 def pathify(date):
