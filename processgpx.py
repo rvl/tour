@@ -222,7 +222,9 @@ def gmtime2datetime(x):
 
 def main(d, today):
     stats = Stats(open("%s.gpx" % d))
-    main_matplot(d, today, stats)
+    main_dat(d, today, stats)
+    #stats = Stats(open("%s.gpx" % d))
+    #main_matplot(d, today, stats)
 
 def main_dat(d, today, stats):
     datw = DatWriter(open("%s.dat" % d, "w"))

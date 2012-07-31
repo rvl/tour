@@ -98,7 +98,7 @@ NMEA = $(wildcard $(GPS_PREFIX)$**.TXT)
 all.kml: $(ALL_GPX)
 	gpsbabel -i gpx $(foreach GPX,$^,-f $(GPX)) -x simplify,count=1000 -o kml,points=0,lines=1,line_width=4,line_color=c0606060,units=m -F $@
 
-tour2011.kml: ../stops.kml $(ALL_TRACK_KML)
+tour2012.kml: ../stops.kml $(ALL_TRACK_KML)
 	gpsbabel -i kml $(foreach KML,$(ALL_TRACK_KML),-f $(KML)) -x simplify,count=1000 -o kml,points=0,lines=1,units=m -F $@
 
 all.gpx: $(ALL_GPX)
@@ -188,4 +188,4 @@ clean-map:
 .PHONY: upload
 
 upload: all-gpx-min all.gpx
-	rsync *.min.gpx all.gpx rodney.id.au:public_html/tour2011
+	rsync *.min.gpx all.gpx rodney.id.au:public_html/tour2012

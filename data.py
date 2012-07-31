@@ -5,6 +5,7 @@ AC = "camping"
 AW = "wildcamping"
 AJ = "hostel"
 AH = "hotel"
+AP = "pension"
 AS = "warmshowers"
 
 T0 = ""
@@ -13,95 +14,85 @@ TT = "train"
 TF = "ferry"
 TP = "plane"
 
-data = [ ("20110421", "London", None, None, None, .0, AJ, T0, 0),
-         ("20110422", "London", None, None, None, .0, AJ, T0, 0),
-         ("20110423", "London", None, None, None, .0, AJ, T0, 0),
-         ("20110424", "London", None, None, None, .0, AJ, T0, 0),
-         ("20110425", "London", "Rochester", "08:00", "20:00", 87.0, AH, TC, 1),
-         ("20110426", "Rochester", "Canterbury", "09:00", "18:00", 69.0, AC, TC, 2),
-         ("20110427", "Canterbury", "Dunkerque", "09:00", "20:00", 65.0, AC, TC, 3),
-         ("20110428", "Dunkerque", None, None, None, .0, AC, T0, 0),
-         ("20110429", "Dunkerque", "Strasbourg", None, None, .0, AJ, TT, 0),
-         ("20110430", "Strasbourg", "München", None, None, .0, AJ, TT, 0),
-         ("20110501", "München", None, None, None, .0, AJ, T0, 0),
-         ("20110502", "München", None, None, None, .0, AJ, T0, 0),
-         ("20110503", "München", "Plzen", None, None, .0, AJ, TT, 0),
-         ("20110504", "Plzen", None, None, None, .0, AJ, T0, 0),
-         ("20110505", "Plzen", None, None, None, .0, AJ, T0, 0),
-         ("20110506", "Plzen", "Praha", None, None, .0, AJ, TT, 0),
-         ("20110507", "Praha", None, None, None, .0, AJ, T0, 0),
-         ("20110508", "Praha", None, None, None, .0, AJ, T0, 0),
-         ("20110509", "Praha", None, None, None, .0, AJ, T0, 0),
-         ("20110510", "Praha", "Týnec", None, None, .0, AC, TC, 4),
-         ("20110511", "Týnec", "Borotin", None, None, .0, AH, TC, 5),
-         ("20110512", "Borotin", "Sobeslav", None, None, .0, AC, TC, 6),
-         ("20110513", "Sobeslav", "Ceské Budejovice", None, None, .0, AC, TC, 7),
-         ("20110514", "Ceské Budejovice", "Cesky Krumlov", None, None, .0, AC, TC, 8),
-         ("20110515", "Cesky Krumlov", None, None, None, .0, AC, TC, 0),
-         ("20110516", "Cesky Krumlov", "Freistadt", None, None, .0, AC, TC, 9),
-         ("20110517", "Freistadt", "Au", None, None, .0, AC, TC, 10),
-         ("20110518", "Au", "Melk", None, None, .0, AC, TC, 11),
-         ("20110519", "Melk", "Tulln", None, None, .0, AC, TC, 12),
-         ("20110520", "Tulln", "Wien", None, None, .0, AC, TC, 13),
-         ("20110521", "Wien", None, None, None, .0, AC, T0, 0),
-         ("20110522", "Wien", None, None, None, .0, AC, T0, 0),
-         ("20110523", "Wien", "Breiterbrunn", None, None, .0, AC, TC, 14),
-         ("20110524", "Breiterbrunn", "Markt St. Martin", None, None, .0, AC, TC, 15),
-         ("20110525", "Markt St. Martin", "Bad Tatzmannsdorf", None, None, .0, AC, TC, 16),
-         ("20110526", "Bad Tatzmannsdorf", "Fürstenfeld", None, None, .0, AC, TC, 17),
-         ("20110527", "Fürstenfeld", None, None, None, .0, AC, TC, 0),
-         ("20110528", "Fürstenfeld", None, None, None, .0, AC, TC, 0),
-         ("20110529", "Fürstenfeld", "St. Peter am Ottersbach", None, None, .0, AC, TC, 18),
-         ("20110530", "St. Peter am Ottersbach", "Maribor", None, None, .0, AC, TC, 19),
-         ("20110531", "Maribor", None, None, None, .0, AJ, T0, 0),
-         ("20110601", "Maribor", "Rajkovec", None, None, .0, AC, TC, 20),
-         ("20110602", "Rajkovec", "Prebold", None, None, .0, AC, TC, 21),
-         ("20110603", "Prebold", "Kamnik", None, None, .0, AC, TC, 22),
-         ("20110604", "Kamnik", "Bled", None, None, .0, AC, TC, 23),
-         ("20110605", "Bled", None, None, None, .0, AC, T0, 0),
-         ("20110606", "Bled", None, None, None, .0, AC, T0, 0),
-         ("20110607", "Bled", "Kranjska Gora", None, None, .0, AC, TC, 24),
-         ("20110608", "Kranjska Gora", "Bovec", None, None, .0, AC, TC, 25),
-         ("20110609", "Bovec", "Kobarid", None, None, .0, AC, TC, 26),
-         ("20110610", "Kobarid", "Ozeljian", None, None, .0, AC, TC, 27),
-         ("20110611", "Ozeljian", "Monfalcone", None, None, .0, AC, TC, 28),
-         ("20110612", "Monfalcone", "Lido di Venezia", None, None, .0, AC, TC, 29),
-         ("20110613", "Lido di Venezia", None, None, None, .0, AC, T0, 0),
-         ("20110614", "Lido di Venezia", None, None, None, .0, AC, T0, 0),
-         ("20110615", "Lido di Venezia", "Ferrara", None, None, .0, AC, TC, 30),
-         ("20110616", "Ferrara", None, None, None, .0, AC, T0, 0),
-         ("20110617", "Ferrara", "Spoleto", None, None, .0, AC, TT, 0),
-         ("20110618", "Spoleto", "Bevagne", None, None, .0, AC, TC, 31), #
-         ("20110619", "Bevagne", "Magione", None, None, .0, AC, TC, 32),
-         ("20110620", "Magione", "Cortona", None, None, .0, AC, TC, 33), #
-         ("20110621", "Cortona", "Búcine", None, None, .0, AC, TC, 34),
-         ("20110622", "Búcine", "Firenze", None, None, .0, AC, TC, 35), #
-         ("20110623", "Firenze", None, None, None, .0, AC, T0, 0),
-         ("20110624", "Firenze", None, None, None, .0, AC, T0, 0),
-         ("20110625", "Firenze", "Nice", None, None, .0, AJ, TT, 0),
-         ("20110626", "Nice", None, None, None, .0, AJ, T0, 0),
-         ("20110627", "Nice", "Paris", None, None, .0, AJ, TT, 0),
-         ("20110628", "Paris", None, None, None, .0, AJ, T0, 0),
-         ("20110629", "Paris", "London", None, None, .0, AJ, TT, 0),
-         ("20110630", "London", None, None, None, .0, AJ, T0, 0),
-         ("20110701", "London", None, None, None, .0, AJ, T0, 0),
-         ("20110702", "London", None, None, None, .0, AJ, T0, 0),
-         ("20110703", "London", None, None, None, .0, AJ, T0, 0),
-         ("20110704", "London", "Paris", None, None, .0, AH, TT, 0),
-         ("20110705", "Paris", "Toulouse", None, None, .0, AS, TT, 0),
-         ("20110706", "Toulouse", "Samatan", None, None, .0, AC, TC, 36),
-         ("20110707", "Samatan", None, None, None, .0, AC, T0, 0),
-         ("20110708", "Samatan", "Tibiran-Jaunac", None, None, .0, AC, TC, 37),
-         ("20110709", "Tibiran-Jaunac", "Arreau", None, None, .0, AC, TC, 38),
-         ("20110710", "Arreau", "Esterre", None, None, .0, AC, TC, 39),
-         ("20110711", "Esterre", "Lourdes", None, None, .0, AC, TC, 40),
-         ("20110712", "Lourdes", "Ste-Marie-de-Campan", None, None, .0, AC, TC, 41),
-         ("20110713", "Ste-Marie-de-Campan", None, None, None, .0, AC, T0, 0),
-         ("20110714", "Ste-Marie-de-Campan", "Ste-Marie-de-Campan", None, None, .0, AC, TC, 42),
-         ("20110715", "Ste-Marie-de-Campan", "Tarbes", None, None, .0, AC, TC, 43),
-         ("20110716", "Paris", "Leuven", None, None, .0, AJ, TT, 0),
-         ("20110910", "Leuven", "Genk", None, None, .0, AJ, TC, 0),
-         ]
+table = [ ("20120701", "Leuven", None, None, .0, "home", T0, -1),
+          ("20120702", "Köln", None, None, .0, AJ, TT, 0),
+          ("20120703", "Salzburg", None, None, .0, AC, TT, 0),
+          ("20120704", None, None, None, .0, AC, T0, 0),
+          ("20120705", "Wien", None, None, .0, AJ, TT, 0),
+          ("20120706", "Bratislava", "08:45", "15:45", 85.0, AC, TC, 1),
+          ("20120707", "Ásványráró", "09:00", "18:00", 88.0, AC, TC, 2),
+          ("20120708", "Komárom", "08:45", "17:45", 80.0, AC, TC, 3),
+          ("20120709", "Budapest", "09:00", "19:30", 141.0, AJ, TC, 4),
+          ("20120710", None, None, None, .0, AJ, T0, 0),
+          ("20120711", None, None, None, .0, AJ, T0, 0),
+          ("20120712", "Velence", "10:15", "20:30", 100.0, AJ, TC, 5),
+          ("20120713", "Balatonkenese", "09:30", "17:00", 82.0, AP, TC, 6),
+          ("20120714", "Zanka", "10:30", "16:00", 55.0, AC, TC, 7),
+          ("20120715", "Keszthely", "10:00", "15:30", 58.0, AC, TC, 8),
+          ("20120716", "Galambok", "10:30", "16:30", 52.0, AC, TC, 9),
+          ("20120717", None, None, None, .0, AC, T0, 0),
+          ("20120718", "Varaždin", "00:00", "00:00", 0.0, AH, TC, 10),
+          ("20120719", "Zagreb", "00:00", "00:00", 109.0, AH, TC, 11),
+          ("20120720", None, None, None, 0.0, AH, T0, 0),
+      ]
+
+import datetime
+import os.path
+
+class TourDay(object):
+    def __init__(self, row, prev_location=None):
+        self.date = self.parse_date(row[0])
+        self.start = prev_location
+        self.finish = row[0] or prev_location
+        self.start_time = self.parse_time(row[2])
+        self.finish_time = self.parse_time(row[3])
+        self.dist = float(row[4])
+        self.accom = row[5]
+        self.transport = row[6]
+        self.number = row[7]
+
+    @staticmethod
+    def parse_date(text):
+        return datetime.datetime.strptime(text, "%Y%m%d").date()
+
+    @staticmethod
+    def parse_time(text):
+        if text:
+            return datetime.datetime.strptime(text, "%H:%M").time()
+        return None
+
+    def strdate(self):
+        return self.date.strftime("%Y%m%d")
+
+    def get_dict(self):
+        return {
+            "date": self.strdate(),
+            "start": self.start,
+            "finish": self.finish,
+            "start_time": self.start_time.strftime("%H:%M") if self.start_time else None,
+            "finish_time": self.finish_time.strftime("%H:%M") if self.finish_time else None,
+            "dist": self.dist,
+            "accom": self.accom,
+            "transport": self.transport,
+            "number": self.number,
+        }
+
+    def gpx_path(self):
+        return os.path.expanduser("~/GPS_DATA/%s.gpx" % self.strdate())
+
+    def gpx_exists(self):
+        return os.path.exists(self.gpx_path())
+
+def read_table(table):
+    days = []
+    last_location = None
+    for row in table:
+        day = TourDay(row, last_location)
+        days.append(day)
+        last_location = day.finish
+    return days
+
+data = read_table(table)
 
 def pathify(date):
     return "%s/%s/%s" % chop(date)
@@ -110,11 +101,11 @@ def chop(date):
     return (date[0:4], date[4:6], date[6:8])
 
 def get_dates():
-    return [day[0] for day in data]
+    return [day.strdate() for day in data]
 
 def print_dates():
     for date in get_dates():
-        print date
+        print(date)
 
 if __name__ == '__main__':
     print_dates()
