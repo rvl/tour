@@ -1,0 +1,21 @@
+Date,Place,Start Time,Finish Time,Dist,Accom,Transport,Number
+20120701,Leuven,,,0.0,home,,-1
+20120702,Köln,,,0.0,hostel,train,0
+20120703,Salzburg,,,0.0,camping,train,0
+20120704,Salzburg,,,0.0,camping,,0
+20120705,Wien,,,0.0,hostel,train,0
+20120706,Bratislava,08:45,15:45,85.0,camping,cycle,1
+20120707,Ásványráró,09:00,18:00,88.0,camping,cycle,2
+20120708,Komárom,08:45,17:45,80.0,camping,cycle,3
+20120709,Budapest,09:00,19:30,141.0,hostel,cycle,4
+20120710,Budapest,,,0.0,hostel,,0
+20120711,Budapest,,,0.0,hostel,,0
+20120712,Velence,10:15,20:30,100.0,hostel,cycle,5
+20120713,Balatonkenese,09:30,17:00,82.0,pension,cycle,6
+20120714,Zanka,10:30,16:00,55.0,camping,cycle,7
+20120715,Keszthely,10:00,15:30,58.0,camping,cycle,8
+20120716,Galambok,10:30,16:30,52.0,camping,cycle,9
+20120717,Galambok,,,0.0,camping,,0
+20120718,Varaždin,,,0.0,hotel,cycle,10
+20120719,Zagreb,,,109.0,hotel,cycle,11
+20120720,Zagreb,,,0.0,hotel,,0

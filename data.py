@@ -1,49 +1,19 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
-
-AC = "camping"
-AW = "wildcamping"
-AJ = "hostel"
-AH = "hotel"
-AP = "pension"
-AS = "warmshowers"
-
-T0 = ""
-TC = "cycle"
-TT = "train"
-TF = "ferry"
-TP = "plane"
-
-table = [ ("20120701", "Leuven", None, None, .0, "home", T0, -1),
-          ("20120702", "Köln", None, None, .0, AJ, TT, 0),
-          ("20120703", "Salzburg", None, None, .0, AC, TT, 0),
-          ("20120704", None, None, None, .0, AC, T0, 0),
-          ("20120705", "Wien", None, None, .0, AJ, TT, 0),
-          ("20120706", "Bratislava", "08:45", "15:45", 85.0, AC, TC, 1),
-          ("20120707", "Ásványráró", "09:00", "18:00", 88.0, AC, TC, 2),
-          ("20120708", "Komárom", "08:45", "17:45", 80.0, AC, TC, 3),
-          ("20120709", "Budapest", "09:00", "19:30", 141.0, AJ, TC, 4),
-          ("20120710", None, None, None, .0, AJ, T0, 0),
-          ("20120711", None, None, None, .0, AJ, T0, 0),
-          ("20120712", "Velence", "10:15", "20:30", 100.0, AJ, TC, 5),
-          ("20120713", "Balatonkenese", "09:30", "17:00", 82.0, AP, TC, 6),
-          ("20120714", "Zanka", "10:30", "16:00", 55.0, AC, TC, 7),
-          ("20120715", "Keszthely", "10:00", "15:30", 58.0, AC, TC, 8),
-          ("20120716", "Galambok", "10:30", "16:30", 52.0, AC, TC, 9),
-          ("20120717", None, None, None, .0, AC, T0, 0),
-          ("20120718", "Varaždin", "00:00", "00:00", 0.0, AH, TC, 10),
-          ("20120719", "Zagreb", "00:00", "00:00", 109.0, AH, TC, 11),
-          ("20120720", None, None, None, 0.0, AH, T0, 0),
-      ]
 
 import datetime
 import os.path
+import sys
+import csv
 
 class TourDay(object):
     def __init__(self, row, prev_location=None):
+        self.from_row(row, prev_location)
+
+    def from_row(self, row, prev_location=None):
         self.date = self.parse_date(row[0])
         self.start = prev_location
-        self.finish = row[0] or prev_location
+        self.finish = row[1] or prev_location
         self.start_time = self.parse_time(row[2])
         self.finish_time = self.parse_time(row[3])
         self.dist = float(row[4])
@@ -83,6 +53,17 @@ class TourDay(object):
     def gpx_exists(self):
         return os.path.exists(self.gpx_path())
 
+    @classmethod
+    def csv_header(cls, writer):
+        writer.writerow(["Date", "Place", "Start Time", "Finish Time",
+                         "Dist", "Accom", "Transport", "Number"])
+
+    def csv_row(self, writer):
+        writer.writerow([self.strdate(), self.finish,
+                         self.start_time.strftime("%H:%M") if self.start_time else None,
+                         self.finish_time.strftime("%H:%M") if self.finish_time else None,
+                         self.dist, self.accom, self.transport, self.number])
+
 def read_table(table):
     days = []
     last_location = None
@@ -92,7 +73,20 @@ def read_table(table):
         last_location = day.finish
     return days
 
-data = read_table(table)
+#data = read_table(table)
+
+def read_csv(filename):
+    days = []
+    last_location = None
+    reader = csv.reader(open(filename))
+    next(reader)
+    for row in reader:
+        day = TourDay(row, last_location)
+        days.append(day)
+        last_location = day.finish
+    return days
+
+data = read_csv(os.path.join(os.path.dirname(__file__), "tour2012.csv"))
 
 def pathify(date):
     return "%s/%s/%s" % chop(date)
@@ -107,5 +101,12 @@ def print_dates():
     for date in get_dates():
         print(date)
 
+def print_csv():
+    writer = csv.writer(sys.stdout)
+    TourDay.csv_header(writer)
+    for day in data:
+        day.csv_row(writer)
+
 if __name__ == '__main__':
-    print_dates()
+    #print_dates()
+    print_csv()
