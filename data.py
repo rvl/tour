@@ -16,7 +16,7 @@ class TourDay(object):
         self.finish = row[1] or prev_location
         self.start_time = self.parse_time(row[2])
         self.finish_time = self.parse_time(row[3])
-        self.dist = float(row[4])
+        self.dist = float(row[4]) if row[4] else 0.0
         self.accom = row[5]
         self.transport = row[6]
         self.number = row[7]
@@ -108,5 +108,4 @@ def print_csv():
         day.csv_row(writer)
 
 if __name__ == '__main__':
-    #print_dates()
-    print_csv()
+    print_dates()

@@ -101,8 +101,8 @@ all.kml: $(ALL_GPX)
 tour2012.kml: ../stops.kml $(ALL_TRACK_KML)
 	gpsbabel -i kml $(foreach KML,$(ALL_TRACK_KML),-f $(KML)) -x simplify,count=1000 -o kml,points=0,lines=1,units=m -F $@
 
-all.gpx: $(ALL_GPX)
-	gpsbabel -i gpx $(foreach GPX,$^,-f $(GPX)) -x simplify,count=200 -o gpx -F - | egrep -v '<(fix|sat|hdop|course|speed)>' | sed -e 's/ 	//g' > $@
+all.gpx: $(ALL_GPX) ../tour2012.csv
+	gpsbabel -i gpx $(foreach GPX,$(ALL_GPX),-f $(GPX)) -x simplify,count=200 -o gpx -F - | egrep -v '<(fix|sat|hdop|course|speed)>' | sed -e 's/ 	//g' > $@
 
 %.gc: %.gpx
 	gpscorrelate -v -z +2 -g $^ ../photos/$(shell $(DATE2PATH) $*)/*.JPG
