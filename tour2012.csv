@@ -15,7 +15,19 @@ Date,Place,Start Time,Finish Time,Dist,Accom,Transport,Number
 20120714,Zanka,10:30,16:00,55.0,camping,cycle,7
 20120715,Keszthely,10:00,15:30,58.0,camping,cycle,8
 20120716,Galambok,10:30,16:30,52.0,camping,cycle,9
-20120717,Galambok,,,0.0,camping,,0
-20120718,Varaždin,,,0.0,hotel,cycle,10
-20120719,Zagreb,,,109.0,hotel,cycle,11
+20120717,Galambok,,,,camping,,0
+20120718,Varaždin,08:45,16:30,109.0,hotel,cycle,10
+20120719,Zagreb,,,85.0,hotel,cycle,11
 20120720,Zagreb,,,0.0,hotel,,0
+20120721,Mrežnički,09:00,00:00,102,camping,cycle,12
+20120722,Ogulin,09:30,17:30,62,pension,cycle,13
+20120723,Otočać,09:30,16:00,78,pension,cycle,14
+20120724,Novalja,08:00,18:30,121,camping,cycle,15
+20120725,,,,,camping,,0
+20120726,Zadar,09:00,16:00,89,pension,cycle,16
+20120727,Vela Luka,,,,camping,bus,0
+20120728,Orebič,09:00,16:30,58,camping,cycle,17
+20120729,Ston,08:30,14:00,58,camping,cycle,18
+20120730,Dubrovnik,,,37,pension,cycle,19
+20120731,,,,,pension,,0
+20120801,,,,,pension,,0
