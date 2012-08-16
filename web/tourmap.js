@@ -9,6 +9,7 @@ var TM = (function($) {
 
   var setup_map = function(id) {
     resize_map(id);
+    setup_ele_profile(id);
 
     map = new OpenLayers.Map(id, {
       controls: [
@@ -108,6 +109,19 @@ var TM = (function($) {
     return layer;
   };
 
+  var load_ele_profile = function(date) {
+    var pad = function(n) { return n < 10 ? "0" + n : "" + n};
+    var datestr = date.getFullYear() + pad(date.getMonth() + 1) + pad(date.getDate());
+    $("#ele_profile").attr("src", DATA_ROOT + datestr + "-ele2.png").show();
+  };
+
+  var setup_ele_profile = function(id) {
+    var map = $("#" + id);
+    return $("<img id='ele_profile'/>")
+      .addClass("ele-profile")
+      .insertAfter(map).hide();
+  };
+
   var create_json_layer = function(name, url) {
     var popup = null;
     var layer = new OpenLayers.Layer.Vector(name, {
@@ -129,6 +143,7 @@ var TM = (function($) {
                                                    });
           feature.popup = popup;
           map.addPopup(popup);
+          load_ele_profile(day.date);
         },
         "featureunselected": function(evt) {
           var feature = evt.feature;
@@ -208,7 +223,7 @@ var TM = (function($) {
       var prev = null;
       $.each(tour, function(date, info) {
         info.prev = prev;
-        info.date = new Date(parseInt(date.substr(0,4)), parseInt(date.substr(4,2)) - 1, parseInt(date.substr(6,2)));
+        info.date = new Date(parseInt(date.substr(0,4), 10), parseInt(date.substr(4,2), 10) - 1, parseInt(date.substr(6,2), 10));
         info.dayname = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][info.date.getDay()];
         show_day(date, info);
         prev = info;

@@ -63,8 +63,9 @@ NMEA = $(wildcard $(GPS_PREFIX)$**.TXT)
 #	gpsbabel -i gpx -f $< $(foreach gpx,$(wildcard ../handmade/$*.gpx),-f $(gpx)) -o gpx -F $@
 
 %.gpx: $(GPS_DATA)/%.gpx
+	ln -sf $(GPS_DATA)/$@ .
 #%.gpx:
-	@./linkday.sh $(GPS_DATA) $@
+#	@./linkday.sh $(GPS_DATA) $@
 
 #%-gps.gpx:
 #	gpsbabel -i nmea $(foreach nmea,$(NMEA),-f $(nmea)) -x discard,sat=3 -x duplicate,location -x track,merge,sdistance=0.1k -x simplify,error=0.001k -x sort,time -o gpx -F $@ || true
