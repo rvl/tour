@@ -63,6 +63,7 @@ NMEA = $(wildcard $(GPS_PREFIX)$**.TXT)
 #	gpsbabel -i gpx -f $< $(foreach gpx,$(wildcard ../handmade/$*.gpx),-f $(gpx)) -o gpx -F $@
 
 %.gpx: $(GPS_DATA)/%.gpx
+	$(MAKE) -C $(GPS_DATA) $@ || true
 	ln -sf $(GPS_DATA)/$@ .
 #%.gpx:
 #	@./linkday.sh $(GPS_DATA) $@
