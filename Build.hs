@@ -62,7 +62,7 @@ main = do
       logs1 <- getDataloggerTracks "SBN" "GPS_DATA" date
       logs2 <- getDataloggerTracks "TXT" "GPS_DATA" date
       let filters = ["duplicate,location", "track,merge,sdistance=0.1k", "simplify,error=0.001k", "sort,time"]
-          srcs = osms ++ logs1 ++ logs2 ++ ["empty.gpx"]
+          srcs = osms ++ logs1 ++ logs2 ++ ["data/empty.gpx"]
       need srcs
       when (not $ null srcs) $
         gpsbabel filters "gpx" "gpx" srcs out
