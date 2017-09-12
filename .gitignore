@@ -1,0 +1,10 @@
+/_build/
+/_shake/
+*.hi
+*.o
+/junk/
+/GPS_DATA/*.SBN
+/GPS_DATA/*.SBP
+/GPS_DATA/*.TXT
+/GPS_DATA/*.NMEA
+/GPS_DATA/*.BIN

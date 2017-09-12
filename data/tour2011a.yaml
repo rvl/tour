@@ -1,0 +1,10 @@
+name: Busselton Half Ironman 2011
+description: A long weekend trip down the Forrest Hwy.
+countries: ["au"]
+days:
+- date: 2011-02-03
+  from: Perth
+  to: Bussleton
+- date: 2011-02-04
+  from: Bussleton
+  to: Perth
