@@ -1,258 +1,404 @@
 name: Europe 2012
 countries: ["at", "sk", "hu", "hr", "me", "xk", "mk", "gr", "tr"]
 days:
-- start: null
-  num: 1
+- accom: home
+  date: '2012-07-01'
+  from: Leuven
+  from_coord: [4.690896, 50.877293]
+  num: -1
+- {accom: hostel, date: '2012-07-02', from: Köln}
+- {accom: camping, date: '2012-07-03', from: Salzburg}
+- {accom: camping, date: '2012-07-04'}
+- accom: hostel
   date: '2012-07-05'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  from: Wien
+  from_coord: [16.378346, 48.244439]
+- accom: camping
   date: '2012-07-06'
-  end: null
-  dist: 1
-- start: null
+  dist: 85
+  end: '15:45'
+  from: Bratislava
+  from_coord: [17.187172, 48.188794]
   num: 1
+  start: 08:45
+- accom: camping
   date: '2012-07-07'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 88
+  end: '18:00'
+  from: Ásványráró
+  from_coord: [17.49036, 47.825514]
+  num: 2
+  start: 09:00
+- accom: camping
   date: '2012-07-08'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 80
+  end: '17:45'
+  from: Komárom
+  from_coord: [18.135595, 47.74264]
+  num: 3
+  start: 08:45
+- accom: hostel
   date: '2012-07-09'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 141
+  end: '19:30'
+  from: Budapest
+  from_coord: [1955904, 47.507989]
+  num: 4
+  start: 09:00
+- {accom: hostel, date: '2012-07-10'}
+- {accom: hostel, date: '2012-07-11'}
+- accom: hostel
   date: '2012-07-12'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 100
+  end: '20:30'
+  from: Velence
+  from_coord: [18.632598, 47.249272]
+  num: 5
+  start: '10:15'
+- accom: pension
   date: '2012-07-13'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 82
+  end: '17:00'
+  from: Balatonkenese
+  from_coord: [1885481, 4740546]
+  num: 6
+  start: 09:30
+- accom: camping
   date: '2012-07-14'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 55
+  end: '16:00'
+  from: Zanka
+  from_coord: [17.673333, 46.860753]
+  num: 7
+  start: '10:30'
+- accom: camping
   date: '2012-07-15'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 58
+  end: '15:30'
+  from: Keszthely
+  from_coord: [17.258524, 46.767122]
+  num: 8
+  start: '10:00'
+- accom: camping
   date: '2012-07-16'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 52
+  end: '16:30'
+  from: Galambok
+  from_coord: [17.1227, 46.530809]
+  num: 9
+  start: '10:30'
+- {accom: camping, date: '2012-07-17', from: Galambok}
+- accom: hotel
   date: '2012-07-18'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 109
+  end: '16:30'
+  from: Varaždin
+  from_coord: [16.348024, 46.309145]
+  num: 10
+  start: 08:45
+- accom: hotel
   date: '2012-07-19'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 85
+  from: Zagreb
+  from_coord: [15.98024, 45.806661]
+  num: 11
+- {accom: hotel, date: '2012-07-20', from: Zagreb}
+- accom: camping
   date: '2012-07-21'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 102
+  end: 00:00
+  from: Mrežnički
+  from_coord: [15.484954, 45.420781]
+  num: 12
+  start: 09:00
+- accom: pension
   date: '2012-07-22'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 62
+  end: '17:30'
+  from: Ogulin
+  from_coord: [15.224307, 45.266386]
+  num: 13
+  start: 09:30
+- accom: pension
   date: '2012-07-23'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 78
+  end: '16:00'
+  from: Otočać
+  from_coord: [15.246366, 44.86925]
+  num: 14
+  start: 09:30
+- accom: camping
   date: '2012-07-24'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 121
+  end: '18:30'
+  from: Novalja
+  from_coord: [14.885083, 44.54034]
+  num: 15
+  start: 08:00
+- {accom: camping, date: '2012-07-25'}
+- accom: pension
   date: '2012-07-26'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 89
+  end: '16:00'
+  from: Zadar
+  from_coord: [15.214018, 44.1361]
+  num: 16
+  start: 09:00
+- accom: camping
   date: '2012-07-27'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  from: Vela Luka
+  from_coord: [16.717332, 42.962818]
+- accom: camping
   date: '2012-07-28'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 58
+  end: '16:30'
+  from: Orebič
+  from_coord: [17.191418, 42.978944]
+  num: 17
+  start: 09:00
+- accom: camping
   date: '2012-07-29'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 58
+  end: '14:00'
+  from: Ston
+  from_coord: [17.67496, 42.818414]
+  num: 18
+  start: 08:30
+- accom: pension
   date: '2012-07-30'
-  end: null
-  dist: 1
-- start: null
-  num: 1
-  date: '2012-08-01'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 37
+  from: Dubrovnik
+  from_coord: [1891485, 42.649339]
+  num: 19
+- {accom: pension, date: '2012-07-31'}
+- {accom: pension, date: '2012-08-01'}
+- accom: camping
   date: '2012-08-02'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 84
+  end: '18:30'
+  from: Kamenari
+  from_coord: [18.663677, 42.456658]
+  num: 20
+  start: 07:15
+- accom: hostel
   date: '2012-08-03'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 35
+  end: '16:00'
+  from: Kotor
+  from_coord: [18.76785, 42.430403]
+  num: 21
+  start: 09:30
+- accom: hotel
   date: '2012-08-04'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 87
+  end: '18:00'
+  from: Danilovgrad
+  from_coord: [1988525, 42.553692]
+  num: 22
+  start: 07:00
+- accom: hotel
   date: '2012-08-05'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 35
+  end: '18:00'
+  from: Nikšić
+  from_coord: [18.950809, 42.77654]
+  num: 23
+  start: 07:00
+- {accom: hotel, date: '2012-08-06'}
+- accom: pension
   date: '2012-08-07'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 60
+  end: '13:30'
+  from: Plavineč
+  from_coord: [18.841148, 43.15348]
+  num: 24
+  start: 06:30
+- {accom: pension, date: '2012-08-08'}
+- {accom: pension, date: '2012-08-09'}
+- accom: bungalow
   date: '2012-08-10'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 15
+  end: '12:00'
+  from: Trsa
+  from_coord: [18.93462, 43.187083]
+  num: 25
+  start: 09:00
+- accom: camping
   date: '2012-08-11'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 44
+  end: '15:00'
+  from: Žabljak
+  from_coord: [1996848, 43.152654]
+  num: 26
+  start: 08:45
+- accom: camping
   date: '2012-08-12'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 87
+  end: '18:00'
+  from: Biogradska jezero
+  from_coord: [19.595141, 42.901051]
+  num: 27
+  start: '10:00'
+- accom: camping
   date: '2012-08-13'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 89
+  end: '16:00'
+  from: Rožaje
+  from_coord: [20.130939, 42.836165]
+  num: 28
+  start: 08:30
+- accom: hotel
   date: '2012-08-14'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 72
+  end: '18:00'
+  from: Deçan
+  from_coord: [20.289725, 42.554573]
+  num: 29
+  start: 09:30
+- accom: hostel
   date: '2012-08-15'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 93
+  end: '16:00'
+  from: Prizren
+  from_coord: [20.735922, 42.208085]
+  num: 30
+  start: 07:45
+- {accom: hostel, date: '2012-08-16'}
+- accom: hotel
   date: '2012-08-17'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 100
+  end: '18:00'
+  from: Pershcovcë
+  from_coord: [2167378, 4284394]
+  num: 31
+  start: 08:00
+- accom: hotel
   date: '2012-08-18'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 70
+  end: '15:30'
+  from: Mavrovo
+  from_coord: [20.735519, 41.676779]
+  num: 32
+  start: 07:45
+- accom: hotel
   date: '2012-08-19'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 109
+  end: '18:30'
+  from: Struga
+  from_coord: [20.677626, 41.177978]
+  num: 33
+  start: 08:30
+- {accom: hotel, date: '2012-08-20'}
+- accom: hostel
   date: '2012-08-21'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 122
+  end: '19:00'
+  from: Bitola
+  from_coord: [21.341117, 412252]
+  num: 34
+  start: 08:30
+- accom: hotel
   date: '2012-08-22'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 114
+  end: '20:30'
+  from: Edessa
+  from_coord: [2253218, 40.801367]
+  num: 35
+  start: '10:00'
+- {accom: hotel, date: '2012-08-23'}
+- accom: hostel
   date: '2012-08-24'
-  end: null
-  dist: 1
-- start: null
-  num: 1
-  date: '2012-08-25'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 111
+  end: '16:00'
+  from: Thessaloniki
+  from_coord: [22.95734, 40.638908]
+  num: 36
+  start: 09:00
+- {accom: hostel, date: '2012-08-25'}
+- {accom: hostel, date: '2012-08-26'}
+- accom: hostel
   date: '2012-08-27'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  from: Thessaloniki
+  from_coord: [2307713, 40.64079]
+- accom: camping
   date: '2012-08-28'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 96
+  end: '12:00'
+  from: Asprovalta
+  from_coord: [23.718874, 40.734909]
+  num: 37
+  start: 05:00
+- accom: camping
   date: '2012-08-29'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 102
+  end: '16:30'
+  from: Nea Karvali
+  from_coord: [24.516254, 40.958936]
+  num: 38
+  start: 07:00
+- accom: camping
   date: '2012-08-30'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 53
+  end: '12:00'
+  from: Skala Prinou
+  from_coord: [24.56402, 40.761777]
+  num: 39
+  start: 06:30
+- accom: camping
   date: '2012-08-31'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 102
+  end: '16:30'
+  from: Skala Prinou
+  from_coord: [24.564964, 40.762003]
+  num: 40
+  start: 07:30
+- {accom: camping, date: '2012-09-01'}
+- accom: camping
   date: '2012-09-02'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 112
+  end: '16:00'
+  from: Fanari
+  from_coord: [25.140355, 40.955655]
+  num: 41
+  start: 07:30
+- accom: camping
   date: '2012-09-03'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 100
+  end: 0:00
+  from: Alexandroupoli
+  from_coord: [25.854347, 40.846167]
+  num: 42
+  start: 0:00
+- accom: hotel
   date: '2012-09-04'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 87
+  end: 0:00
+  from: Keşan
+  from_coord: [26.629541, 40.85003]
+  num: 43
+  start: 0:00
+- accom: hotel
   date: '2012-09-05'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 89
+  end: '16:00'
+  from: Tekirdaĝ
+  from_coord: [27.511868, 40.977416]
+  num: 44
+  start: 08:00
+- accom: hotel
   date: '2012-09-06'
-  end: null
-  dist: 1
-- start: null
-  num: 1
+  dist: 77
+  end: '15:00'
+  from: Silivri
+  from_coord: [28.245279, 4175404]
+  num: 45
+  start: 08:00
+- accom: hostel
   date: '2012-09-07'
-  end: null
-  dist: 1
+  dist: 87
+  end: '15:30'
+  from: Istanbul
+  from_coord: [28.977532, 4131934]
+  num: 46
+  start: 08:00
+- {accom: hostel, date: '2012-09-08'}
