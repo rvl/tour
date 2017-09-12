@@ -8,3 +8,4 @@
 /GPS_DATA/*.TXT
 /GPS_DATA/*.NMEA
 /GPS_DATA/*.BIN
+__pycache__
