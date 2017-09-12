@@ -2,4 +2,4 @@
 
 from data import data
 
-print " ".join([day[0] for day in data])
+print " ".join([day.strdate() for day in data if day.gpx_exists()])

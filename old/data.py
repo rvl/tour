@@ -1,109 +1,114 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-C = "camping"
-W = "wildcamping"
-J = "hostel"
-H = "hotel"
+import datetime
+import os.path
+import sys
+import csv
 
-data = [ ("20080617", "Wrocław", "Świdnica",
-          "10:30", "17:30", 95.0,
-          C, ""),
-         ("20080618", "Świdnica", "Kamieniec Ząbkowicki", None, None, .0),
-         ("20080619", "Kamieniec Ząbkowicki", "Nysa", None, None, .0),
-         ("20080620", "Nysa", "Jesenik", None, None, .0),
-         ("20080621", "Jesenik", None, None, None, .0),
-         ("20080622", "Jesenik", None, None, None, .0),
-         ("20080623", "Jesenik", "Mohelnice", None, None, .0),
-         ("20080624", "Mohelnice", "Olomouc", None, None, .0),
-         ("20080625", "Olomouc", None, None, None, .0),
-         ("20080626", "Olomouc", "Olomouc", None, None, .0),
-         ("20080627", "Olomouc", "Sloup", None, None, .0),
-         ("20080628", "Sloup", None, None, None, .0),
-         ("20080629", "Sloup", "Hustopeče", None, None, .0),
-         ("20080630", "Hustopeče", "Lednice", None, None, .0),
-         ("20080701", "Lednice", "Poysdorf", None, None, .0),
-         ("20080702", "Poysdorf", "Wien", None, None, .0),
-         ("20080703", "Wien", None, None, None, .0),
-         ("20080704", "Wien", None, None, None, .0),
-         ("20080705", "Wien", None, None, None, .0),
-         ("20080706", "Wien", "Krems", None, None, .0),
-         ("20080707", "Krems", "Melk", None, None, .0),
-         ("20080708", "Melk", "Gauning (Strengberg)", None, None, .0),
-         ("20080709", "Gauning", "Linz", None, None, .0),
-         ("20080710", "Linz", None, None, None, .0),
-         ("20080711", "Linz", None, None, None, .0),
-         ("20080712", "Linz", "Passau", None, None, .0),
-         ("20080713", "Passau", "Braunau", None, None, .0),
-         ("20080714", "Braunau", "Burghausen", None, None, .0),
-         ("20080715", "Burghausen", "Salzburg", None, None, .0),
-         ("20080716", "Salzburg", None, None, None, .0),
-         ("20080717", "Salzburg", None, None, None, .0),
-         ("20080718", "Salzburg", "Sankt Johann im Pongau", None, None, .0),
-         ("20080719", "Sankt Johann", "Zell am See", None, None, .0),
-         ("20080720", "Großglocknerstraße", None, None, None, .0),
-         ("20080721", "Zell am See", None, None, None, .0),
-         ("20080722", "Zell am See", "Zell am Ziller", None, None, .0),
-         ("20080723", "Zell am Ziller", None, None, None, .0),
-         ("20080724", "Zell am Ziller", "Innsbruck", None, None, .0),
-         ("20080725", "Innsbruck", "Landeck", None, None, .0),
-         ("20080726", "Landeck", "Feldkirch", None, None, .0),
-         ("20080727", "Feldkirch", "Sitterdorf", None, None, .0),
-         ("20080728", "Sitterdorf", "Zurich", None, None, .0),
-         ("20080729", "Zurich", None, None, None, .0),
-         ("20080730", "Zurich", "Unterbozberg", None, None, .0),
-         ("20080731", "Unterbozberg", "Solothurn", None, None, .0),
-         ("20080801", "Solothurn", "Bern", None, None, .0),
-         ("20080802", "Bern", "Cheyres", None, None, .0),
-         ("20080803", "Cheyres", "Lausanne", None, None, .0),
-         ("20080804", "Lausanne", "Geneva", None, None, .0),
-         ("20080805", "Geneva", None, None, None, .0),
-         ("20080806", "Geneva", "Chanaz", None, None, .0),
-         ("20080807", "Chanaz", "Hieres-sur-Amby", None, None, .0),
-         ("20080808", "Hieres-sur-Amby", "Lyon", None, None, .0),
-         ("20080809", "Lyon", None, None, None, .0),
+class TourDay(object):
+    def __init__(self, row, prev_day=None):
+        self.from_row(row, prev_day)
 
-         ("20080810", "Lyon", None, None, None, .0),
-         ("20080811", "Lyon", "Unknown", None, None, .0),
-         ("20080812", "Unknown", "Chanas", None, None, .0),
-         ("20080813", "Chanas", "Pont-en-Royans", None, None, .0),
-         ("20080814", "Pont-en-Royans", "Die", None, None, .0),
-         ("20080815", "Die", None, None, None, .0),
-         ("20080816", "Die", "Montmaur", None, None, .0),
-         ("20080817", "Montmaur", "Sisteron", None, None, .0),
-         ("20080818", "Sisteron", "Digne-les-Bains", None, None, .0),
-         ("20080819", "Digne-les-Bains", "Castellane", None, None, .0),
-         ("20080820", "Castellane", "La Colle-sur-Loup", None, None, .0),
-         ("20080821", "La Colle-sur-Loup", "Nice", None, None, .0),
-         ("20080822", "Nice", None, None, None, .0),
+    def from_row(self, row, prev_day=None):
+        self.date = self.parse_date(row[0])
+        self.start = prev_day.finish if prev_day else None
+        self.finish = row[1] or self.start
+        self.start_time = self.parse_time(row[2])
+        self.finish_time = self.parse_time(row[3])
+        self.dist = float(row[4]) if row[4] else 0.0
+        self.accom = row[5]
+        self.transport = row[6]
+        self.number = row[7]
+        self.lat = row[8] or (prev_day.lat if prev_day else None)
+        self.lon = row[9] or (prev_day.lon if prev_day else None)
 
-         ("20080823", "Nice", "Isolabona", "9:45", "15:30", 68.0),
-         ("20080824", "Isolabona", "Laiguéglia", "11:15", "19:45", 107.0),
-         ("20080825", "Laiguéglia", None, None, None, 0.0),
-         ("20080826", "Laiguéglia", "Alba", "9:15", "19:30", 135.0),
-         ("20080827", "Alba", "Torino", "11:15", "18:00", 90.0),
-         ("20080828", "Torino", None, None, None, 0.0),
-         ("20080829", "Torino", "Frassineto Po", "12:30", "20:00", 102.0),
-         ("20080830", "Frassineto Po", "Piava", "9:10", "17:45", 118.0),
-         ("20080831", "Piava", "Cremona", "9:20", "17:00", 115.0),
-         ("20080901", "Cremona", "Póggio Rusco", "9:30", "19:20", 145.0),
-         ("20080902", "Póggio Rusco", "Lido delle Nazione (Comacchio)", "9:20", "20:30", 179.0),
-         ("20080903", "Lido delle Nazione", "San Servolo", "9:30", "19:30", 131.0),
-         ("20080904", "Venezia (San Nicolo)", None, None, None, 0.0),
-         ("20080905", "Venezia", None, None, None, 0.0),
-         ("20080906", "San Nicolo", "Wien", None, None, 0.0),
-         ("20080907", "Wien", None, None, None, 0.0),
-         ("20080908", "Wien", "Plavecký Štvrtok", "8:30", "18:00", 110.0),
-         ("20080909", "Plavecký Štvrtok", "Nove Mesto", "10:40", "17:15", 106.0),
-         ("20080910", "Nové Mesto", "Považská Bystrica", "9:15", "17:45", 105.0),
-         ("20080911", "Považská Bystrica", "Námestovo", "9:20", "17:50", 145.0),
-         ("20080912", "Námestovo", "Tatranská Štrba", "9:20", "17:45", 131.0),
-         ("20080913", "Tatranská Štrba", "Zakopane", "10:00", "15:45", 79.0),
-         ("20080914", "Zakopane", "Wrocław", None, None, 0.0)
-         ]
+    @staticmethod
+    def parse_date(text):
+        return datetime.datetime.strptime(text, "%Y%m%d").date()
+
+    @staticmethod
+    def parse_time(text):
+        if text:
+            return datetime.datetime.strptime(text, "%H:%M").time()
+        return None
+
+    def strdate(self):
+        return self.date.strftime("%Y%m%d")
+
+    def get_dict(self):
+        return {
+            "date": self.strdate(),
+            "start": self.start,
+            "finish": self.finish,
+            "start_time": self.start_time.strftime("%H:%M") if self.start_time else None,
+            "finish_time": self.finish_time.strftime("%H:%M") if self.finish_time else None,
+            "dist": self.dist,
+            "accom": self.accom,
+            "transport": self.transport,
+            "number": self.number,
+            "lat": self.lat,
+            "lon": self.lon,
+        }
+
+    def gpx_path(self):
+        return os.path.expanduser("~/GPS_DATA/%s.gpx" % self.strdate())
+
+    def gpx_exists(self):
+        return os.path.exists(self.gpx_path())
+
+    @classmethod
+    def csv_header(cls, writer):
+        writer.writerow(["Date", "Place", "Start Time", "Finish Time",
+                         "Dist", "Accom", "Transport", "Number", "Lat", "Lon"])
+
+    def csv_row(self, writer):
+        writer.writerow([self.strdate(), self.finish,
+                         self.start_time.strftime("%H:%M") if self.start_time else None,
+                         self.finish_time.strftime("%H:%M") if self.finish_time else None,
+                         self.dist, self.accom, self.transport, self.number,
+                         self.lat, self.lon])
+
+def read_table(table):
+    days = []
+    last_day = None
+    for row in table:
+        last_day = TourDay(row, last_location)
+        days.append(last_day)
+    return days
+
+#data = read_table(table)
+
+def read_csv(filename):
+    days = []
+    last_day = None
+    reader = csv.reader(open(filename))
+    next(reader) # skip header row
+    for row in reader:
+        last_day = TourDay(row, last_day)
+        days.append(last_day)
+    return days
+
+data = read_csv(os.path.join(os.path.dirname(__file__), "tour2012.csv"))
 
 def pathify(date):
     return "%s/%s/%s" % chop(date)
 
 def chop(date):
     return (date[0:4], date[4:6], date[6:8])
+
+def get_dates():
+    return [day.strdate() for day in data]
+
+def print_dates():
+    for date in get_dates():
+        print(date)
+
+def print_csv():
+    writer = csv.writer(sys.stdout)
+    TourDay.csv_header(writer)
+    for day in data:
+        day.csv_row(writer)
+
+if __name__ == '__main__':
+    print_dates()

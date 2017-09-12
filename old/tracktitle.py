@@ -5,24 +5,24 @@ from datetime import date
 from data import data
 
 def date_num(d):
-    for n, stuff in enumerate(data):
+    for stuff in data:
          if d == stuff[0]:
-            return n
+             return stuff[8]
     return None
 
 def find_date(d):
     for stuff in data:
-        if d == stuff[0]:
+        if d == stuff.strdate():
             return stuff
     return None
 
 def track_title(d):
     stuff = find_date(d)
-    n = date_num(d) + 1
+    n = stuff.number
 
-    title = "Day %d: %s" % (n, stuff[1])
-    if stuff[2] is not None:
-        title = "%s - %s" % (title, stuff[2])
+    title = "Day %d: %s" % (n, stuff.start)
+    if stuff.start != stuff.finish:
+        title = "%s - %s" % (title, stuff.finish)
 
     return title
 
