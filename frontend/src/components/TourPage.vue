@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: "tour-page",
   props: ["name", "tour"],
@@ -16,6 +14,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>

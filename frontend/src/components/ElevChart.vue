@@ -16,7 +16,12 @@ export default {
     return {
       data: null,
       elev: null,
-      chartHeight: 200,
+      chartHeight: 200
+    }
+  },
+  calculated: {
+    totalDist() {
+      return this.elev && this.elev.length ? _.last(this.elev).x : 0.0;
     }
   },
   methods: {
@@ -53,6 +58,14 @@ export default {
       yAxis.ticks.min = this.minElev;
       yAxis.ticks.max = this.maxElev;
 
+      const xAxis = this.chart.options.scales.xAxes[0];
+      if (this.totalDist < 100) {
+        xAxis.ticks.max = 100;
+      } else {
+        xAxis.ticks.max = 200;
+      }
+      // xAxis.ticks.max = Math.ceil(this.totalDist / 100) * 100;
+
       this.chart.update();
     },
     destroyChart() {
@@ -84,7 +97,7 @@ export default {
               ticks: {
                 beginAtZero: true,
                 min: 0,
-                max: 120
+                max: 100
               }
             }],
             yAxes: [{

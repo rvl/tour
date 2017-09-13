@@ -19,5 +19,10 @@ export default {
   loadTourTrack(name) {
     return axios.get(`/static/data/tracks/${name}.json`)
       .then(res => res.data);
+  },
+
+  loadAllTrack() {
+    return axios.get(`/static/data/all-tracks.json`)
+      .then(res => res.data);
   }
 };
