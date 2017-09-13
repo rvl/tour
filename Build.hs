@@ -110,9 +110,8 @@ main = do
         Nothing -> return ()
 
     -- all tours together, low detail
-    -- fixme: 1.1MB is still a bit too big
     build "all-tracks.json" %> \out -> do
-      let filters = ["simplify,error=1k"]
+      let filters = ["track,pack,sdistance=1k", "simplify,error=1k"]
           srcs = [build "tracks" </> n <.> "gpx" | (n, _) <- tours]
       need srcs
       withTempDir $ \dir -> do
