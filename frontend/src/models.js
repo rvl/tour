@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+const blogUrl = process.env.NODE_ENV === "production" ?
+      "https://rodney.id.au" : "";
+
 export default {
   loadIndex() {
     return axios.get("/static/data/index.json")
@@ -23,6 +26,11 @@ export default {
 
   loadAllTrack() {
     return axios.get(`/static/data/all-tracks.json`)
+      .then(res => res.data);
+  },
+
+  loadBlogHtml(tourDay) {
+    return axios.get(`${blogUrl}/posts/${tourDay.date}-tour-${tourDay.num}/embed.html`)
       .then(res => res.data);
   }
 };

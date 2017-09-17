@@ -45,7 +45,7 @@
 <script>
 import TourMap from '@/components/TourMap';
 import Models from '@/models';
-import moment from 'moment';
+import formatDate from '@/filters/formatDate';
 
 export default {
   name: "tour-page-index",
@@ -68,9 +68,7 @@ export default {
       });
   },
   filters: {
-    formatDate(s) {
-      return s ? moment(s).format("DD/MM/YYYY") : "";
-    }
+    formatDate
   },
   components: {
     TourMap
