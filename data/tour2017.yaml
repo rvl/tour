@@ -5,68 +5,68 @@ to: '2017-09-03'
 days:
 - num: 1
   date: '2017-08-19'
-  dist: 41
   from: Oxford
   to: Milton Keynes
 - num: 2
   date: '2017-08-20'
-  dist: 42
-  from: Avignon
-  to: Somewhere
-- start: null
-  num: 3
+  dist: 89
+  from: Orange
+  to: Bonnieux
+- num: 3
   date: '2017-08-21'
-  end: null
-  dist: 43
-- start: null
-  num: 4
+  from: Bonnieux to Gréoux-les-Bains
+  dist: 92
+- num: 4
   date: '2017-08-22'
-  end: null
-  dist: 43
-- start: null
-  num: 5
+  from: Gréoux-les-Bains
+  to: Moustiers-Sainte-Marie
+  dist: 49
+- num: 5
   date: '2017-08-23'
-  end: null
-  dist: 43
-- start: null
-  num: 6
+  from: Moustiers-Sainte-Marie
+  to: Castellane
+  dist: 70
+- num: 6
   date: '2017-08-24'
-  end: null
-  dist: 43
-- start: null
-  num: 7
+  from: Castellane
+  to: La Roquette
+  dist: 97
+- num: 7
   date: '2017-08-25'
-  end: null
-  dist: 43
-- start: null
-  num: 9
+  from: La Roquette
+  to: Sospel
+  dist: 66
+- num: 9
   date: '2017-08-27'
-  end: null
-  dist: 43
-- start: null
-  num: 10
+  from: Sospel
+  to: Nava
+  dist: 137
+- num: 10
   date: '2017-08-28'
-  end: null
-  dist: 43
-- start: null
-  num: 11
+  from: Nava
+  to: Cuneo
+  dist: 109
+- num: 11
   date: '2017-08-29'
-  end: null
-  dist: 43
-- start: null
-  num: 12
+  from: Cuneo
+  to: Aiguilles
+  dist: 121
+- num: 12
   date: '2017-08-30'
-  end: null
-  dist: 43
+  from: Aiguilles
+  to: Le Monêtier-les-Bains
+  dist: 62
 - num: 14
   date: '2017-09-01'
-  from: Somewhere
+  from: Le Monêtier-les-Bains
   to: Grenoble
+  dist: 102
 - num: 15
   date: '2017-09-02'
   from: Grenoble
+  to: Valence
 - num: 16
   date: '2017-09-03'
-  dist: 43
   from: Milton Keynes
   to: Oxford
+  dist: 75
