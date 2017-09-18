@@ -7,66 +7,95 @@ days:
   date: '2017-08-19'
   from: Oxford
   to: Milton Keynes
+  from_coord: [-1.238665, 51.748607]
+  to_coord: [-0.748137, 52.083702]
 - num: 2
   date: '2017-08-20'
   dist: 89
   from: Orange
   to: Bonnieux
+  from_coord: [4.801363348960877, 44.136118498395206]
+  to_coord: [5.312431454658508, 43.817997494303505]
 - num: 3
   date: '2017-08-21'
-  from: Bonnieux to Gréoux-les-Bains
+  from: Bonnieux
+  to: Gréoux-les-Bains
   dist: 92
+  from_coord: [5.312431454658508, 43.817997494303505]
+  to_coord: [5.87821662425995, 43.74943981058349]
 - num: 4
   date: '2017-08-22'
   from: Gréoux-les-Bains
   to: Moustiers-Sainte-Marie
+  from_coord: [5.87821662425995, 43.74943981058349]
+  to_coord: [6.213659048080445, 43.84515945559966]
   dist: 49
 - num: 5
   date: '2017-08-23'
   from: Moustiers-Sainte-Marie
   to: Castellane
+  from_coord: [6.213659048080445, 43.84515945559966]
+  to_coord: [6.509286761283875, 43.84503178189819]
   dist: 70
 - num: 6
   date: '2017-08-24'
   from: Castellane
   to: La Roquette
+  from_coord: [6.509286761283875, 43.84503178189819]
+  to_coord: [7.195760607719422, 43.83807895593808]
   dist: 97
 - num: 7
   date: '2017-08-25'
   from: La Roquette
   to: Sospel
+  from_coord: [7.195760607719422, 43.83807895593808]
+  to_coord: [7.443167567253114, 43.87892922163694]
   dist: 66
 - num: 9
   date: '2017-08-27'
   from: Sospel
   to: Nava
+  from_coord: [7.443167567253114, 43.87892922163694]
+  to_coord: [7.874375581741334, 44.093491594598504]
   dist: 137
 - num: 10
   date: '2017-08-28'
   from: Nava
   to: Cuneo
+  from_coord: [7.874375581741334, 44.093491594598504]
+  to_coord: [7.515072226524354, 44.363378562533704]
   dist: 109
 - num: 11
   date: '2017-08-29'
   from: Cuneo
   to: Aiguilles
+  from_coord: [7.515072226524354, 44.363378562533704]
+  to_coord: [6.849954128265381, 44.772562714398376]
   dist: 121
 - num: 12
   date: '2017-08-30'
   from: Aiguilles
   to: Le Monêtier-les-Bains
+  from_coord: [6.849954128265381, 44.772562714398376]
+  to_coord: [6.496803760528565, 44.980478983319095]
   dist: 62
 - num: 14
   date: '2017-09-01'
   from: Le Monêtier-les-Bains
   to: Grenoble
+  from_coord: [6.496803760528565, 44.980478983319095]
+  to_coord: [5.697628855705261, 45.16665305863656]
   dist: 102
 - num: 15
   date: '2017-09-02'
   from: Grenoble
   to: Valence
+  from_coord: [5.697628855705261, 45.16665305863656]
+  to_coord: [4.885568618774415, 44.89834121859842]
 - num: 16
   date: '2017-09-03'
   from: Milton Keynes
   to: Oxford
+  from_coord: [-0.748137, 52.083702]
+  to_coord: [-1.238665, 51.748607]
   dist: 75
