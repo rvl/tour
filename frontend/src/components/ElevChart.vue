@@ -9,6 +9,9 @@ import axios from 'axios';
 import _ from 'lodash';
 import Chart from 'chart.js';
 
+const ceil100 = n => Math.ceil(n / 100) * 100;
+const floor100 = n => Math.floor(n / 100) * 100;
+
 export default {
   name: "elev-chart",
   props: ["date"],
@@ -17,11 +20,6 @@ export default {
       data: null,
       elev: null,
       chartHeight: 200
-    }
-  },
-  calculated: {
-    totalDist() {
-      return this.elev && this.elev.length ? _.last(this.elev).x : 0.0;
     }
   },
   methods: {
@@ -42,30 +40,26 @@ export default {
     mungeData(data) {
       this.data = data;
       this.elev = _.map(data, d => ({ x: d.dist / 1000, y: d.ele }));
+      this.totalDist = _.last(this.elev).x;
     },
     calcHeight() {
       const axisHeight = 30;
-      const ceil100 = n => Math.ceil(n / 100) * 100;
-      const floor100 = n => Math.floor(n / 100) * 100;
       this.maxElev = ceil100(_.maxBy(this.data, "ele").ele);
       this.minElev = floor100(_.minBy(this.data, "ele").ele);
       this.chartHeight = axisHeight + (this.maxElev - this.minElev) * 0.2;
     },
-    plot() {
-      this.chart.data.datasets[0].data = this.elev;
-
+    setTicks() {
+      // requires calcHeight to be called previously
       const yAxis = this.chart.options.scales.yAxes[0];
       yAxis.ticks.min = this.minElev;
       yAxis.ticks.max = this.maxElev;
 
       const xAxis = this.chart.options.scales.xAxes[0];
-      if (this.totalDist < 100) {
-        xAxis.ticks.max = 100;
-      } else {
-        xAxis.ticks.max = 200;
-      }
-      // xAxis.ticks.max = Math.ceil(this.totalDist / 100) * 100;
-
+      xAxis.ticks.max = ceil100(this.totalDist);
+    },
+    plot() {
+      this.chart.data.datasets[0].data = this.elev;
+      this.setTicks();
       this.chart.update();
     },
     destroyChart() {
