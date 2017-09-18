@@ -1,73 +1,40 @@
 name: France & Belgium 2016
 countries: ["gb", "fr", "be"]
 days:
-- start: null
-  num: 1
-  date: '2016-07-13'
-  end: null
-  dist: 1
-- start: null
-  num: 2
+- num: 1
   date: '2016-07-14'
-  end: null
-  dist: 1
-- start: null
-  num: 3
+- num: 2
   date: '2016-07-15'
-  end: null
-  dist: 1
-- start: null
-  num: 4
+- num: 3
   date: '2016-07-16'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 4
   date: '2016-07-19'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 5
   date: '2016-07-20'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 6
   date: '2016-07-21'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 7
   date: '2016-07-22'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 8
   date: '2016-07-23'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 9
   date: '2016-07-24'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 10
   date: '2016-07-25'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 11
   date: '2016-07-26'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 12
   date: '2016-07-27'
-  end: null
   dist: 0
-- start: null
-  num: 1
+- num: 13
   date: '2016-07-28'
-  end: null
   dist: 0
