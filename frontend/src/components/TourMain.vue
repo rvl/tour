@@ -33,7 +33,7 @@ export default {
     },
     onTour(name) {
       console.log("change tour", name);
-      this.$router.push({ name: "TourPageIndex", params: { "name": name } });
+      this.$router.push({ name: "TourPage", params: { "name": name } });
     }
   },
   components: {

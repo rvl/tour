@@ -1,36 +1,23 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 const blogUrl = process.env.NODE_ENV === "production" ?
       "https://rodney.id.au" : "";
 
+const getData = path => axios.get(`/static/data/${path}`).then(res => res.data);
+
 export default {
-  loadIndex() {
-    return axios.get("/static/data/index.json")
-      .then(res => res.data);
+  info: {
+    index: () => getData("index.json"),
+    tour: _.memoize(name => getData(`tours/${name}.json`)),
+    blog(tourDay) {
+      const url = `${blogUrl}/posts/${tourDay.date}-tour-${tourDay.num}/embed.html`;
+      return axios.get(url).then(res => res.data);
+    }
   },
-
-  loadTour(name) {
-    return axios.get(`/static/data/tours/${name}.json`)
-      .then(res => res.data);
-  },
-
-  loadDailyTrack(date) {
-    return axios.get(`/static/data/daily/${date}.json`)
-      .then(res => res.data);
-  },
-
-  loadTourTrack(name) {
-    return axios.get(`/static/data/tracks/${name}.json`)
-      .then(res => res.data);
-  },
-
-  loadAllTrack() {
-    return axios.get(`/static/data/all-tracks.json`)
-      .then(res => res.data);
-  },
-
-  loadBlogHtml(tourDay) {
-    return axios.get(`${blogUrl}/posts/${tourDay.date}-tour-${tourDay.num}/embed.html`)
-      .then(res => res.data);
+  track: {
+    all:   ()   => getData(`all-tracks.json`),
+    tour:  name => getData(`tracks/${name}.json`),
+    daily: date => getData(`daily/${date}.json`)
   }
 };

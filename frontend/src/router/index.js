@@ -3,10 +3,7 @@ import Router from 'vue-router'
 import TourMain from '@/components/TourMain'
 import TourList from '@/components/TourList'
 import TourPage from '@/components/TourPage'
-import TourPageIndex from '@/components/TourPageIndex'
 import TourDay from '@/components/TourDay'
-import MapAll from '@/components/MapAll'
-import MapTour from '@/components/MapTour'
 
 Vue.use(Router)
 
@@ -26,9 +23,9 @@ export default new Router({
         children: [
           {
             path: "",
-            name: "TourPageIndex",
+            name: "TourPage",
             props: true,
-            component: TourPageIndex
+            component: TourPage
           },
           {
             path: ":date",

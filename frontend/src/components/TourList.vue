@@ -10,7 +10,7 @@
         <tbody>
           <tr v-for="(tour, name) in tours">
             <td>
-              <router-link :to="{ name: 'TourPageIndex', params: { name } }" :title="tour.description">
+              <router-link :to="{ name: 'TourPage', params: { name } }" :title="tour.description">
                 {{ tour.name }}
               </router-link>
             </td>
@@ -39,7 +39,7 @@ export default {
   },
   created() {
     this.loading = true;
-    Models.loadIndex().then(tours => {
+    Models.info.index().then(tours => {
       this.tours = tours;
       this.loading = false;
     });

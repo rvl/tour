@@ -3,12 +3,6 @@
     <vl-map :zoom="zoom" :center="center"  :options="extraOptions" ref="map">
       <vl-tilelayer :url="osm.url" :attribution="osm.attribution" ref="osmLayer"></vl-tilelayer>
       <vl-tilelayer :url="mapbox.url" :params="mapbox.params" :token="mapbox.params.accessToken" :attribution="mapbox.attribution" ref="mapboxLayer"></vl-tilelayer>
-
-      <!--
-      <vl-geojson-layer v-if="allTrack" :geojson="allTrack" :options="allOptions" ref="allLayer"></vl-geojson-layer>
-      <vl-geojson-layer v-if="tourTrack" :geojson="tourTrack" :options="tourOptions" ref="tourLayer"></vl-geojson-layer>
-      <vl-geojson-layer v-if="dayTrack" :geojson="dayTrack" :options="dayOptions" ref="trackLayer"></vl-geojson-layer>
-      -->
     </vl-map>
   </div>
 </template>
@@ -24,9 +18,15 @@ export default {
   props: ["date", "tourName"],
   data() {
     return {
-      dayTrack: null,
-      tourTrack: null,
-      allTrack: null,
+      track: {
+        day: null,
+        tour: null,
+        all: null
+      },
+      info: {
+        index: null,
+        tour: null
+      },
       dayOptions: {
         style: geoJsonFeature => ({
           weight: 3,
@@ -85,7 +85,7 @@ export default {
     initWatches() {
       this.$watch("date", date => {
         if (date) {
-          Models.loadDailyTrack(date).then(track => this.setTrack(track));
+          Models.track.daily(date).then(track => this.setTrack(track));
         } else {
           this.setTrack(null);
         }
@@ -93,17 +93,21 @@ export default {
 
       this.$watch("tourName", name => {
         if (name) {
-          Models.loadTourTrack(name).then(track => this.setTourTrack(track));
+          Models.track.tour(name).then(track => this.setTourTrack(track));
+          Models.info.tour(name).then(tour => { this.infoTour = tour; });
         } else {
           this.setTourTrack(null);
+          this.infoTour = null;
         }
       }, { immediate: true });
 
       this.$watch(() => !(this.date || this.tourName), showIndex => {
         if (showIndex) {
-          Models.loadAllTrack(name).then(track => this.setAllTrack(track));
+          Models.track.all().then(track => this.setAllTrack(track));
+          Models.info.index().then(info => { this.infoIndex = info; });
         } else {
           this.setAllTrack(null);
+          this.infoIndex = null;
         }
       }, { immediate: true });
     },
@@ -123,10 +127,10 @@ export default {
         this.trackLayer.remove();
         this.trackLayer = null;
       }
-      this.dayTrack = track;
-      if (this.dayTrack) {
-        this.dayTrack = track;
-        this.trackLayer = L.geoJSON(this.dayTrack, this.dayOptions).addTo(this.map);
+      this.track.day = track;
+      if (this.track.day) {
+        this.track.day = track;
+        this.trackLayer = L.geoJSON(this.track.day, this.dayOptions).addTo(this.map);
 
         // cause styles to be refreshed
         if (this.tourLayer) {
@@ -141,9 +145,18 @@ export default {
         this.tourLayer.remove();
         this.tourLayer = null;
       }
-      this.tourTrack = track;
-      if (this.tourTrack) {
+      this.track.tour = track;
+      if (this.track.tour) {
         this.tourLayer = L.geoJSON(track, this.tourOptions).addTo(this.map);
+
+        const tooltip = this.tourLayer.bindTooltip(layer => {
+          const date = Tracks.featureToDate(layer.feature.properties.name);
+          const tooltip = layer.feature.properties.tooltip
+          const info = this.$emit
+          return `${date}`;
+        }, {
+          sticky: true
+        });
 
         this.tourLayer.on("click", mouseEvent => {
           const name = Tracks.featureToDate(mouseEvent.layer.feature.properties.name);
@@ -160,9 +173,9 @@ export default {
         this.allLayer.remove();
         this.allLayer = null;
       }
-      this.allTrack = track;
-      if (this.allTrack) {
-        this.allLayer = L.geoJSON(this.allTrack, this.allOptions).addTo(this.map)
+      this.track.all = track;
+      if (this.track.all) {
+        this.allLayer = L.geoJSON(this.track.all, this.allOptions).addTo(this.map)
 
         this.allLayer.on("click", mouseEvent => {
           const name = mouseEvent.layer.feature.properties.name;

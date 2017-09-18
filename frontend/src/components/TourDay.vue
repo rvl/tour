@@ -16,7 +16,7 @@
       <p>
         <router-link :to="{ name: 'TourList' }">Tours</router-link>
         &rsaquo;
-        <router-link :to="{ name: 'TourPageIndex', params: { name: $parent.name } }">
+        <router-link :to="{ name: 'TourPage', params: { name: $parent.name } }">
           <span v-if="tour" v-text="tour.name" />
           <span v-else v-text="$parent.name" />
         </router-link>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import models from '@/models';
+import Models from '@/models';
 import TourMap from '@/components/TourMap';
 import ElevChart from '@/components/ElevChart';
 import formatDate from '@/filters/formatDate';
@@ -82,7 +82,7 @@ export default {
   methods: {
     load(date) {
       if (date) {
-        models.loadTour(this.$parent.name).then(tour => {
+        Models.info.tour(this.$parent.name).then(tour => {
           this.tour = tour;
           const index = _.findIndex(tour.days, { date });
 
@@ -91,7 +91,7 @@ export default {
             this.prevDate = tour.days[index - 1] ? tour.days[index - 1].date: null;
             this.nextDate = tour.days[index + 1] ? tour.days[index + 1].date: null;
 
-            models.loadBlogHtml(this.tourDay).then(html => {
+            Models.info.blog(this.tourDay).then(html => {
               this.tourHtml = html;
             })
               .catch(err => {
