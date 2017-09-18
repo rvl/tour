@@ -12,6 +12,7 @@ import L from 'leaflet';
 import Models from '@/models';
 import Tracks from '@/tracks';
 import mapComponents from "./map_components";
+import Filters from "@/filters";
 
 export default {
   name: "tour-map",
@@ -80,6 +81,12 @@ export default {
 
       this.tourLayer = this.$refs.tourLayer ? this.$refs.tourLayer.$geoJSON : null;
       this.trackLayer = this.$refs.trackLayer ? this.$refs.trackLayer.$geoJSON : null;
+
+      this.map.on("zoomend", ev => this.updateVisibilityZoom());
+
+      this.map.on("click", ev => {
+        console.log(`coord: [${ev.latlng.lng}, ${ev.latlng.lat}]`);
+      });
     },
 
     initWatches() {
@@ -94,20 +101,20 @@ export default {
       this.$watch("tourName", name => {
         if (name) {
           Models.track.tour(name).then(track => this.setTourTrack(track));
-          Models.info.tour(name).then(tour => { this.infoTour = tour; });
+          Models.info.tour(name).then(tour => this.setTourInfo(tour));
         } else {
           this.setTourTrack(null);
-          this.infoTour = null;
+          this.setTourInfo(null);
         }
       }, { immediate: true });
 
       this.$watch(() => !(this.date || this.tourName), showIndex => {
         if (showIndex) {
           Models.track.all().then(track => this.setAllTrack(track));
-          Models.info.index().then(info => { this.infoIndex = info; });
+          Models.info.index().then(info => { this.info.index = info; });
         } else {
           this.setAllTrack(null);
-          this.infoIndex = null;
+          this.info.index = null;
         }
       }, { immediate: true });
     },
@@ -136,6 +143,9 @@ export default {
         if (this.tourLayer) {
           this.tourLayer.setStyle(this.tourOptions.style);
         }
+
+        // show a tooltip ... alas getting the elevation is difficult
+        this.trackLayer.bindTooltip(layer => this.tourDayTooltip(layer.feature.properties.name), { sticky: true });
       }
       this.setBounds();
     },
@@ -149,21 +159,16 @@ export default {
       if (this.track.tour) {
         this.tourLayer = L.geoJSON(track, this.tourOptions).addTo(this.map);
 
-        const tooltip = this.tourLayer.bindTooltip(layer => {
-          const date = Tracks.featureToDate(layer.feature.properties.name);
-          const tooltip = layer.feature.properties.tooltip
-          const info = this.$emit
-          return `${date}`;
-        }, {
-          sticky: true
-        });
-
+        // click event -- for navigation usually
         this.tourLayer.on("click", mouseEvent => {
           const name = Tracks.featureToDate(mouseEvent.layer.feature.properties.name);
           if (name) {
             this.$emit("visit", name);
           }
         });
+
+        // Show track info on tooltip hover
+        this.tourLayer.bindTooltip(layer => this.tourDayTooltip(layer.feature.properties.name), { sticky: true });
       }
       this.setBounds();
     },
@@ -183,8 +188,101 @@ export default {
             this.$emit("tour", name);
           }
         });
+
+        // Show tour info on tooltip hover
+        this.allLayer.bindTooltip(layer => this.tourTooltip(layer.feature.properties.name), { sticky: true });
       }
       this.setBounds();
+    },
+
+    setTourInfo(info) {
+      if (this.infoLayer) {
+        this.infoLayer.remove();
+        this.infoLayer = null;
+      }
+      this.info.tour = info;
+      if (info) {
+        const icon = colour => L.icon({
+          iconUrl: `/static/images/marker-icon-${colour}.png`,
+          iconRetinaUrl: `/static/images/marker-icon-2x-${colour}.png`,
+          iconSize: [25, 41],
+          iconAnchor: [13, 41],
+          popupAnchor: [0, -10]
+        });
+        const blueIcon = icon("blue");
+        const greenIcon = icon("green");
+        const redIcon = icon("red");
+
+        const popup = (day, where, end) => {
+          return `Day ${day.num}. ${Filters.formatDate(day.date)}<br>${where}`
+        };
+
+        const markers = _.map(info.days, day => {
+          const coord = day.from_coord || day.to_coord;
+          return coord ?
+            L.marker(coord, {
+              icon: blueIcon,
+              title: day.from || day.to
+            }).bindPopup(popup(day, day.from || day.to, null)) : null;
+        }).filter(m => m).valueOf();
+
+        this.infoTourLayer = L.layerGroup(_.filter(markers));
+        this.infoLayers = _(info.days).map(day => [
+          day.date,
+          L.layerGroup([
+            day.from_coord ?
+              L.marker(day.from_coord, {
+                icon: greenIcon,
+                title: day.from,
+                zIndexOffset: 1000
+              }).bindPopup(popup(day, day.from, false)) : null,
+            day.to_coord ?
+              L.marker(day.to_coord, {
+                icon: redIcon,
+                title: day.to,
+                zIndexOffset: 1000
+              }).bindPopup(popup(day, day.to, true)) : null
+          ].filter(m => m))
+        ]).fromPairs().valueOf();
+        this.updateVisibilityZoom();
+      }
+    },
+
+    updateVisibilityZoom() {
+      if (this.infoTourLayer) {
+        if (this.map.getZoom() >= 8) {
+          this.map.addLayer(this.infoTourLayer);
+        } else {
+          this.map.removeLayer(this.infoTourLayer);
+        }
+      }
+      _.each(this.infoLayers, (layer, date) => {
+        if (this.date === date) {
+          this.map.addLayer(layer);
+        } else {
+          this.map.removeLayer(layer);
+        }
+      });
+    },
+
+    // tooltip text for a segment of tour track
+    tourDayTooltip(featureName) {
+      const date = Tracks.featureToDate(featureName);
+      if (date && this.info.tour && this.info.tour.days) {
+        const day = _.find(this.info.tour.days, { date });
+        if (day) {
+          return `Day ${day.num}. ${Filters.formatDate(date)}<br>${Filters.formatDayTitle(day)}`;
+        }
+      }
+      return `${date}`;
+    },
+
+    // tooltip text for a segment of all tours track
+    tourTooltip(featureName) {
+      if (this.info.index && this.info.index[featureName]) {
+        return this.info.index[featureName].name;
+      }
+      return featureName;
     }
   },
   mounted() {
