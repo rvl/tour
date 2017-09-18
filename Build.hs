@@ -87,7 +87,7 @@ main = do
     build "daily/*.json" %> \out -> do
       let filters = ["simplify,error=0.05k"]
           src = out -<.> "gpx"
-      need [src]      
+      need [src]
       gpsbabel filters "gpx" "geojson" [src] out
 
     -- lower detail geojson features of complete tour
@@ -111,13 +111,13 @@ main = do
 
     -- all tours together, low detail
     build "all-tracks.json" %> \out -> do
-      let filters = ["track,pack,sdistance=1k", "simplify,error=1k"]
+      let filters = ["simplify,error=1k"]
           srcs = [build "tracks" </> n <.> "gpx" | (n, _) <- tours]
       need srcs
       withTempDir $ \dir -> do
         srcs' <- forM srcs $ \src -> do
           let src' = (dir </> takeFileName src)
-          putNormal $ "processing " ++ src ++ " -> " ++ src'
+          putNormal $ "Renaming " ++ src ++ " -> " ++ src'
           renameTracksFaster (takeBaseName src) src src'
           return src'
         gpsbabel filters "gpx" "geojson" srcs' out
@@ -125,7 +125,7 @@ main = do
     build "stamp.data" %> \out -> do
       alwaysRerun
       writeFileChanged out (show tours)
-    
+
     build "sha1sums" %> \out -> do
       let
         allDates = concatMap tourDates' (map snd tours)
@@ -141,13 +141,16 @@ main = do
     build "index.json" %> \out -> do
       need (map (dataFileName . fst) tours)
       need [build "tours" </> n <.> "json" | (n, _) <- tours]
+      putNormal $ "Writing tour summary " ++ out
       writeJsonFile out (tourSummary tours)
 
     build "tours/*.json" %> \out -> do
       let name = takeBaseName out
       need [dataFileName name]
       case lookup name tours of
-        Just tour -> writeJsonFile out tour
+        Just tour -> do
+          putNormal $ "Writing tour info " ++ out
+          writeJsonFile out tour
         Nothing -> fail $ "tour " ++ name ++ " not found"
 
 gpsbabel :: [String]   -- ^ filters
