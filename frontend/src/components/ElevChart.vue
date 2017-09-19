@@ -70,6 +70,10 @@ export default {
     initChart() {
       // init chart.js
       const color = Chart.helpers.color;
+      const gridLines = {
+        color: "rgba(0, 0, 0, 0.1)"
+      };
+      const fontColor = "rgba(31, 31, 31, 0.9)";
       this.chart = new Chart(this.$refs.canvas, {
         type: "scatter",
         data: {
@@ -91,13 +95,16 @@ export default {
               ticks: {
                 beginAtZero: true,
                 min: 0,
-                max: 100
-              }
+                max: 100,
+                fontColor
+              },
+              gridLines
             }],
             yAxes: [{
               ticks: {
                 beginAtZero: false,
-                stepSize: 100
+                stepSize: 100,
+                fontColor
               }
             }]
           }

@@ -165,8 +165,10 @@ h1 {
   right: 0px;
   padding: 0.5em 1em 1em 1em;
 
-  // background: white;
-  background-image: linear-gradient(top, rgba(255,255,255,0) 35%,rgba(255,255,255,1) 100%);
+  background-image: linear-gradient(
+    rgba(255,255,255,0),
+    rgba(255,255,255,0.6)
+  );
 
   pointer-events: none;
 }

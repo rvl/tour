@@ -42,7 +42,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .map-view {
   height: 100vh;
   width: 100%;
@@ -62,4 +62,8 @@ export default {
   }
 }
 
+.leaflet-control-attribution {
+  background: none !important;
+  z-index: 1001 !important;
+}
 </style>
