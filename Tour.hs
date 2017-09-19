@@ -24,21 +24,26 @@ import Data.Map (Map, fromList)
 import Data.Maybe (catMaybes)
 import Data.List (intercalate)
 import Data.Aeson
-import Data.Aeson.Types (camelTo2, Options(..))
+import Data.Aeson.Types (camelTo2, Options(..), Parser(..), typeMismatch)
 import Data.Monoid
 import Control.Monad (forM)
 import Data.Yaml (encodeFile)
 import Data.Text (Text)
 import GHC.Generics
 import qualified Data.Map as M
+import qualified Data.Vector as V
+import Naqsha.Geometry
+import Data.Scientific (toRealFloat)
 
 data TourDay = TourDay
     { dayNum  :: Int
     , dayDate  :: Day
-    , dayStart :: Maybe Text -- TimeOfDay
-    , dayEnd   :: Maybe Text -- TimeOfDay
+    , dayStart :: Maybe TimeOfDay
+    , dayEnd   :: Maybe TimeOfDay
     , dayFrom  :: Text
     , dayTo    :: Text
+    , dayFromCoord :: Maybe Geo
+    , dayToCoord   :: Maybe Geo
     , dayDist  :: Int
     } deriving (Generic, Show)
 
@@ -85,6 +90,12 @@ instance ToJSON Tour where
   toJSON = genericToJSON prefixOptions
   toEncoding = genericToEncoding prefixOptions
 
+instance ToJSON Geo where
+  toJSON (Geo lat' lon') = Array (V.fromList [num lon', num lat'])
+    where
+      num :: Angular n => n -> Value
+      num = Number . toDegree . toAngle
+
 instance FromJSON Tour where
     parseJSON (Object v) = Tour <$>
                            v .: "name" <*>
@@ -104,14 +115,36 @@ instance FromJSON TourDay where
                          v .:? "end" <*>
                          v .:? "from" .!= "" <*>
                          v .:? "to" .!= "" <*>
+                         v .:? "from_coord" <*>
+                         v .:? "to_coord" <*>
                          v .:? "dist" .!= 0
 
   parseJSON (String d) = do
     d' <- parseJSON (String d)
-    return $ TourDay 0 d' Nothing Nothing "" "" 0
+    return $ TourDay 0 d' Nothing Nothing "" "" Nothing Nothing 0
 
   -- A non-Object value is of the wrong type, so fail.
-  parseJSON _          = mempty
+  parseJSON v          = typeMismatch "TourDay" v
+
+instance FromJSON Geo where
+  parseJSON (Object v) = Geo <$>
+                         v .: "lat" <*>
+                         v .: "lon"
+  parseJSON (Array a) = case V.toList a of
+    [lon', lat'] -> Geo <$> parseJSON lon' <*> parseJSON lat'
+    _ -> fail "expected length 2 array"
+  parseJSON v = typeMismatch "Geo" v
+
+
+parseCoord :: (Angle -> a) -> Value -> Parser a
+parseCoord coord (Number n) = pure . coord . degree . toRational . toRealFloat $ n
+parseCoord _ v = typeMismatch "Angle" v
+
+instance FromJSON Latitude where
+  parseJSON = parseCoord lat
+
+instance FromJSON Longitude where
+  parseJSON = parseCoord lon
 
 renumber :: [TourDay] -> [TourDay]
 renumber = id

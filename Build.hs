@@ -16,7 +16,7 @@ import Data.Text.Lazy.Encoding (decodeUtf8)
 
 import Tour
 import Track
-import Data.Yaml (encodeFile, decodeFile)
+import Data.Yaml (encodeFile, decodeFileEither)
 
 buildDir = "_build" :: FilePath
 
@@ -26,8 +26,9 @@ build = (</>) buildDir
 loadTours :: FilePath -> IO [(String, Tour)]
 loadTours dir = do
   yamls <- getDirectoryFilesIO "" [dir </> "*.yaml"]
-  tours <- mapM decodeFile yamls
-  return [(takeBaseName yaml, tour) | (yaml, Just tour) <- zip yamls tours]
+  tours <- mapM decodeFileEither yamls
+  mapM_ putStrLn [yaml ++ ": " ++ show err | (yaml, Left err) <- zip yamls tours]
+  return [(takeBaseName yaml, tour) | (yaml, Right tour) <- zip yamls tours]
 
 dataFileName :: String -> FilePath
 dataFileName t = "data" </> t <.> "yaml"
