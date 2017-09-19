@@ -1,40 +1,117 @@
 name: France & Belgium 2016
+description: Rodney solo tour
 countries: ["gb", "fr", "be"]
 days:
 - num: 1
-  date: '2016-07-14'
+  date: 2016-07-14
+  from: Oxford
+  to: Portsmouth
+  from_coord: [-1.2546837329864504, 51.77203255815649]
+  to_coord: [-1.0886389017105105, 50.812877010308966]
+  dist: 172
+  start: 07:15
+  finish: 18:30
 - num: 2
-  date: '2016-07-15'
+  date: 2016-07-15
+  from: St Malo
+  to: Mont St Michel
+  from_coord: [-2.0265966653823857, 48.641292385442384]
+  to_coord: [-1.5083670616149902, 48.61554809763558]
+  dist: 90
+  start: 08:30
+  finish: 18:30
 - num: 3
-  date: '2016-07-16'
-  dist: 0
+  date: 2016-07-16
+  from: Mont St Michel
+  to: Rennes
+  from_coord: [-1.5083670616149902, 48.61554809763558]
+  to_coord: [-1.64445698261261, 48.135313191263975]
+  dist: 82
+  start: 06:30
+  finish: 18:30
 - num: 4
-  date: '2016-07-19'
-  dist: 0
+  date: 2016-07-18
+  from: Rennes
+  to: Metz
+  from_coord: [-1.64445698261261, 48.135313191263975]
+  to_coord: [6.170684695243836, 49.125865687575065]
+  dist: 10
+  finish: 20:30
+- num: 4
+  date: 2016-07-19
+  from: Metz
+  to: Virton
+  from_coord: [6.170684695243836, 49.125865687575065]
+  to_coord: [5.547537803649903, 49.57987482400799]
+  dist: 129
+  start: 10:00
+  finish: 20:00
 - num: 5
-  date: '2016-07-20'
-  dist: 0
+  date: 2016-07-20
+  from: Virton
+  to: Boullion
+  from_coord: [5.547537803649903, 49.57987482400799]
+  to_coord: [5.046345591545106, 49.79176529649598]
+  dist: 73
+  start: 10:00
+  finish: 17:00
 - num: 6
-  date: '2016-07-21'
-  dist: 0
+  date: 2016-07-21
+  from: Boullion
+  to: Chimay
+  from_coord: [5.046345591545106, 49.79176529649598]
+  to_coord: [4.308818578720094, 50.04551703742869]
+  dist: 126
+  start: 08:30
+  finish: 18:00
 - num: 7
-  date: '2016-07-22'
-  dist: 0
+  date: 2016-07-22
+  from: Chimay
+  to: Laon
+  from_coord: [4.308818578720094, 50.04551703742869]
+  to_coord: [3.593999147415161, 49.56308952263877]
+  dist: 110
+  start: 10:00
+  finish: 18:00
 - num: 8
-  date: '2016-07-23'
-  dist: 0
+  date: 2016-07-23
+  from: Laon
+  to: Compiègne
+  from_coord: [3.593999147415161, 49.56308952263877]
+  to_coord: [2.9764902591705327, 49.3542169652291]
+  dist: 109
+  start: 09:00
+  finish: 18:45
 - num: 9
-  date: '2016-07-24'
-  dist: 0
+  date: 2016-07-24
+  from: Pierrefonds
+  from_coord: [2.9764902591705327, 49.3542169652291]
+  dist: 42
 - num: 10
-  date: '2016-07-25'
-  dist: 0
+  date: 2016-07-25
+  from: Pierrefonds
+  from_coord: [2.9764902591705327, 49.3542169652291]
+  dist: 28
 - num: 11
-  date: '2016-07-26'
-  dist: 0
+  date: 2016-07-26
+  from: Pierrefonds
+  to: Doudeauville
+  from_coord: [2.9764902591705327, 49.3542169652291]
+  to_coord: [1.7071402072906496, 49.57132460831832]
+  dist: 133
+  start: 08:15
+  finish: 17:30
 - num: 12
-  date: '2016-07-27'
-  dist: 0
+  date: 2016-07-27
+  from: Doudeauville
+  to: Dieppe
+  from_coord: [1.7071402072906496, 49.57132460831832]
+  to_coord: [1.0922813415527346, 49.9345074326689]
+  dist: 80
 - num: 13
-  date: '2016-07-28'
-  dist: 0
+  date: 2016-07-28
+  from: Newhaven
+  to: Oxford
+  from_coord: [0.053858757019042976, 50.793495018785165]
+  to_coord: [-1.2546837329864504, 51.77203255815649]
+  dist: 195

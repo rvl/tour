@@ -364,19 +364,15 @@ days:
 - accom: camping
   date: '2012-09-03'
   dist: 100
-  end: 0:00
   from: Alexandroupoli
   from_coord: [25.854347, 40.846167]
   num: 42
-  start: 0:00
 - accom: hotel
   date: '2012-09-04'
   dist: 87
-  end: 0:00
   from: Keşan
   from_coord: [26.629541, 40.85003]
   num: 43
-  start: 0:00
 - accom: hotel
   date: '2012-09-05'
   dist: 89
