@@ -7,9 +7,10 @@ days:
 - num: 1
   date: '2017-08-19'
   from: Oxford
-  to: Milton Keynes
+  to: Newport Pagnell
   from_coord: [-1.238665, 51.748607]
   to_coord: [-0.748137, 52.083702]
+  dist: 72
 - num: 2
   date: '2017-08-20'
   dist: 89
@@ -93,6 +94,7 @@ days:
   to: Valence
   from_coord: [5.697628855705261, 45.16665305863656]
   to_coord: [4.885568618774415, 44.89834121859842]
+  dist: 10
 - num: 16
   date: '2017-09-03'
   from: Milton Keynes
