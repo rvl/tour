@@ -7,12 +7,14 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "plugin": "node build/build-plugin.js"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "chart.js": "^2.6.0",
     "flag-icon-css": "^2.8.0",
+    "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "material-components-web": "^0.20.0",
     "moment": "^2.18.1",
