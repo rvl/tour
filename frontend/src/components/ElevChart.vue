@@ -8,12 +8,13 @@
 import axios from 'axios';
 import _ from 'lodash';
 import Chart from 'chart.js';
+import Models from "@/models";
 
 const ceil100 = n => Math.ceil(n / 100) * 100;
 const floor100 = n => Math.floor(n / 100) * 100;
 
 export default {
-  name: "elev-chart",
+  name: "tour-elev-chart",
   props: ["date"],
   data() {
     return {
@@ -26,7 +27,7 @@ export default {
     load() {
       this.data = null;
       this.destroyChart(); // because resizing doesn't work
-      axios.get(`/static/data/elev/${this.date}.json`)
+      axios.get(`${Models.staticUrl}data/elev/${this.date}.json`)
         .then(res => {
           this.mungeData(res.data);
           this.calcHeight();

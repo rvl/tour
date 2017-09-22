@@ -50,6 +50,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import "~flag-icon-css/css/flag-icon.css";
+@import "../styles/settings.scss";
 
 .tour-countries {
   margin-left: 1em;

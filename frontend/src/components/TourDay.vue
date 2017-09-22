@@ -127,49 +127,78 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-h1 {
-  margin: 0px;
-}
+<style lang="scss">
+.tour-day {
+  h1 {
+    margin: 0px;
+  }
 
-.tour-day-popup {
-  position: absolute;
-  top: 1em;
-  left: 4em;
-  right: 4em;
-  max-width: 40em;
-  max-height: 90vh;
-  overflow-y: scroll;
-  border: 2px solid black;
-  border-radius: 8px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
-  background: rgba(255, 255, 255, 0.8);
+  .tour-day-popup {
+    position: absolute;
+    top: 1em;
+    left: 4em;
+    right: 4em;
+    max-width: 40em;
+    max-height: calc(100vh - 120px);
+    overflow-y: scroll;
+    border: 2px solid black;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.8);
 
-  padding: 0.2em 0.5em;
-  z-index: 1000;
+    padding: 0.2em 0.5em;
+    z-index: 1000;
 
-  &.collapsed {
-    max-width: none;
-    right: auto;
+    &.collapsed {
+      max-width: none;
+      right: auto;
+
+      section {
+        display: none;
+      }
+    }
 
     section {
-      display: none;
+      line-height: 1.4em;
+    }
+  }
+
+  .chart-bottom {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    padding: 0.5em 1em 1em 1em;
+
+    background-image: linear-gradient(
+      rgba(255,255,255,0),
+      rgba(255,255,255,0.6)
+    );
+
+    pointer-events: none;
+  }
+
+  section.blog {
+    .info {
+      color: #666;
+      margin-bottom: 1em;
+    }
+
+    .figure {
+      background: black;
+      color: #ddd;
+      padding: 4px;
+
+      p {
+        margin: 0.5em;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+      }
     }
   }
 }
 
-.chart-bottom {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  padding: 0.5em 1em 1em 1em;
-
-  background-image: linear-gradient(
-    rgba(255,255,255,0),
-    rgba(255,255,255,0.6)
-  );
-
-  pointer-events: none;
-}
 </style>

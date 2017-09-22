@@ -203,8 +203,8 @@ export default {
       this.info.tour = info;
       if (info) {
         const icon = colour => L.icon({
-          iconUrl: `/static/images/marker-icon-${colour}.png`,
-          iconRetinaUrl: `/static/images/marker-icon-2x-${colour}.png`,
+          iconUrl: `${Models.staticUrl}images/marker-icon-${colour}.png`,
+          iconRetinaUrl: `${Models.staticUrl}images/marker-icon-2x-${colour}.png`,
           iconSize: [25, 41],
           iconAnchor: [13, 41],
           popupAnchor: [0, -10]

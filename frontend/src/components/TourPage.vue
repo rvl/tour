@@ -15,11 +15,12 @@
 
     <table class="tour-index">
       <thead>
-        <th>Date</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Dist (km)</th>
-        <th></th>
+        <tr>
+          <th class="date">Date</th>
+          <th class="day-from">From</th>
+          <th class="day-to">To</th>
+          <th class="dist">Dist (km)</th>
+        </tr>
       </thead>
       <tbody v-if="loading" class="loading">
         <tr colspan="5"><td>Loading...</td></tr>
@@ -27,14 +28,14 @@
 
       <tbody v-else>
         <tr v-for="d in tour.days">
-          <td>
+          <td class="date">
             <router-link :to="{ name: 'TourDay', params: { date: d.date } }">
               {{ d.date | formatDate }}
             </router-link>
           </td>
           <td class="day-from">{{ d.from }}</td>
           <td class="day-to">{{ d.to }}</td>
-          <td>{{ d.dist || "" }}</td>
+          <td class="dist">{{ d.dist || "" }}</td>
         </tr>
       </tbody>
     </table>
@@ -99,6 +100,27 @@ h1 {
 
   padding: 0.2em 0.5em;
   z-index: 1000;
+}
+
+table.tour-index {
+  border-collapse: collapse;
+  width: 100%;
+
+  thead, tbody  {
+    border-bottom: 1px solid #888;
+  }
+
+  th, td {
+    padding: 0.2em 0.3em;
+  }
+
+  td.dist, th.dist {
+    text-align: right;
+  }
+
+  th.day-from, th.day-to {
+    text-align: left;
+  }
 }
 
 </style>
