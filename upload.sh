@@ -6,12 +6,12 @@ echo "Copying frontend"
 
 rsync -avz                                              \
       --exclude=static/data                             \
-      frontend/dist/                                    \
+      frontend-prototype/dist/                          \
       rodney.id.au:/srv/www/lorrimar.id.au/tour/        \
 
 echo "Copying plugin lib"
 
-rsync -avz frontend/plugin/ rodney.id.au:/srv/www/lorrimar.id.au/tour/
+rsync -avz frontend-prototype/plugin/ rodney.id.au:/srv/www/lorrimar.id.au/tour/
 
 echo "Copying data files"
 
