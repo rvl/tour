@@ -68,7 +68,7 @@ h1 {
 .tour-list-popup {
   position: absolute;
   top: 1em;
-  left: 4em;
+  right: 4em;
   border: 2px solid black;
   border-radius: 8px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);

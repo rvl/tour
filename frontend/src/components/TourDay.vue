@@ -136,7 +136,6 @@ export default {
   .tour-day-popup {
     position: absolute;
     top: 1em;
-    left: 4em;
     right: 4em;
     max-width: 40em;
     max-height: calc(100vh - 120px);
@@ -151,7 +150,7 @@ export default {
 
     &.collapsed {
       max-width: none;
-      right: auto;
+      left: auto;
 
       section {
         display: none;

@@ -90,7 +90,7 @@ h1 {
 .tour-page-index-popup {
   position: absolute;
   top: 1em;
-  left: 4em;
+  right: 4em;
   max-height: 90vh;
   overflow-y: scroll;
   border: 2px solid black;
