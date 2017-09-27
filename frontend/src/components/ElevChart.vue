@@ -47,7 +47,7 @@ export default {
       const axisHeight = 30;
       this.maxElev = ceil100(_.maxBy(this.data, "ele").ele);
       this.minElev = floor100(_.minBy(this.data, "ele").ele);
-      this.chartHeight = axisHeight + (this.maxElev - this.minElev) * 0.2;
+      this.chartHeight = axisHeight + (this.maxElev - this.minElev) * 0.1;
     },
     setTicks() {
       // requires calcHeight to be called previously
