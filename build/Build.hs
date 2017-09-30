@@ -14,7 +14,8 @@ import qualified Data.ByteString.Lazy.Char8 as BLS8
 import Data.Aeson (ToJSON, encode)
 import Data.Text.Lazy.Encoding (decodeUtf8)
 
-import Tour
+import Types
+import TourJson
 import Track
 import Data.Yaml (encodeFile, decodeFileEither)
 

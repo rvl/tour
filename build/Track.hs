@@ -1,4 +1,4 @@
-{-# LANGUAGE Arrows, DeriveGeneric, OverloadedStrings #-}
+{-# LANGUAGE Arrows, OverloadedStrings #-}
 
 module Track (loadTrackPoints, loadCalcElev, renameTracks) where
 
@@ -9,15 +9,14 @@ import Data.Time.Format (parseTimeM, defaultTimeLocale)
 import Data.Time.Clock.POSIX (POSIXTime, utcTimeToPOSIXSeconds)
 import qualified Data.ByteString.Lazy as BLS
 import Control.Monad (void)
-import GHC.Generics
-
-import Data.Aeson
 
 import Text.XML.HXT.Core
 import Text.XML.HXT.XPath.Arrows
 
 import Naqsha.Geometry
 import Naqsha.Geometry.Spherical (distance)
+
+import Types
 
 data TrackPoint = TrackPoint Geo UTCTime Double deriving Show
 
@@ -27,15 +26,6 @@ loadTrackPoints src = catMaybes <$> runX process
           readDocument [withValidate no] src
           >>>
           processDocumentRootElement
-
-data ElevPoint = ElevPoint
-                 { ptElev :: Double
-                 , ptDist :: Double
-                 , ptTime :: POSIXTime
-                 } deriving (Generic, Show)
-
-instance ToJSON ElevPoint where
-  toJSON (ElevPoint e s t) = object ["ele" .= e, "dist" .= s, "time" .= t]
 
 loadCalcElev :: FilePath -> IO [ElevPoint]
 loadCalcElev src = calcElev <$> loadTrackPoints src

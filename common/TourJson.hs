@@ -2,32 +2,24 @@
 {-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE CPP #-}
 
-module Tour
-   ( Tour(..)
-   , TourDay(..)
-   , tourSummary
-   , tourDates
-   , tourDates'
-   , formatDate
-   , dashesDate
-   , undashesDate
-   ) where
+module TourJson where
 
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as LT
 import Data.Time.Calendar (Day)
 import Data.Time.Format (parseTimeM, defaultTimeLocale, formatTime, iso8601DateFormat)
 import Data.Time.LocalTime (LocalTime, TimeOfDay)
-import Data.Time.LocalTime (LocalTime, TimeOfDay)
+import Data.Time.Clock.POSIX (POSIXTime)
+import Data.Time.Clock (NominalDiffTime)
 import Data.Map (Map, fromList)
 import Data.Maybe (catMaybes)
 import Data.List (intercalate)
 import Data.Aeson
-import Data.Aeson.Types (camelTo2, Options(..), Parser(..), typeMismatch)
+import Data.Aeson.Types
 import Data.Monoid
 import Control.Monad (forM)
-import Data.Yaml (encodeFile)
 import Data.Text (Text)
 import GHC.Generics
 import qualified Data.Map as M
@@ -35,60 +27,16 @@ import qualified Data.Vector as V
 import Naqsha.Geometry
 import Data.Scientific (toRealFloat)
 
-data TourDay = TourDay
-    { dayNum  :: Int
-    , dayDate  :: Day
-    , dayStart :: Maybe TimeOfDay
-    , dayEnd   :: Maybe TimeOfDay
-    , dayFrom  :: Text
-    , dayTo    :: Text
-    , dayFromCoord :: Maybe Geo
-    , dayToCoord   :: Maybe Geo
-    , dayDist  :: Int
-    } deriving (Generic, Show)
-
-data Tour = Tour
-    { tourName  :: Text
-    , tourDescription :: Text
-    , tourDays  :: [TourDay]
-    , tourStart :: Maybe Day
-    , tourEnd  :: Maybe Day
-    , tourCountries :: [Text]
-    } deriving (Generic, Show)
-
-tourDates :: Tour -> [Day]
--- tourDates Tour{..} = catMaybes $ map (parseDate . dayDate) tourDays
-tourDates = map dayDate . tourDays
-
-tourDates' :: Tour -> [String]
-tourDates' = map formatDate . tourDates
-
-parseDate :: Text -> Maybe Day
-parseDate = parseTimeM True defaultTimeLocale "%Y-%m-%d" . T.unpack
-
-formatDate :: Day -> String
-formatDate = formatTime defaultTimeLocale (iso8601DateFormat Nothing)
-
-dashesDate :: String -> String
-dashesDate d = intercalate "-" [y, m, d']
-  where
-    (y, y') = splitAt 4 d
-    (m, m') = splitAt 2 y'
-    (d', _)  = splitAt 2 m'
-
-undashesDate :: String -> String
-undashesDate = filter (/= '-')
+import Types
 
 prefixOptions :: Options
-prefixOptions = defaultOptions { fieldLabelModifier = drop 1 . dropWhile (/= '_') . camelTo2 '_' }
+prefixOptions = defaultOptions { fieldLabelModifier = drop 1 . dropWhile (/= '_') . camel }
 
 instance ToJSON TourDay where
   toJSON = genericToJSON prefixOptions
-  toEncoding = genericToEncoding prefixOptions
 
 instance ToJSON Tour where
   toJSON = genericToJSON prefixOptions
-  toEncoding = genericToEncoding prefixOptions
 
 instance ToJSON Geo where
   toJSON (Geo lat' lon') = Array (V.fromList [num lon', num lat'])
@@ -146,11 +94,26 @@ instance FromJSON Latitude where
 instance FromJSON Longitude where
   parseJSON = parseCoord lon
 
-renumber :: [TourDay] -> [TourDay]
-renumber = id
+instance ToJSON ElevPoint where
+  toJSON (ElevPoint e s t) = object ["ele" .= e, "dist" .= s, "time" .= t]
 
-parseTimeOfDay :: Monad m => String -> m TimeOfDay
-parseTimeOfDay = parseTimeM True defaultTimeLocale "%l:%M"
+----------------------------------------------------------------------------
 
-tourSummary :: [(String, Tour)] -> Map String Tour
-tourSummary = M.fromList . map (\(n, t) -> (n, t { tourDays = []}))
+#if !MIN_VERSION_aeson(1,0,0)
+instance ToJSON Day where
+  toJSON _ = object []
+instance ToJSON TimeOfDay where
+  toJSON _ = object []
+instance ToJSON NominalDiffTime where
+  toJSON _ = object []
+instance FromJSON Day where
+  parseJSON _ = undefined
+instance FromJSON TimeOfDay where
+  parseJSON _ = undefined
+instance FromJSON NominalDiffTime where
+  parseJSON _ = undefined
+
+camel = camelTo '_'
+#else
+camel = camelTo2 '_'
+#endif
