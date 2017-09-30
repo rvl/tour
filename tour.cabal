@@ -1,0 +1,73 @@
+name:                tour
+version:             0.1.0.0
+synopsis:            Tour frontend
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+license:             GPL-3
+
+executable tour
+  main-is:             Main.hs
+  build-depends:       base
+                     , miso >= 0.7.8.0
+                     , servant
+                     , text
+                     , time
+                     , naqsha
+                     , containers
+                     , aeson
+                     , scientific
+                     , vector
+                     , bytestring
+  if !impl(ghcjs)
+    buildable: False
+  else
+    -- ghcjs-options:      -dedupe
+    hs-source-dirs:
+      frontend, common
+    cpp-options:       -DGHCJS_BROWSER
+    build-depends:     ghcjs-base
+  --   hs-source-dirs:    src-ghcjs
+  -- else
+  --   hs-source-dirs:    src-ghc
+
+  default-language:    Haskell2010
+  default-extensions:  OverloadedStrings
+                     , ScopedTypeVariables
+
+executable server
+  main-is:
+    Main.hs
+  if impl(ghcjs)
+    buildable: False
+  else
+    ghc-options:
+      -O2 -threaded -Wall -rtsopts
+    hs-source-dirs:
+      server, common
+    build-depends:
+      aeson,
+      base < 5,
+      containers,
+      http-types,
+      lucid,
+      miso,
+      mtl,
+      network-uri,
+      servant,
+      servant-lucid,
+      servant-server,
+      wai,
+      wai-extra,
+      warp
+      , hxt
+      , hxt-xpath
+      , hxt-xslt
+      , hxt-relaxng
+      , hxt-expat
+      , naqsha
+      , safe
+      , yaml
+
+    default-language:
+      Haskell2010
