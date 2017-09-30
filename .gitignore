@@ -8,4 +8,5 @@
 /GPS_DATA/*.TXT
 /GPS_DATA/*.NMEA
 /GPS_DATA/*.BIN
+/tracks/*.gpx
 __pycache__
