@@ -9,15 +9,17 @@ let
           hxt-xslt
           hxt-relaxng
           hxt-expat
-          dhall
           naqsha
           safe
           aeson
           yaml
+          warp
+          wai-app-static
+          optparse-applicative
         ]);
 in
 pkgs.stdenv.mkDerivation {
   name = "my-haskell-env-0";
-  buildInputs = [ ghc pkgs.gpsbabel pkgs.xmlstarlet ];
+  buildInputs = [ ghc pkgs.gpsbabel pkgs.xmlstarlet pkgs.sassc ];
   shellHook = "eval $(egrep ^export ${ghc}/bin/ghc)";
 }

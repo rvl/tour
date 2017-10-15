@@ -1,0 +1,8 @@
+# Styx is just for dante editor support.
+# Problem with using styx etc is that miso requires ghcjs.
+# There is no Miso.Router without ghcjs.
+local-packages:
+  tour:
+    location: .
+
+default-compiler: ghc802
