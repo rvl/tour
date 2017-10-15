@@ -28,7 +28,7 @@ executable tour
   if !impl(ghcjs)
     buildable: False
   else
-    -- ghcjs-options:      -dedupe
+    ghcjs-options:      -dedupe
     hs-source-dirs:
       frontend, common
     cpp-options:       -DGHCJS_BROWSER

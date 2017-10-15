@@ -13,6 +13,7 @@ import Control.Monad (when)
 import qualified Data.ByteString.Lazy.Char8 as BLS8
 import Data.Aeson (ToJSON, encode)
 import Data.Text.Lazy.Encoding (decodeUtf8)
+import System.Directory (pathIsSymbolicLink, createDirectoryIfMissing)
 
 import Types
 import TourJson
@@ -41,9 +42,9 @@ main = do
   shakeArgs shakeOptions{shakeFiles=buildDir} $ do
     want $ map build ["sha1sums", "index.json", "all-tracks.json"]
 
-    phony "clean" $ do
-      putNormal "Cleaning files in _build"
-      removeFilesAfter "_build" ["//*"]
+    phony "clean" $ need ["clean-data", "clean-frontend"]
+
+    phony "clean-data" $ cleanDir buildDir
 
     build "*.yaml" %> \out ->
       case lookup (takeBaseName out) tours of
@@ -154,6 +155,68 @@ main = do
           putNormal $ "Writing tour info " ++ out
           writeJsonFile out tour
         Nothing -> fail $ "tour " ++ name ++ " not found"
+
+    frontendRules "_www"
+
+cleanDir :: FilePath -> Action ()
+cleanDir d = do
+  putNormal $ "Cleaning files in " <> show d
+  removeFilesAfter d ["//*"]
+
+ghcjsDist = "dist-ghcjs" :: FilePath
+jsexe = ghcjsDist </> "build/tour/tour.jsexe" :: FilePath
+
+frontendRules :: FilePath -> Rules ()
+frontendRules wwwDir = do
+  let www = (wwwDir </>)
+      frontend = ("frontend" </>)
+      cabalJS args = cmd "nix-shell frontend.nix --argstr compiler ghcjsHEAD --run" ["cabal --builddir=" ++ ghcjsDist ++ " " ++ args]
+
+  want [www "index.html"]
+
+  phony "clean-frontend" $ do
+    cleanDir wwwDir
+    cleanDir ghcjsDist
+
+  www "index.html" %> \out -> do
+    -- site needs index.html, minified js, stylesheet, images
+    need $ map www ["all.js", "static/tour.css"]
+    copyFileChanged (frontend "index.html") out
+    images <- getDirectoryFiles "" [frontend "static/images/*"]
+    liftIO $ createDirectoryIfMissing True (www "static/images")
+    mapM_ (\f -> copyFile' f (www "static/images" </> takeFileName f)) images
+
+  www "static/tour.css" %> \out -> do
+    cmd "sassc" (frontend "tour.sass") out
+
+  ghcjsDist </> "setup-config" %> \out -> do
+    need ["tour.cabal"]
+    -- cmd "nix-shell frontend.nix --argstr compiler ghcjsHEAD --run" ["cabal configure --ghcjs --builddir=" ++ ghcjsDist]
+    cabalJS "configure --ghcjs"
+
+  jsexe </> "all.js" %> \out -> do
+    needHaskellSources
+    -- cmd "cabal build" ["--builddir=" ++ ghcjsDist]
+    cabalJS "build"
+
+  jsexe </> "*.min.js" %> \out -> do
+    let maxi = dropExtension out -<.> "js"
+        externs = maxi <.> "externs"
+    need [maxi]
+    Stdout mini <- cmd "closure-compiler" [maxi] "--compilation_level=ADVANCED_OPTIMIZATIONS" ["--externs=" ++ externs]
+    writeFileChanged out mini
+
+  www "*.js" %> \out -> copyFile' (jsexe </> takeFileName out) out
+
+  www "*.js.gz" %> \out -> do
+    let js = dropExtension out
+    need [js]
+    cmd "zopfli -i1000" [js]
+
+needHaskellSources :: Action ()
+needHaskellSources = do
+  sources <- getDirectoryFiles "" ["common//*.hs", "frontend//*.hs"]
+  need ((ghcjsDist </> "setup-config") : sources)
 
 gpsbabel :: [String]   -- ^ filters
          -> String     -- ^ input formaat

@@ -1,0 +1,23 @@
+{
+  "name": "tour",
+  "authors": [
+    "Rodney Lorrimar <dev@rodney.id.au>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "GPL3",
+  "homepage": "http://lorrimar.id.au/tour/",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "components-font-awesome": "^4.7.0",
+    "leaflet": "^1.2.0",
+    "chart.js": "Chart.js#^2.7.0"
+  }
+}
