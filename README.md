@@ -24,7 +24,7 @@ nix-shell --run ./build.sh
 nix-shell app.nix
 cabal configure --ghcjs --builddir=dist-ghcjs
 cabal build --builddir=dist-ghcjs
-sassc frontend/static/tour.sass frontend/static/tour.css
+sassc frontend/tour.sass frontend/static/tour.css
 ```
 
 ## Serve frontend
