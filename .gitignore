@@ -10,3 +10,7 @@
 /GPS_DATA/*.BIN
 /tracks/*.gpx
 __pycache__
+/dist/
+/dist-ghcjs/
+/.styx/
+/cabal.sandbox.config

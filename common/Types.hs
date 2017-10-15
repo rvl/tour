@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveAnyClass    #-}
 {-# LANGUAGE DeriveGeneric     #-}
+{-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 
@@ -9,7 +10,7 @@ module Types
   , tourSummary
   , tourDates
   , tourDates'
-  , formatDate
+  , formatISODate
   , dashesDate
   , undashesDate
   , renumber
@@ -29,16 +30,19 @@ import Data.Map (Map)
 import Data.List (intercalate)
 
 data TourDay = TourDay
-    { dayNum  :: Int
-    , dayDate  :: Day
-    , dayStart :: Maybe TimeOfDay
-    , dayEnd   :: Maybe TimeOfDay
-    , dayFrom  :: Text
-    , dayTo    :: Text
+    { dayNum       :: Int
+    , dayDate      :: Day
+    , dayStart     :: Maybe TimeOfDay
+    , dayEnd       :: Maybe TimeOfDay
+    , dayFrom      :: Text
+    , dayTo        :: Text
     , dayFromCoord :: Maybe Geo
     , dayToCoord   :: Maybe Geo
-    , dayDist  :: Int
-    } deriving (Generic, Show, Eq)
+    , dayDist      :: Int
+    -- , dayBlog  :: URI
+    } deriving (Generic, Show, Eq, Ord)
+
+deriving instance Ord Geo
 
 data Tour = Tour
     { tourName  :: Text
@@ -50,17 +54,17 @@ data Tour = Tour
     } deriving (Generic, Show, Eq)
 
 tourDates :: Tour -> [Day]
--- tourDates Tour{..} = catMaybes $ map (parseDate . dayDate) tourDays
+-- tourDates Tour{..} = catMaybes $ map (parseISODate . dayDate) tourDays
 tourDates = map dayDate . tourDays
 
 tourDates' :: Tour -> [String]
-tourDates' = map formatDate . tourDates
+tourDates' = map formatISODate . tourDates
 
-parseDate :: Text -> Maybe Day
-parseDate = parseTimeM True defaultTimeLocale "%Y-%m-%d" . T.unpack
+parseISODate :: Text -> Maybe Day
+parseISODate = parseTimeM True defaultTimeLocale "%Y-%m-%d" . T.unpack
 
-formatDate :: Day -> String
-formatDate = formatTime defaultTimeLocale (iso8601DateFormat Nothing)
+formatISODate :: Day -> String
+formatISODate = formatTime defaultTimeLocale (iso8601DateFormat Nothing)
 
 dashesDate :: String -> String
 dashesDate d = intercalate "-" [y, m, d']
@@ -85,4 +89,4 @@ data ElevPoint = ElevPoint
                  { ptElev :: Double
                  , ptDist :: Double
                  , ptTime :: POSIXTime
-                 } deriving (Generic, Show)
+                 } deriving (Generic, Show, Eq)

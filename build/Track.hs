@@ -17,6 +17,7 @@ import Naqsha.Geometry
 import Naqsha.Geometry.Spherical (distance)
 
 import Types
+import Simplify
 
 data TrackPoint = TrackPoint Geo UTCTime Double deriving Show
 
@@ -28,7 +29,8 @@ loadTrackPoints src = catMaybes <$> runX process
           processDocumentRootElement
 
 loadCalcElev :: FilePath -> IO [ElevPoint]
-loadCalcElev src = calcElev <$> loadTrackPoints src
+loadCalcElev src = simplify . calcElev <$> loadTrackPoints src
+  where simplify = enpeuck 5
 
 calcElev :: [TrackPoint] -> [ElevPoint]
 calcElev = calc 0 . filter hasElev

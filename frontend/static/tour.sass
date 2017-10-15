@@ -1,0 +1,266 @@
+// 1. Import the initial variables
+@import "bulma/sass/utilities/initial-variables"
+
+// 2. Set your own initial variables
+// Update blue
+//$blue: #72d0eb
+// Add pink and its invert
+//$pink: #ffb3b3
+//$pink-invert: #fff
+// Add a serif family
+//$family-serif: "Merriweather", "Georgia", serif
+
+// 3. Set the derived variables
+// Use the new pink as the primary color
+//$primary: $pink
+//$primary-invert: $pink-invert
+// Use the existing orange as the danger color
+//$danger: $orange
+// Use the new serif family
+//$family-primary: $family-serif
+
+// 4. Import the rest of Bulma
+@import "bulma/bulma"
+
+.hidden
+  display: none !important
+
+body
+  display: flex
+  flex-direction: column
+
+body::-webkit-scrollbar
+    display: none
+
+$mobile-split: 50vh
+
+.tour-main
+  display: flex
+  flex-direction: column
+
+.tour-map-container
+  display: flex
+  flex-direction: row
+  flex: 1 1 auto
+
+.elev-chart-container
+  background-image: linear-gradient(rgba(255, 255, 255, 0.0) 50%, rgba(255, 255, 255, 0.8))
+  pointer-events: none
+
+// position main view above map
+.main-view
+  display: flex
+  flex-direction: column
+  position: absolute;
+  z-index: 1000
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  pointer-events: none
+
+.tour-list, .tour-day, .tour-page-index
+  & > header, & > section
+    pointer-events: all
+
++touch
+  .tour-map
+    width: 100%
+    height: $mobile-split
+
+  .elev-chart-container
+    position: absolute
+    left: 0
+    right: 0
+    bottom: $mobile-split
+    z-index: 1000
+    max-height: 20vh
+
+  .main-view
+    & > .tour-list, & > .tour-day, & > .tour-page-index
+      position: absolute
+      left: 0
+      right: 0
+      top: 0
+      bottom: 0
+
+  .tour-list
+    font-size: 1.5rem
+    table
+      width: 100%
+
+  .tour-page-index
+    font-size: 1.5rem
+    table
+      width: 100%
+
+  .tour-list > header, .tour-day > header, .tour-page-index > header
+    position: absolute
+    top: 0
+    right: 0
+
+    background-color: rgba(255, 255, 255, 0.8)
+    border-left: 2px solid black
+    border-bottom: 2px solid black
+    border-bottom-left-radius: 8px
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4)
+
+    padding: 0.5em 1em;
+
+    h1
+      color: #363636
+      font-size: 3rem
+      font-weight: 600
+      line-height: 1.125
+
+    nav.breadcrumb
+      font-size: 2rem
+      margin-bottom: 0
+
+    nav.tour-nav
+      flex: 1 0 auto
+      margin-bottom: 0.5rem
+
+      // nice big buttons for mobile
+      font-size: 2rem
+      .icon
+        height: 3rem
+        width: 3rem
+
+    button.toggle-content
+      display: none
+
+  .tour-list > section, .tour-day > section, .tour-page-index > section
+    position: absolute;
+    left: 0
+    right: 0
+    top: $mobile-split
+    bottom: 0
+    padding-top: 0.5em
+    overflow-y: scroll
+
+  .tour-day > section
+    padding-left: 1rem
+    padding-right: 1rem
+
+  .tour-day.loading
+    position: absolute
+    right: 0
+    bottom: 0
+
+  .leaflet-control-container > .leaflet-bottom.leaflet-right
+    display: none // fixme: put it somewhere
+
+  section.blog
+    font-size: 1.5rem
+
++desktop
+  .tour-map
+    width: 100vw
+    height: 100vh
+
+  .elev-chart-container
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 0
+    padding-bottom: 10px // leave space for attribution control
+    z-index: 1000
+
+  // show controls above elevation chart
+  .leaflet-control-container > .leaflet-bottom.leaflet-right
+    z-index: 1001
+
+  .main-view
+    & > .tour-list, & > .tour-day, & > .tour-page-index
+      pointer-events: all
+      position: absolute
+      right: 0
+      top: 0
+      max-width: 50vw
+
+      background-color: rgba(255, 255, 255, 0.8)
+      border-left: 2px solid black
+      border-bottom: 2px solid black
+      border-bottom-left-radius: 8px
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4)
+
+      padding: 0.5rem 0rem 0.5rem 1rem;
+
+      &.loading
+        padding: 0.5rem 1rem
+        color: #888
+
+  .tour-list > section, .tour-day > section, .tour-page-index > section
+    //margin-top: 6rem
+    max-height: 80vh
+    overflow-y: scroll
+
+  .tour-list > header, .tour-day > header, .tour-page-index > header
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    height: 6rem;
+    margin-bottom: 0.5em;
+    padding-right: 1rem
+
+    h1
+      color: #363636
+      font-size: 2rem
+      font-weight: 600
+      line-height: 1.125
+      white-space: nowrap
+
+    nav.breadcrumb
+      margin-bottom: 0
+
+  .tour-day > header
+    padding-right: 0
+
+  section.blog
+    line-height: 2
+
+.tour-list, .tour-page-index
+  table
+    width: 100%
+    margin-bottom: 0.5rem;
+    background-color: transparent
+    & > tbody > tr
+      cursor: pointer
+      
+section.blog
+  .info
+    color: #666
+    margin-bottom: 1em
+
+  .figure
+    background: black
+    color: #ddd
+    padding: 4px
+
+    p
+      margin: 0.5em
+
+    img
+      width: 100%
+      height: auto
+
+header
+  & > .buttons
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
+
+  & > nav.buttons
+    padding-right: 1rem
+    & > button
+      margin-right: 0.5em
+
+  nav.tour-nav
+    display: flex
+    justify-content: flex-end;
+    flex: 1 1 auto;
+    & > .button
+      margin-left: 0.5em
+    

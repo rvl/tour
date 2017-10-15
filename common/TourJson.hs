@@ -75,9 +75,7 @@ instance FromJSON TourDay where
   parseJSON v          = typeMismatch "TourDay" v
 
 instance FromJSON Geo where
-  parseJSON (Object v) = Geo <$>
-                         v .: "lat" <*>
-                         v .: "lon"
+  parseJSON (Object v) = Geo <$> v .: "lat" <*> v .: "lng"
   parseJSON (Array a) = case V.toList a of
     [lon', lat'] -> Geo <$> parseJSON lon' <*> parseJSON lat'
     _ -> fail "expected length 2 array"
@@ -96,6 +94,13 @@ instance FromJSON Longitude where
 
 instance ToJSON ElevPoint where
   toJSON (ElevPoint e s t) = object ["ele" .= e, "dist" .= s, "time" .= t]
+
+instance FromJSON ElevPoint where
+  parseJSON (Object v) = ElevPoint
+                         <$> v .: "ele"
+                         <*> v .: "dist"
+                         <*> v .: "time"
+  parseJSON v = typeMismatch "ElevPoint" v
 
 ----------------------------------------------------------------------------
 

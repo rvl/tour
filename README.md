@@ -21,10 +21,35 @@ nix-shell --run ./build.sh
 ## Frontend build
 
 ```
-nix-shell frontend.nix
-cabal configure --ghcjs
+nix-shell app.nix
+cabal configure --ghcjs --builddir=dist-ghcjs
+cabal build --builddir=dist-ghcjs
+sassc frontend/static/tour.sass frontend/static/tour.css
+```
+
+## Serve frontend
+
+```
+nix-shell --run "runghc DevServer.hs"
+```
+
+## Backend build
+
+This is not building at the moment, and "isomorphic" version of this
+app doesn't really make sense anyway.
+
+```
+nix-shell app.nix --argstr compiler default
+cabal configure
 cabal build
-cp frontend/index.html dist/build/tour/tour.jsexe/
-cd dist/build/tour/tour.jsexe
-python3 -m http.server --bind localhost 8000
+```
+
+## Regenerating nix
+
+If adding cabal dependencies, regenerate nix derivations and restart
+shells.
+
+```
+cabal2nix . > tour-ghc.nix
+cabal2nix --compiler ghcjs . > tour-ghcjs.nix
 ```
