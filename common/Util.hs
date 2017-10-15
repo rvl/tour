@@ -14,8 +14,11 @@ foreign import javascript unsafe "$r = JSON.stringify($1);"
   js_stringify :: JSVal -> JSString
 
 -- | Loads a JSON string into a JSVal
-foreign import javascript unsafe "$r = JSON.parse($1);"
-  js_parse :: JSString -> JSVal
+foreign import javascript unsafe "try { $r = JSON.parse($1); } catch (e) { $r = null; }"
+  js_parse :: JSString -> Nullable JSVal
+
+parseJSVal :: JSString -> Maybe JSVal
+parseJSVal = nullableToMaybe . js_parse
 
 foreign import javascript unsafe "$r = document.getElementById($1);"
   js_getElementById :: JSString -> IO (Nullable JSVal)

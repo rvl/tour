@@ -128,8 +128,8 @@ getJSON cfg name = do
 getGeoJSON :: Config -> MisoString -> IO GeoData
 getGeoJSON cfg name = do
   res <- contents <$> xhr (jsonReq' cfg name)
-  case res of
-    Just body -> pure . GeoData . js_parse $ body
+  case res >>= parseJSVal of
+    Just body -> pure (GeoData body)
     Nothing -> error "no result"
 
 jsonReq :: Config -> MisoString -> IO (Maybe ByteString)
