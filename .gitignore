@@ -14,3 +14,4 @@ __pycache__
 /dist-ghcjs/
 /.styx/
 /cabal.sandbox.config
+/frontend/static/tour.css
