@@ -26,6 +26,7 @@ import qualified Data.Map as M
 import qualified Data.Vector as V
 import Naqsha.Geometry
 import Data.Scientific (toRealFloat)
+import Network.URI (URI(..), parseURI)
 
 import Types
 
@@ -65,11 +66,12 @@ instance FromJSON TourDay where
                          v .:? "to" .!= "" <*>
                          v .:? "from_coord" <*>
                          v .:? "to_coord" <*>
-                         v .:? "dist" .!= 0
+                         v .:? "dist" .!= 0 <*>
+                         v .:? "blog"
 
   parseJSON (String d) = do
     d' <- parseJSON (String d)
-    return $ TourDay 0 d' Nothing Nothing "" "" Nothing Nothing 0
+    return $ TourDay 0 d' Nothing Nothing "" "" Nothing Nothing 0 Nothing
 
   -- A non-Object value is of the wrong type, so fail.
   parseJSON v          = typeMismatch "TourDay" v
@@ -80,7 +82,6 @@ instance FromJSON Geo where
     [lon', lat'] -> Geo <$> parseJSON lon' <*> parseJSON lat'
     _ -> fail "expected length 2 array"
   parseJSON v = typeMismatch "Geo" v
-
 
 parseCoord :: (Angle -> a) -> Value -> Parser a
 parseCoord coord (Number n) = pure . coord . degree . toRational . toRealFloat $ n
@@ -101,6 +102,14 @@ instance FromJSON ElevPoint where
                          <*> v .: "dist"
                          <*> v .: "time"
   parseJSON v = typeMismatch "ElevPoint" v
+
+instance ToJSON URI where
+  toJSON = String . T.pack . show
+
+instance FromJSON URI where
+  parseJSON (String u) = case parseURI (T.unpack u) of
+                           Just uri -> pure uri
+                           Nothing  -> fail "Not a valid URI"
 
 ----------------------------------------------------------------------------
 

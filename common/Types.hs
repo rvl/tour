@@ -11,6 +11,7 @@ module Types
   , tourDates
   , tourDates'
   , formatISODate
+  , parseISODate
   , dashesDate
   , undashesDate
   , renumber
@@ -28,6 +29,7 @@ import Naqsha.Geometry
 import qualified Data.Map as M
 import Data.Map (Map)
 import Data.List (intercalate)
+import Network.URI (URI)
 
 data TourDay = TourDay
     { dayNum       :: Int
@@ -39,7 +41,7 @@ data TourDay = TourDay
     , dayFromCoord :: Maybe Geo
     , dayToCoord   :: Maybe Geo
     , dayDist      :: Int
-    -- , dayBlog  :: URI
+    , dayBlog      :: Maybe URI
     } deriving (Generic, Show, Eq, Ord)
 
 deriving instance Ord Geo
