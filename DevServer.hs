@@ -18,6 +18,8 @@ import Network.Wai.Middleware.Rewrite
 import Network.Wai.UrlMap
 import Control.Applicative
 import qualified Data.Text as T
+import Data.Maybe (fromMaybe)
+import System.Environment (lookupEnv)
 
 main :: IO ()
 main = devServerMain "127.0.0.1" 8000
@@ -27,16 +29,21 @@ devServerMain :: String -> Port -> IO ()
 devServerMain host port = do
   putStrLn $ "Running dev server on " <> host <> ":" <> show port
 
-  let app = logStdoutDev (devServer "frontend" "dist-ghcjs/build/tour/tour.jsexe")
+  bc <- fromMaybe "frontend" <$> lookupEnv "BOWER_COMPONENTS"
+  let app = logStdoutDev (devServer
+                          "frontend"
+                          "dist-ghcjs/build/tour/tour.jsexe"
+                          (bc </> "bower_components"))
 
   runSettings (defaultSettings & setTimeout 3600 & setPort port & setHost (fromString host)) app
 
 -- Serve static files and javascript from build directory.
 -- Any other route will result in the SPA html.
-devServer :: FilePath -> FilePath -> Application
-devServer frontend jsexe = rewriteJS (mapUrls urls)
+devServer :: FilePath -> FilePath -> FilePath -> Application
+devServer frontend jsexe bc = rewriteJS (mapUrls urls)
   where urls = mount "static" (staticServer (frontend </> "static"))
                <|> mount "jsexe" (staticServer jsexe)
+               <|> mount "bower_components" (staticServer bc)
                <|> mountRoot (serveFile (frontend </> "index.html"))
             
 -- | Static file server with caching disabled.
@@ -51,5 +58,5 @@ serveFile f req respond = respond (responseFile status200 [] f Nothing)
 rewriteJS :: Middleware
 rewriteJS = rewritePureWithQueries $ \(ps, qs) _ -> (rewrite ps, qs)
   where
-    rewrite ps = if T.isSuffixOf ".js" f then ["jsexe", f] else ps
-      where f = if null ps then "" else last ps
+    rewrite [p] = if T.isSuffixOf ".js" p then ["jsexe", p] else [p]
+    rewrite ps = ps
