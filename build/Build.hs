@@ -181,13 +181,15 @@ frontendRules wwwDir = do
   www "index.html" %> \out -> do
     -- site needs index.html, minified js, stylesheet, images
     need $ map www ["all.js", "static/tour.css"]
-    copyFileChanged (frontend "index.html") out
+    copyFileChanged (frontend "index-prod.html") out
     images <- getDirectoryFiles "" [frontend "static/images/*"]
     liftIO $ createDirectoryIfMissing True (www "static/images")
-    mapM_ (\f -> copyFile' f (www "static/images" </> takeFileName f)) images
+    mapM_ (\f -> copyFileChanged f (www "static/images" </> takeFileName f)) images
 
   www "static/tour.css" %> \out -> do
-    cmd "sassc" (frontend "tour.sass") out
+    let src = frontend "tour.sass"
+    need [src]
+    cmd "sassc" src out
 
   ghcjsDist </> "setup-config" %> \out -> do
     need ["tour.cabal"]
