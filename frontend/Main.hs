@@ -51,16 +51,17 @@ import Fetch
 -- | Main entry point
 main :: IO ()
 main = do
+  cfg <- initConfig <$> getBaseURI
   currentURI <- getCurrentURI
-  ref <- newIORef (nullContext initConfig)
-  startApp App { model = initModel initConfig currentURI
+  ref <- newIORef (nullContext cfg)
+  startApp App { model = initModel cfg currentURI
                , update = updateModel ref, ..}
   where
     initialAction = Init
     events = defaultEvents
     subs   = [ uriSub HandleURI
              , layerClickSub HandleLayerClick ]
-    view m = either (const $ the404 m) (mainView m) $
+    view m = either (const $ mainView m the404) (mainView m) $
              runRoute (Proxy :: Proxy ClientRoutes) clientHandlers m
 
 -- | HasURI typeclass instance
@@ -76,9 +77,9 @@ updateModel :: IORef Context -> Action -> Model -> Effect Action Model
 updateModel ref Init m = m <# do
   initContext (config m) ref
   pure NoOp
-updateModel _ (HandleURI u) m = Effect (m { uri = u }) (viewHook m)
+updateModel _ (HandleURI u) m = Effect (m { uri = unfixURI m u }) (viewHook m)
 updateModel _ (ChangeURI u) m = m <# do
-  pushURI (fixUri u)
+  pushURI (fixURI m u)
   pure NoOp
 updateModel ref (SetRouteView v) m = (m { routeView = v }) <# do
   ctx <- readIORef ref
@@ -180,9 +181,9 @@ nullContext cfg = Context noop noop (const $ const noop) noop (newFetchCache cfg
   where noop = const $ pure ()
 
 initContext :: Config -> IORef Context -> IO ()
-initContext cfg@Config{..} ref = do
+initContext cfg ref = do
   updateElevChart <- initElevChartContext
-  (setMapData, setMapView, ctxSetInfoTour) <- initMapViewContext cfgMapBoxToken
+  (setMapData, setMapView, ctxSetInfoTour) <- initMapViewContext cfg
   writeIORef ref Context { fetchCache = newFetchCache cfg, .. }
 
 ----------------------------------------------------------------------------
@@ -214,16 +215,19 @@ initLeaflet accessToken sel = do
   addLayer l mapbox
   return l
 
-testFunc :: FetchThing GeoData -> String
-testFunc _ = "yo"
-
-initMapViewContext :: MisoString -> IO ( FetchThing GeoData -> GeoData -> Model -> IO ()
-                                       , RouteView -> IO ()
-                                       , Tour -> IO () )
-initMapViewContext mapBoxToken = do
+initMapViewContext :: Config
+                   -> IO ( FetchThing GeoData -> GeoData -> Model -> IO ()
+                         , RouteView -> IO ()
+                         , Tour -> IO () )
+initMapViewContext Config{..} = do
   stateRef <- newMVar (MapState ViewAll Nothing Nothing Nothing Nothing [])
 
-  leaflet <- initLeaflet mapBoxToken "tour-map"
+  leaflet <- initLeaflet cfgMapBoxToken "tour-map"
+
+  let icon = newIcon (toMisoString . show $ cfgStaticURI)
+  blueIcon <- icon "blue"
+  greenIcon <- icon "green"
+  redIcon <- icon "red"
 
   let updateView = withMVar stateRef (updateVisibilityZoom leaflet)
 
@@ -241,8 +245,6 @@ initMapViewContext mapBoxToken = do
     setMapView view = modifyMap (pure . (msView .~ view))
 
     setMapData fetch geo model = modifyMap $ \s -> do
-      putStrLn $ "updating map data " ++ show fetch
-
       let llayer :: Lens' MapState (Maybe MapLayer)
           llayer = case fetch of
                      FTrackAll -> msLayerAll
@@ -268,15 +270,9 @@ initMapViewContext mapBoxToken = do
       pure (s & (llayer .~ (Just layer)))
 
     ctxSetInfoTour Tour{..} = modifyMap $ \s -> do
-      putStrLn "setInfoTour"
-
       -- clear out existing info layers
       removeMaybe (s ^. msInfoTour)
       mapM_ (removeLayer leaflet . snd) (s ^. msInfoDaily)
-
-      blueIcon <- newIcon "/static/" "blue"
-      greenIcon <- newIcon "/static/" "green"
-      redIcon <- newIcon "/static/" "red"
 
       let
         popup TourDay{..} wher = "Day " <> toMisoString (show dayNum) <> ". " <> formatDate dayDate <> "<br>" <> wher

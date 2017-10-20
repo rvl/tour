@@ -20,7 +20,7 @@ import Data.Map (Map)
 import           Data.Proxy
 import           Servant.API
 import           Servant.Utils.Links
-import Network.URI (relativeTo, parseURI, parseRelativeReference)
+import Network.URI (relativeTo, relativeFrom, parseURI, parseRelativeReference, URI(..), uriIsAbsolute)
 import Data.Aeson (Value(..))
 import Data.Maybe
 import Data.Time.Calendar (Day)
@@ -86,7 +86,9 @@ routeViewDay (ViewTourDay _ d) = Just d
 routeViewDay _ = Nothing
 
 initModel :: Config -> URI -> Model
-initModel cfg uri = Model cfg uri ViewAll mempty mempty mempty Nothing mempty mempty mempty True
+initModel cfg uri = Model cfg uri' ViewAll mempty mempty mempty Nothing mempty mempty mempty True
+  where
+    uri' = unfixURI' (cfgBaseURI cfg) uri
 
 -- | Action
 data Action
@@ -155,7 +157,7 @@ tourSummaryView' name Tour{..} m = div_ [class_ "tour-page-index"]
       [ p_ [class_ "tour-description"] [ text $ toMisoString tourDescription ]
       , nav_ [class_ "tour-nav"]
         [ toggleContentButton "Table" (showContent m) ]
-        , a_ [class_ "button is-primary is-outlined", onClick goTourList]
+        , a_ [class_ "button is-link is-outlined", onClick goTourList]
           (iconButton "arrow-up" "All the tours")
         ]
     ]
@@ -263,7 +265,7 @@ tourDayNav name tour day = nav_ [class_ "tour-nav"]
                              (iconButtonL "arrow-right" "Next Day ")
                            ]
   where
-    cls p = class_ $ "button is-primary" <> if p then "" else " is-outlined"
+    cls p = class_ $ "button is-link" <> if p then "" else " is-outlined"
     attrs nav = case nav of
                   Just d -> [onClick (goTourDay name (dayDate d))]
                   Nothing -> [disabled_ "disabled"]
@@ -289,10 +291,14 @@ tourDayFromModel :: MisoString -> Day -> Model -> Maybe TourDay
 tourDayFromModel name day m =
   M.lookup name (infoTour m) >>= getTourDay day
 
-the404 :: Model -> View Action
-the404 _ = div_ [] [
-    text "the 404 :("
-  , button_ [ onClick goTourList, class_ "button" ] [ text "go tourList" ]
+the404 :: View Action
+the404 = div_ [class_ "the404"] [
+  div_ [class_ "container content"]
+    [ h1_ [class_ "title"] [text "the 404"]
+    , i_ [class_ "fa fa-meh-o fa-5x"] []
+    , p_ [] [text "That link was not found."]
+    , button_ [ onClick goTourList, class_ "button is-large is-link" ] [ text "Go to tour list" ]
+    ]
   ]
 
 -- | Type-level routes
@@ -331,6 +337,23 @@ uriTourDay name date = linkURI (safeLink api tourDayView name date)
 --linkHref :: URI -> attrs
 linkHref uri = href_ . toMisoString $ "/" <> show uri
 
-fixUri :: URI -> URI
-fixUri = flip relativeTo base
-  where Just base = parseRelativeReference "/"
+-- | Add base href to a URL path.
+fixURI' :: URI -> URI -> URI
+fixURI' base = flip relativeTo base
+
+fixURI :: Model -> URI -> URI
+fixURI m = fixURI' (cfgBaseURI $ config m)
+
+-- | Remove base href from a URL path.
+-- This is ugly and nasty.
+unfixURI' :: URI -> URI -> URI
+unfixURI' base u = relativeFrom (unWeird u) base `relativeTo` root
+  where
+    Just root = parseRelativeReference "/"
+    unWeird :: URI -> URI
+    unWeird u | weird = u { uriScheme = "", uriAuthority = Nothing, uriPath = "/" ++ uriPath u }
+              | otherwise = u
+      where weird = uriIsAbsolute u && take 1 (uriPath u) /= "/"
+
+unfixURI :: Model -> URI -> URI
+unfixURI m = unfixURI' (cfgBaseURI $ config m)

@@ -5,10 +5,11 @@
 
 module AppTypes where
 
-import Network.URI (URI(..), parseURI)
+import Network.URI
 import GHC.Generics
 import Miso.String
 import Data.Time.Calendar (Day)
+import Data.Maybe (fromMaybe)
 
 #ifdef GHCJS_BROWSER
 import           Servant.API
@@ -44,10 +45,11 @@ data Config = Config
               , cfgMapBoxToken :: MisoString
               } deriving (Eq, Show)
 
-initConfig :: Config
-initConfig = Config{..}
+initConfig :: Maybe URI -> Config
+initConfig base = Config{..}
   where
-    cfgBaseURI = URI "" Nothing "/" "" ""
-    cfgStaticURI = URI "" Nothing "/static/" "" ""
+    Just static = parseURIReference "static/"
+    cfgBaseURI = fromMaybe (URI "" Nothing "/" "" "") base
+    cfgStaticURI = relativeTo static cfgBaseURI
     Just cfgBlogUrl = parseURI "https://rodney.id.au/posts/"
     cfgMapBoxToken = "pk.eyJ1IjoicnZsIiwiYSI6ImMzNzdiNWQ1YTMzYTRjNzEyOTU2ZTY2NDhiNTQ5MDBhIn0.out7-ubBjWy-7C_FH4WUHQ"

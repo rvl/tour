@@ -3,6 +3,7 @@
 module Util where
 
 import qualified Data.Text as T
+import Network.URI
 
 #ifdef GHCJS_BROWSER
 import GHCJS.Types (JSString, JSVal, nullRef)
@@ -26,6 +27,16 @@ foreign import javascript unsafe "$r = document.getElementById($1);"
 getElementById :: JSString -> IO (Maybe JSVal)
 getElementById = fmap nullableToMaybe . js_getElementById
 
+
+foreign import javascript unsafe "(function() { var base = document.getElementsByTagName('base')[0]; return base ? base.href : null; })()"
+  js_getBaseHref :: IO (Nullable JSString)
+
+getBaseURI :: IO (Maybe URI)
+getBaseURI = (>>= parseRelative) <$> getBaseHref
+  where
+    getBaseHref = fmap fromMisoString . nullableToMaybe <$> js_getBaseHref
+    parseRelative = (>>= parseRelativeReference) . fmap uriPath . parseURIReference
+
 -- | Opposite of toMisoString
 misoText :: JSString -> T.Text
 -- fixme: there's probably a better way
@@ -35,6 +46,9 @@ fromMisoString :: JSString -> String
 fromMisoString = JS.unpack
 
 #else
+getBaseURI :: IO (Maybe URI)
+getBaseURI = pure $ parseURIReference "/"
+
 misoText :: T.Text -> T.Text
 misoText = id
 
