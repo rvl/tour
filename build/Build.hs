@@ -35,12 +35,15 @@ loadTours dir = do
 dataFileName :: String -> FilePath
 dataFileName t = "data" </> t <.> "yaml"
 
+buildAllData :: [FilePath]
+buildAllData = map build ["sha1sums", "index.json", "all-tracks.json"]
+
 main :: IO ()
 main = do
   tours <- loadTours "data"
 
   shakeArgs shakeOptions{shakeFiles=buildDir} $ do
-    want $ map build ["sha1sums", "index.json", "all-tracks.json"]
+    want buildAllData
 
     phony "clean" $ need ["clean-data", "clean-frontend"]
 
@@ -172,15 +175,29 @@ frontendRules wwwDir = do
       frontend = ("frontend" </>)
       cabalJS args = cmd "nix-shell frontend.nix --argstr compiler ghcjsHEAD --run" ["cabal --builddir=" ++ ghcjsDist ++ " " ++ args]
 
-  want [www "index.html"]
+      buildAllFrontend = [www "index.html"]
+
+  want buildAllFrontend
 
   phony "clean-frontend" $ do
     cleanDir wwwDir
     cleanDir ghcjsDist
 
+  phony "deploy" $ do
+    let target = "rodney.id.au:/srv/www/lorrimar.id.au/tour/"
+    need $ buildAllData ++ buildAllFrontend
+
+    putNormal $ "Copying frontend to " <> target
+    () <- cmd "rsync -avz --exclude=static/data"
+      [wwwDir <> "/", target]
+
+    putNormal "Copying data files"
+    cmd "rsync -avz --delete --include *.json --include */ --exclude=*"
+      [buildDir <> "/", target <> "static/data/"]
+
   www "index.html" %> \out -> do
     -- site needs index.html, minified js, stylesheet, images
-    need $ map www ["all.js", "static/tour.css"]
+    need $ map www ["all.min.js.gz", "static/tour.css"]
     copyFileChanged (frontend "index-prod.html") out
     images <- getDirectoryFiles "" [frontend "static/images/*"]
     liftIO $ createDirectoryIfMissing True (www "static/images")
@@ -193,19 +210,18 @@ frontendRules wwwDir = do
 
   ghcjsDist </> "setup-config" %> \out -> do
     need ["tour.cabal"]
-    -- cmd "nix-shell frontend.nix --argstr compiler ghcjsHEAD --run" ["cabal configure --ghcjs --builddir=" ++ ghcjsDist]
     cabalJS "configure --ghcjs"
 
   jsexe </> "all.js" %> \out -> do
     needHaskellSources
-    -- cmd "cabal build" ["--builddir=" ++ ghcjsDist]
     cabalJS "build"
 
   jsexe </> "*.min.js" %> \out -> do
     let maxi = dropExtension out -<.> "js"
         externs = maxi <.> "externs"
-    need [maxi]
-    Stdout mini <- cmd "closure-compiler" [maxi] "--compilation_level=ADVANCED_OPTIMIZATIONS" ["--externs=" ++ externs]
+        otherExterns = "frontend/externs.js"
+    need [maxi, otherExterns]
+    Stdout mini <- cmd "closure-compiler" [maxi] "--compilation_level=ADVANCED_OPTIMIZATIONS --jscomp_warning=duplicate --jscomp_warning=undefinedVars --jscomp_warning=checkVars" ["--externs=" ++ externs, "--externs=" ++ otherExterns]
     writeFileChanged out mini
 
   www "*.js" %> \out -> copyFile' (jsexe </> takeFileName out) out

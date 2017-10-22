@@ -1,4 +1,5 @@
 /_build/
+/_www/
 /_shake/
 *.hi
 *.o
