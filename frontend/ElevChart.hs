@@ -47,6 +47,7 @@ instance ToJSON ChartConfig where
       , "legend" .= object ["display" .= False]
       , "scales" .= object [ "xAxes" .= singleton xAxis
                            , "yAxes" .= singleton yAxis ]
+      , "showLines" .= True -- Chart.js 2.7.0
       ]
     , "_height" .= chartHeight
     ]
@@ -61,7 +62,8 @@ instance ToJSON ChartConfig where
                        , "borderColor" .= borderColor
                        , "backgroundColor" .= bgColor
                        , "fill" .= True
-                       , "showLines" .= True -- Chart.js 2.7.0
+                       , "borderCapStyle" .= ("square" :: String)
+                       , "borderJoinStyle" .= ("round" :: String)
                        , "borderWidth" .= (3.0 :: Double)
                        , "pointRadius" .= (0.0 :: Double)
                        , "lineTension" .= (0 :: Int) ]
