@@ -26,7 +26,7 @@ import qualified Data.Map as M
 import qualified Data.Vector as V
 import Naqsha.Geometry
 import Data.Scientific (toRealFloat)
-import Network.URI (URI(..), parseURI)
+import Network.URI (URI(..), parseURIReference)
 
 import Types
 
@@ -107,7 +107,7 @@ instance ToJSON URI where
   toJSON = String . T.pack . show
 
 instance FromJSON URI where
-  parseJSON (String u) = case parseURI (T.unpack u) of
+  parseJSON (String u) = case parseURIReference (T.unpack u) of
                            Just uri -> pure uri
                            Nothing  -> fail "Not a valid URI"
 

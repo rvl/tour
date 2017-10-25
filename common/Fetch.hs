@@ -38,6 +38,7 @@ import Data.ByteString (ByteString)
 import Data.Time.Calendar (Day)
 import Control.Concurrent.Async
 import Control.Exception
+import Network.URI (relativeTo)
 
 import Data.GADT.Compare.TH
 import qualified Data.Dependent.Map as DM
@@ -144,13 +145,16 @@ jsonReq' cfg name = Request { reqMethod = GET
                             }
 
 getBlogHtml :: Config -> TourDay -> IO (Maybe MisoString)
-getBlogHtml cfg TourDay{..} = (>>= munge) <$> getBlogHtml' postUrl
+getBlogHtml cfg TourDay{..} = (>>= munge) <$> getBlogHtml' (JS.pack . show $ postUrl)
   where
-    munge = fmap (fixImageUrls postUrl) . htmlBody
-    dayBlog = Nothing -- fixme: add field to TourDay
-    defaultPage = toMisoString (show dayDate <> "-tour-" <> show dayNum)
+    munge = fmap (fixImageUrls . JS.pack . show $ postUrl) . htmlBody
+    defaultPage = URI "" Nothing (show dayDate <> "-tour-" <> show dayNum) "" ""
     page = fromMaybe defaultPage dayBlog
-    postUrl = (JS.pack . show $ cfgBlogUrl cfg) <> page <> "/"
+    postUrl = addTrailingSlash page `relativeTo` cfgBlogUrl cfg
+    addTrailingSlash (URI s a p q f) = URI s a p' q f
+      where p' | null p        = ""
+               | last p == '/' = p
+               | otherwise     = p <> "/"
 
 getBlogHtml' :: MisoString -> IO (Maybe MisoString)
 getBlogHtml' postUrl = catch (contents <$> xhr req) handle
@@ -175,7 +179,7 @@ htmlBody = fmap getBody . matchBody . oneLine
     flags = RE.REFlags True True -- multiline, ignore case
     getBody = head . RE.subMatched
 
-foreign import javascript unsafe "$2.replace(new RegExp('<img src=\"([^\"]+)\"', 'g'), '<img src=\"' + $1 + '$1\"')"
+foreign import javascript unsafe "$2.replace(new RegExp('<img src=\"([^\"]+)\"', 'g'), function(m, p1) { var src = p1.match(new RegExp('^(https?:|/)')) ? p1 : $1 + p1; return '<img src=\"' + src + '\"'; })"
   fixImageUrls :: MisoString -> MisoString -> MisoString
 
 #else
