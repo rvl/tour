@@ -177,7 +177,8 @@ frontendRules wwwDir = do
 
       buildAllFrontend = [www "index.html"]
 
-  want buildAllFrontend
+  want ["all-frontend"]
+  phony "all-frontend" $ need buildAllFrontend
 
   phony "clean-frontend" $ do
     cleanDir wwwDir
@@ -221,7 +222,8 @@ frontendRules wwwDir = do
         externs = maxi <.> "externs"
         otherExterns = "frontend/externs.js"
     need [maxi, otherExterns]
-    Stdout mini <- cmd "closure-compiler" [maxi] "--compilation_level=ADVANCED_OPTIMIZATIONS --jscomp_warning=duplicate --jscomp_warning=undefinedVars --jscomp_warning=checkVars" ["--externs=" ++ externs, "--externs=" ++ otherExterns]
+    let opt = "SIMPLE_OPTIMIZATIONS" -- ADVANCED_OPTIMIZATIONS doesn't work
+    Stdout mini <- cmd "closure-compiler" [maxi, "--compilation_level=" ++ opt] "--jscomp_warning=duplicate --jscomp_warning=undefinedVars --jscomp_warning=checkVars" ["--externs=" ++ externs, "--externs=" ++ otherExterns]
     writeFileChanged out mini
 
   www "*.js" %> \out -> copyFile' (jsexe </> takeFileName out) out
