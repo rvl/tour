@@ -20,7 +20,6 @@ import Data.Proxy
 import Data.Time.Calendar (Day)
 import Data.Maybe (fromMaybe, catMaybes)
 import Servant.API ((:<|>)(..))
-import Data.IORef
 import Control.Concurrent.MVar
 import GHCJS.Types (JSString, JSVal, nullRef)
 import qualified Data.Vector as V
@@ -53,7 +52,7 @@ main :: IO ()
 main = do
   cfg <- initConfig <$> getBaseURI
   currentURI <- getCurrentURI
-  ref <- newIORef (nullContext cfg)
+  ref <- newEmptyMVar
   startApp App { model = initModel cfg currentURI
                , update = updateModel ref, ..}
   where
@@ -73,7 +72,7 @@ instance HasURI Model where
       setter = \m u -> m { uri = u }
 
 -- | Update your model
-updateModel :: IORef Context -> Action -> Model -> Effect Action Model
+updateModel :: MVar Context -> Action -> Model -> Effect Action Model
 updateModel ref Init m = m <# do
   initContext (config m) ref
   pure NoOp
@@ -83,7 +82,7 @@ updateModel _ (ChangeURI u) m = m <# do
   pure NoOp
 updateModel _ (SetTitle t) m = m <# (setDocumentTitle t >> pure NoOp)
 updateModel ref (SetRouteView v) m = (m { routeView = v }) <# do
-  ctx <- readIORef ref
+  ctx <- readMVar ref
   setMapView ctx v
   pure NoOp
 updateModel ref (FetchData f) m = m <# (maybe NoOp (SetData f) <$> fetch ref f)
@@ -103,15 +102,15 @@ splitEff a m = Effect m (map pure a)
 ----------------------------------------------------------------------------
 -- fetching and setting
 
-fetch :: IORef Context -> FetchThing a -> IO (Maybe a)
+fetch :: MVar Context -> FetchThing a -> IO (Maybe a)
 fetch ref f = do
-  fc <- fetchCache <$> readIORef ref
+  fc <- fetchCache <$> readMVar ref
   (a, fc') <- fetchAsync f fc
-  modifyIORef ref (\ctx -> ctx { fetchCache = fc' })
+  modifyMVar_ ref (\ctx -> pure (ctx { fetchCache = fc' }))
   fetchValue a
 
-setData :: IORef Context -> FetchThing a -> a -> Model -> Effect Action Model
-setData ref f a m = update f a m <# (readIORef ref >>= effects f a m)
+setData :: MVar Context -> FetchThing a -> a -> Model -> Effect Action Model
+setData ref f a m = update f a m <# (readMVar ref >>= effects f a m)
   where
     -- fixme: use lens
     update :: FetchThing a -> a -> Model -> Model
@@ -160,7 +159,7 @@ title m v = "Tour Map" <> suffix (v >>= title')
     title' (ViewTour n) = toMisoString . tourName <$> getTourInfo n m
     title' (ViewTourDay n d) = tourDayTitle <$> tourDayFromModel n d m
     title' _ = Nothing
-    suffix p = fromMaybe "" (("   " <>) <$> p)
+    suffix p = fromMaybe "" ((" – " <>) <$> p)
 
 -- | What data is needed for each view
 fetchHandlers :: Model -> RouteView -> [Action]
@@ -187,11 +186,11 @@ nullContext :: Config -> Context
 nullContext cfg = Context noop noop (const $ const noop) noop (newFetchCache cfg)
   where noop = const $ pure ()
 
-initContext :: Config -> IORef Context -> IO ()
+initContext :: Config -> MVar Context -> IO ()
 initContext cfg ref = do
   updateElevChart <- initElevChartContext
   (setMapData, setMapView, ctxSetInfoTour) <- initMapViewContext cfg
-  writeIORef ref Context { fetchCache = newFetchCache cfg, .. }
+  putMVar ref Context { fetchCache = newFetchCache cfg, .. }
 
 ----------------------------------------------------------------------------
 -- Elev Chart
@@ -208,7 +207,6 @@ initElevChartContext = do
           setCanvasHeight canvasElem 20
           Just <$> newChart canvasElem cfg
         _ -> pure Nothing
-
 
 ----------------------------------------------------------------------------
 -- Tour Map
