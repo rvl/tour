@@ -81,6 +81,7 @@ updateModel _ (HandleURI u) m = Effect (m { uri = unfixURI m u }) (viewHook m)
 updateModel _ (ChangeURI u) m = m <# do
   pushURI (fixURI m u)
   pure NoOp
+updateModel _ (SetTitle t) m = m <# (setDocumentTitle t >> pure NoOp)
 updateModel ref (SetRouteView v) m = (m { routeView = v }) <# do
   ctx <- readIORef ref
   setMapView ctx v
@@ -146,14 +147,20 @@ viewHook :: Model -> [IO Action]
 viewHook m = map pure (viewHook' m (handle m))
   where
     handle m = either (const Nothing) id $ runRoute (Proxy :: Proxy ClientRoutes) descView m
-    descView = descSummary :<|> descDay :<|> descAll
-    descAll m = Just ViewAll
-    descSummary name m = Just $ ViewTour name
-    descDay name day m = Just $ ViewTourDay name day
 
 viewHook' :: Model -> Maybe RouteView -> [Action]
-viewHook' _ Nothing     = [NoOp]
-viewHook' m (Just view) = (SetRouteView view:fetchHandlers m view)
+viewHook' m v = (SetTitle (title m v):setRoute v:maybe [] (fetchHandlers m) v)
+  where
+    setRoute Nothing = NoOp
+    setRoute (Just view) = SetRouteView view
+
+title :: Model -> Maybe RouteView -> MisoString
+title m v = "Tour Map" <> suffix (v >>= title')
+  where
+    title' (ViewTour n) = toMisoString . tourName <$> getTourInfo n m
+    title' (ViewTourDay n d) = tourDayTitle <$> tourDayFromModel n d m
+    title' _ = Nothing
+    suffix p = fromMaybe "" (("   " <>) <$> p)
 
 -- | What data is needed for each view
 fetchHandlers :: Model -> RouteView -> [Action]
@@ -201,6 +208,7 @@ initElevChartContext = do
           setCanvasHeight canvasElem 20
           Just <$> newChart canvasElem cfg
         _ -> pure Nothing
+
 
 ----------------------------------------------------------------------------
 -- Tour Map
@@ -383,6 +391,9 @@ clickCoord ev = "coord: [" <> show lat <> ", " <> show lng <> "]"
 
 foreign import javascript unsafe "document.querySelectorAll($1).forEach(function (el) { el.innerHTML = $2; });"
   setBlogHtmlElem :: JSString -> JSString -> IO ()
+
+foreign import javascript unsafe "document.title = $1;"
+  setDocumentTitle :: JSString -> IO ()
 
 
 ----------------------------------------------------------------------------

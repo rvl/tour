@@ -75,6 +75,13 @@ data RouteView = ViewAll
                | ViewTourDay MisoString Day
                deriving (Show, Eq)
 
+-- maybe put this back in Main.hs if it doesn't work
+-- descView :: ClientRoutes -> RouteView
+descView = descSummary :<|> descDay :<|> descAll
+  where
+    descAll m = Just ViewAll
+    descSummary name m = Just $ ViewTour name
+    descDay name day m = Just $ ViewTourDay name day
 
 routeViewTour :: RouteView -> Maybe MisoString
 routeViewTour ViewAll = Nothing
@@ -95,6 +102,7 @@ data Action
   = Init
   | HandleURI URI
   | ChangeURI URI
+  | SetTitle MisoString
   | SetRouteView RouteView
   | ToggleContent
   | HandleLayerClick MisoString
