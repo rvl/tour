@@ -2,7 +2,7 @@
 mkDerivation {
   pname = "tour";
   version = "0.1.0.0";
-  src = ./.;
+  src = null;
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [ base miso servant naqsha lens dependent-map dependent-sum-template async ];
