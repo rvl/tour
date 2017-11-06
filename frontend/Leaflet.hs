@@ -78,7 +78,7 @@ foreign import javascript unsafe "$1.addLayer($2)"
 foreign import javascript unsafe "$1.removeLayer($2)"
   removeLayer :: Leaflet -> MapLayer -> IO ()
 
-foreign import javascript unsafe "$1.fitBounds($2.getBounds())"
+foreign import javascript unsafe "(function() { var b = $2.getBounds(); if (b.isValid()) { $1.fitBounds(b) }; })()"
   setBoundsToLayer :: Leaflet -> MapLayer -> IO ()
 
 foreign import javascript unsafe "$1.bindTooltip(function(layer) { return $2(layer.feature.properties.name); }, { sticky: true })"
