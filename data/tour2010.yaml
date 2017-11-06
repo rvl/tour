@@ -6,22 +6,118 @@ countries:
   - au
 days:
   - date: 2010-01-22
+    num: 1
+    from: Hobart
   - date: 2010-01-23
+    num: 2
+    from: Hobart
+    to: Buckland
+    start: 09:15
+    end: 15:55
+    dist: 73
+    from_coord: [-42.88177020848908, 147.33098387718204]
+    to_coord: [-42.606298894965136, 147.72080540657046]
   - date: 2010-01-24
+    num: 3
+    to: Swansea
+    start: 10:00
+    end: 17:45
+    dist: 83
+    to_coord: [-42.114937804218634, 148.06077003479007]  # is a guess
+  - date: 2010-01-25
+    num: 4
+    to: Coles Bay
+    start: 09:30
+    end: 14:30
+    dist: 66
+    to_coord: [-42.124276605448586, 148.2966381311417]
+  - date: 2010-01-26
+    num: 5
+    to: Bicheno
+    end: 15:30
+    dist: 44
+    to_coord: [-41.8756884045954, 148.30313444137576]
   - date: 2010-01-27
+    num: 6
+    to: Avoca
+    start: 09:15
+    end: 17:00
+    dist: 98
+    to_coord: [-41.782517038859666, 147.71757602691653]
   - date: 2010-01-28
+    num: 7
+    to: Launceston
+    start: 10:00
+    end: 17:30
+    dist: 93
+    to_coord: [-41.43025926576382, 147.1370762586594]
   - date: 2010-01-29
+    num: 8
+    from: Launceston
   - date: 2010-01-30
+    num: 9
+    from: Launceston
+    to: Mole Creek
+    start: 09:00
+    end: 17:30
+    dist: 86
+    to_coord: [-41.5513220339802, 146.36024951934817]
   - date: 2010-01-31
+    to: Cradle Valley
+    start: 09:45
+    end: 17:40
+    dist: 79
+    to_coord: [-41.58012385317612, 145.93680381774905]
   - date: 2010-02-01
+    from: Cradle Mountain
   - date: 2010-02-02
+    from: Cradle Valley
+    to: Rosebury
+    start: 10:15
+    end: 15:00
+    dist: 71
+    to_coord: [-41.77690060233485, 145.53511619567874]
   - date: 2010-02-03
+    to: Strahan
+    start: 09:25
+    end: 15:00
+    dist: 74
+    to_coord: [-42.15254325439195, 145.31879067420962]
   - date: 2010-02-04
+    to: Lake Burbury
+    start: 09:30
+    end: 15:30
+    dist: 67
+    to_coord: [-42.09711585585207, 145.67539572715762]
   - date: 2010-02-05
+    to: Lake St Clair
+    start: 10:00
+    end: 17:00
+    dist: 74
+    to_coord: [-42.11664889336345, 146.17237687110904]
   - date: 2010-02-06
+    to: Lake Meadow Banks
+    start: 09:55
+    end: 17:30
+    dist: 107
+    to_coord: [-42.53613307920194, 146.74125194549563]
   - date: 2010-02-07
+    to: Russell Falls
+    dist: 30  # estimate
+    to_coord: [-42.68180049097171, 146.7165166139603]
   - date: 2010-02-08
+    to: New Norfolk
+    dist: 40  # estimate
+    to_coord: [-42.77576314280239, 147.06483364105227]
   - date: 2010-02-09
+    to: Hobart
+    dist: 40  # estimate
+    to_coord: [-42.88326783577493, 147.32782959938052]
   - date: 2010-02-10
+    from: Hobart
   - date: 2010-02-11
+    from: Hobart
+    to: Mount Wellington
+    dist: 50  # estimate
   - date: 2010-02-12
+    from: Hobart

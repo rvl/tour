@@ -4,62 +4,306 @@ start_date: 2011-04-25
 end_date: 2011-09-20
 days:
  - date: 2011-04-25
+   from: London
+   to: Rochester
+   dist: 87
+   start: 08:00
+   end: 20:00
+   blog: 2011-05-05-day-1-london-rochester
  - date: 2011-04-26
+   to: Canterbury
+   dist: 69
+   start: 09:00
+   end: 18:00
+   blog: 2011-05-05-day-2-rochester-canterbury
  - date: 2011-04-27
+   to: Dunkerque
+   dist: 65
+   start: 09:00
+   end: 20:00
+   blog: 2011-05-05-day-3-canterbury-dunkerque
  - date: 2011-04-28
+   from: Dunkerque
+   blog: 2011-05-05-tour-de-gare-avec-velo
  - date: 2011-05-01
+   from: München
+   blog: 2011-05-05-tour-de-gare-avec-velo
  - date: 2011-05-03
+   from: Plzen
+   blog: 2011-05-05-tour-de-gare-avec-velo
  - date: 2011-05-10
+   from: Praha
+   to: Týnec nad Sázavou
+   dist: 53
+   start: 10:00
+   end: 17:00
+   blog: 2011-05-15-day-4-praha-tynec
  - date: 2011-05-11
+   to: Borotin
+   dist: 66
+   start: 09:15
+   end: 17:00
+   blog: 2011-05-15-day-5-tynec-borotin
  - date: 2011-05-12
+   to: Sobeslav
+   dist: 59
+   start: 08:00
+   end: 14:00
+   blog: 2011-05-15-day-6-borotin-sobeslav
  - date: 2011-05-13
+   to: Ceské Budejovice
+   dist: 73
+   start: 09:15
+   end: 17:30
+   blog: 2011-05-15-day-7-sobeslav-cesk-budejovice
  - date: 2011-05-14
+   to: Cesky Krumlov
+   dist: 38
+   start: 10:15
+   end: 17:00
+   blog: 2011-05-15-day-8-ceske-budejovice-cesky-krumlov
  - date: 2011-05-16
+   to: Freistadt
+   dist: 65
+   start: 09:00
+   end: 17:00
+   blog: 2011-05-17-day-9-cesky-krumlov-freistadt
  - date: 2011-05-17
+   to: Au
+   dist: 48
+   start: 10:30
+   end: 16:30
+   blog: 2011-05-17-day-10-freistadt-au
  - date: 2011-05-18
+   to: Melk
+   dist: 96
+   start: 10:00
+   end: 18:30
+   blog: 2011-05-22-day-11-au-melk
  - date: 2011-05-19
+   to: Tuln
+   dist: 91
+   start: 09:30
+   end: 17:00
+   blog: 2011-05-22-day-12-melk-tulln
  - date: 2011-05-20
+   to: Wien
+   dist: 44
+   start: 09:30
+   end: 12:15
+   blog: 2011-05-27-day-13-tulln-wien
  - date: 2011-05-23
+   from: Wien
+   to: Breiterbrunn
+   dist: 109
+   start: 10:00
+   end: 19:30
+   blog: 2011-05-28-day-14-wien-breiterbrunn
  - date: 2011-05-24
+   to: Markt St. Martin
+   dist: 89
+   start: 09:15
+   end: 19:00
+   blog: 2011-05-28-breiterbrunn-markt-st-martin
  - date: 2011-05-25
+   blog: 2011-05-28-breiterbrunn-markt-st-martin
  - date: 2011-05-26
+   to: Bad Tatzmannsdorf
+   dist: 52
+   start: 10:15
+   end: 17:00
+   blog: 2011-05-28-day-16-markt-st-martin-bad-tatzmannsdorf
  - date: 2011-05-27
+   to: Fürstenfeld
+   dist: 62
+   start: 10:15
+   end: 18:15
+   blog: 2011-05-28-day-17-bad-tatzmannsdorf-furstenfeld
+ - date: 2011-05-28
+   from: Fürstenfeld
+   blog: 2011-05-28-furstenfeld
  - date: 2011-05-29
+   from: Fürstenfeld
+   to: St Peter am Ottersbach
+   dist: 75
+   start: 10:15
+   end: 18:00
+   blog: 2011-06-02-day-18-furstenfeld-st-peter-am-ottersbach
  - date: 2011-05-30
+   to: Maribor
+   dist: 52
+   start: 08:45
+   end: 16:00
+   blog: 2011-06-02-day-19-st-peter-am-ottersbach-maribor
  - date: 2011-06-01
+   to: somewhere near Rakovec
+   dist: 69
+   start: 09:30
+   end: 19:30
+   blog: 2011-06-02-day-20-maribor-rakovec
  - date: 2011-06-02
+   from: Rakovec
+   to: Prebold
+   dist: 49
+   start: 08:30
+   end: 14:30
+   blog: 2011-06-02-day-21-rakovec-prebold
  - date: 2011-06-03
+   to: Kamnik
+   dist: 48
+   start: 11:00
+   end: 15:30
+   blog: 2011-06-03-day-22-prebold-kamnik
  - date: 2011-06-04
+   to: Bled
+   dist: 77
+   start: 11:00
+   end: 19:00
+   blog: 2011-06-06-day-23-kamnik-bled
  - date: 2011-06-05
+   from: Bled
+   blog: 2011-06-07-rest-days-in-bled
  - date: 2011-06-07
+   to: Kranjska Gora
+   blog: 2011-06-07-day-24-bled-kranjska-gora
+   dist: 44
+   start: 10:15
+   end: 15:00
  - date: 2011-06-08
+   to: Bovec
+   blog: 2011-06-16-day-25-kranjska-gora-bovec
+   dist: 49
+   start: 10:00
+   end: 16:00
  - date: 2011-06-09
+   to: Kobarid
+   blog: 2011-06-16-day-26-bovec-kobarid
+   dist: 25
+   start: 10:00
+   end: 13:30
  - date: 2011-06-10
+   to: Ozeljian
+   blog: 2011-06-16-day-27-kobarid-ozeljian
+   dist: 71
+   start: 10:15
+   end: 19:30
  - date: 2011-06-11
+   to: Monfalcone
+   blog: 2011-06-16-day-28-ozeljian-monfalcone
+   dist: 52
+   start: 10:00
+   end: 16:00
  - date: 2011-06-12
+   to: Lido di Venezia
+   blog: 2011-06-16-day-29-monfalcone-lido
+   dist: 140
+   start: 09:45
+   end: 19:30
+ - date: 2011-06-13
+   from: Venice
+   blog: 2011-06-16-venice
  - date: 2011-06-15
+   from: Lido di Venezia
+   to: Ferrara
+   blog: 2011-06-16-day-30-lido-di-venezia-ferrara
+   dist: 133
+   start: 08:15
+   end: 19:00
  - date: 2011-06-17
+   from: Ferrara
+   to: Spoleto
+   blog: 2011-06-21-interim-tour-post
  - date: 2011-06-18
+   from: Spoleto
+   to: Bevagne
+   blog: 2011-06-24-day-31-spoleto-bevagne
+   dist: 44
+   start: 10:00
+   end: 16:00
  - date: 2011-06-19
+   to: San Feliciano (Magione)
+   blog: 2011-06-24-day-32-bevagne-san-feliciano
+   dist: 71
+   start: 10:00
+   end: 16:00
  - date: 2011-06-20
+   to: Cortona
+   blog: 2011-06-24-day-33-san-feliciana-cortona
+   dist: 48
+   start: 10:00
+   end: 16:20
  - date: 2011-06-21
+   to: Búcine
+   blog: 2011-06-24-day-34-cortona-bucine
+   dist: 71
+   start: 08:30
+   end: 16:00
  - date: 2011-06-22
+   to: Firenze
+   blog: 2011-06-24-day-35-bucine-firenze
+   dist: 67
+   start: 11:00
+   end: 17:00
+ - date: 2011-06-24
+   from: Firenze
+   blog: 2011-06-24-firenze
+ - date: 2011-06-29
+   from: Nice
+   blog: 2011-06-29-nice
+ - date: 2011-07-05
+   blog: 2011-07-15-warm-showers
  - date: 2011-07-06
+   from: Toulouse
+   to: Samatan
+   blog: 2011-07-15-day-36-toulouse-samatan
+   dist: 72
+   start: 10:00
+   end: 18:00
  - date: 2011-07-08
+   to: Tibiran-Jaunac
+   blog: 2011-07-15-day-37-samatan-tibiran-jaunac
+   dist: 97
+   start: 11:00
+   end: 19:45
  - date: 2011-07-09
+   to: Arreau
+   blog: 2011-07-15-day-38-tibiran-jaunac-arreau
+   dist: 62
+   start: 10:15
+   end: 17:30
  - date: 2011-07-10
+   to: Esterre
+   blog: 2011-07-15-day-39-arreau-esterre
+   dist: 64
+   start: 10:00
+   end: 18:30
  - date: 2011-07-11
+   to: Lourdes
+   blog: 2011-07-15-day-40-esterre-lourdes
+   dist: 62
+   start: 10:00
+   end: 17:30
  - date: 2011-07-12
+   to: Ste Marie de Campan
+   blog: 2011-07-15-day-41-lourdes-ste-marie-de-campan
+   dist: 44
+   start: 11:45
+   end: 17:30
  - date: 2011-07-14
- - date: 2011-07-15
- - date: 2011-07-16
- - date: 2011-07-24
- - date: 2011-07-26
- - date: 2011-07-28
- - date: 2011-07-30
- - date: 2011-07-31
- - date: 2011-08-30
- - date: 2011-09-10
- - date: 2011-09-13
- - date: 2011-09-16
- - date: 2011-09-20
+   to: Paris
+   blog: 2011-07-15-day-42-ste-marie-de-campan-paris
+   dist: 32
+   start: 06:15
+   end: 11:53
+ # - date: 2011-07-15
+ # - date: 2011-07-16
+ # - date: 2011-07-24
+ # - date: 2011-07-26
+ # - date: 2011-07-28
+ # - date: 2011-07-30
+ # - date: 2011-07-31
+ # - date: 2011-08-30
+ # - date: 2011-09-10
+ # - date: 2011-09-13
+ # - date: 2011-09-16
+ # - date: 2011-09-20

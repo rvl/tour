@@ -2,399 +2,489 @@ name: Europe 2012
 countries: ["at", "sk", "hu", "hr", "me", "xk", "mk", "gr", "tr"]
 days:
 - accom: home
-  date: '2012-07-01'
+  date: 2012-07-01
   from: Leuven
-  from_coord: [4.690896, 50.877293]
+  from_coord: [50.877293, 4.690896]
   num: -1
-- {accom: hostel, date: '2012-07-02', from: Köln}
-- {accom: camping, date: '2012-07-03', from: Salzburg}
-- {accom: camping, date: '2012-07-04'}
+  blog: 2012-07-11-leuven-to-vienna-by-train
 - accom: hostel
-  date: '2012-07-05'
-  from: Wien
-  from_coord: [16.378346, 48.244439]
+  date: 2012-07-02
+  from: Köln
+  blog: 2012-07-11-leuven-to-vienna-by-train
 - accom: camping
-  date: '2012-07-06'
+  date: 2012-07-03
+  from: Salzburg
+  blog: 2012-07-11-leuven-to-vienna-by-train
+- accom: camping
+  date: 2012-07-04
+  blog: 2012-07-11-leuven-to-vienna-by-train
+- accom: hostel
+  date: 2012-07-05
+  from: Wien
+  from_coord: [48.244439, 16.378346]
+  blog: 2012-07-11-days-1-4-july-6-9-2012-vienna-to-budapest
+- accom: camping
+  date: 2012-07-06
   dist: 85
   end: '15:45'
-  from: Bratislava
-  from_coord: [17.187172, 48.188794]
+  from: Wien
+  from_coord: [48.244439, 16.378346]
+  to: Bratislava
+  to_coord: [48.188794, 17.187172]
   num: 1
   start: 08:45
+  blog: 2012-07-11-days-1-4-july-6-9-2012-vienna-to-budapest
 - accom: camping
-  date: '2012-07-07'
+  date: 2012-07-07
   dist: 88
   end: '18:00'
-  from: Ásványráró
-  from_coord: [17.49036, 47.825514]
+  to: Ásványráró
+  to_coord: [47.825514, 17.49036]
   num: 2
   start: 09:00
+  blog: 2012-07-11-days-1-4-july-6-9-2012-vienna-to-budapest
 - accom: camping
-  date: '2012-07-08'
+  date: 2012-07-08
   dist: 80
   end: '17:45'
-  from: Komárom
-  from_coord: [18.135595, 47.74264]
+  to: Komárom
+  to_coord: [47.74264, 18.135595]
   num: 3
   start: 08:45
+  blog: 2012-07-11-days-1-4-july-6-9-2012-vienna-to-budapest
 - accom: hostel
-  date: '2012-07-09'
+  date: 2012-07-09
   dist: 141
   end: '19:30'
-  from: Budapest
-  from_coord: [1955904, 47.507989]
+  to: Budapest
+  to_coord: [47.507718552837886, 19.056322574615482]
   num: 4
   start: 09:00
-- {accom: hostel, date: '2012-07-10'}
-- {accom: hostel, date: '2012-07-11'}
+  blog: 2012-07-17-budapest-10712-11712
 - accom: hostel
-  date: '2012-07-12'
+  date: 2012-07-10
+  blog: 2012-07-17-budapest-10712-11712
+- accom: hostel
+  date: 2012-07-11
+  blog: 2012-07-17-budapest-10712-11712
+- accom: hostel
+  date: 2012-07-12
   dist: 100
   end: '20:30'
-  from: Velence
-  from_coord: [18.632598, 47.249272]
+  to: Velence
+  to_coord: [47.249272, 18.632598]
   num: 5
   start: '10:15'
+  blog: 2012-07-17-days-5-9-12712-16712-budapest-to-galambok
 - accom: pension
-  date: '2012-07-13'
+  date: 2012-07-13
   dist: 82
   end: '17:00'
-  from: Balatonkenese
-  from_coord: [1885481, 4740546]
+  to: Balatonkenese
+  to_coord: [47.04081458960663, 18.08556139469147]
   num: 6
   start: 09:30
+  blog: 2012-07-17-days-5-9-12712-16712-budapest-to-galambok
 - accom: camping
-  date: '2012-07-14'
+  date: 2012-07-14
   dist: 55
   end: '16:00'
-  from: Zanka
-  from_coord: [17.673333, 46.860753]
+  to: Zanka
+  to_coord: [46.860753, 17.673333]
   num: 7
   start: '10:30'
+  blog: 2012-07-17-days-5-9-12712-16712-budapest-to-galambok
 - accom: camping
-  date: '2012-07-15'
+  date: 2012-07-15
   dist: 58
   end: '15:30'
-  from: Keszthely
-  from_coord: [17.258524, 46.767122]
+  to: Keszthely
+  to_coord: [46.767122, 17.258524]
   num: 8
   start: '10:00'
+  blog: 2012-07-17-days-5-9-12712-16712-budapest-to-galambok
 - accom: camping
-  date: '2012-07-16'
+  date: 2012-07-16
   dist: 52
   end: '16:30'
-  from: Galambok
-  from_coord: [17.1227, 46.530809]
+  to: Galambok
+  to_coord: [46.530809, 17.1227]
   num: 9
   start: '10:30'
-- {accom: camping, date: '2012-07-17', from: Galambok}
+  blog: 2012-07-17-days-5-9-12712-16712-budapest-to-galambok
+- accom: camping
+  date: 2012-07-17
+  from: Galambok
 - accom: hotel
-  date: '2012-07-18'
+  date: 2012-07-18
   dist: 109
   end: '16:30'
-  from: Varaždin
-  from_coord: [16.348024, 46.309145]
+  to: Varaždin
+  to_coord: [46.309145, 16.348024]
   num: 10
   start: 08:45
+  blog: 2012-07-20-days-10-11-18712-19712-galambok-to-zagreb
 - accom: hotel
-  date: '2012-07-19'
+  date: 2012-07-19
   dist: 85
-  from: Zagreb
-  from_coord: [15.98024, 45.806661]
+  to: Zagreb
+  to_coord: [45.806661, 15.98024]
   num: 11
-- {accom: hotel, date: '2012-07-20', from: Zagreb}
+  blog: 2012-07-20-days-10-11-18712-19712-galambok-to-zagreb
+- accom: hotel
+  date: 2012-07-20
+  from: Zagreb
+  blog: 2012-07-20-days-10-11-18712-19712-galambok-to-zagreb
 - accom: camping
-  date: '2012-07-21'
+  date: 2012-07-21
   dist: 102
   end: 00:00
-  from: Mrežnički
-  from_coord: [15.484954, 45.420781]
+  to: Mrežnički
+  to_coord: [45.420781, 15.484954]
   num: 12
   start: 09:00
+  blog: 2012-07-25-days-12-15-21712-24712-zagreb-to-novalya
 - accom: pension
-  date: '2012-07-22'
+  date: 2012-07-22
   dist: 62
   end: '17:30'
-  from: Ogulin
-  from_coord: [15.224307, 45.266386]
+  to: Ogulin
+  to_coord: [45.266386, 15.224307]
   num: 13
   start: 09:30
+  blog: 2012-07-25-days-12-15-21712-24712-zagreb-to-novalya
 - accom: pension
-  date: '2012-07-23'
+  date: 2012-07-23
   dist: 78
   end: '16:00'
-  from: Otočać
-  from_coord: [15.246366, 44.86925]
+  to: Otočać
+  to_coord: [44.86925, 15.246366]
   num: 14
   start: 09:30
+  blog: 2012-07-25-days-12-15-21712-24712-zagreb-to-novalya
 - accom: camping
-  date: '2012-07-24'
+  date: 2012-07-24
   dist: 121
   end: '18:30'
-  from: Novalja
-  from_coord: [14.885083, 44.54034]
+  to: Novalja
+  to_coord: [44.54034, 14.885083]
   num: 15
   start: 08:00
-- {accom: camping, date: '2012-07-25'}
+  blog: 2012-07-25-days-12-15-21712-24712-zagreb-to-novalya
+- accom: camping
+  date: 2012-07-25
+  blog: 2012-07-25-days-12-15-21712-24712-zagreb-to-novalya
 - accom: pension
-  date: '2012-07-26'
+  date: 2012-07-26
   dist: 89
   end: '16:00'
-  from: Zadar
-  from_coord: [15.214018, 44.1361]
+  to: Zadar
+  to_coord: [44.1361, 15.214018]
   num: 16
   start: 09:00
+  blog: 2012-08-03-days-16-19-26712-30712-novalja-to-dubrovnik
 - accom: camping
-  date: '2012-07-27'
-  from: Vela Luka
-  from_coord: [16.717332, 42.962818]
+  date: 2012-07-27
+  to: Vela Luka
+  to_coord: [42.962818, 16.717332]
+  blog: 2012-08-03-days-16-19-26712-30712-novalja-to-dubrovnik
 - accom: camping
-  date: '2012-07-28'
+  date: 2012-07-28
   dist: 58
   end: '16:30'
-  from: Orebič
-  from_coord: [17.191418, 42.978944]
+  to: Orebič
+  to_coord: [42.978944, 17.191418]
   num: 17
   start: 09:00
+  blog: 2012-08-03-days-16-19-26712-30712-novalja-to-dubrovnik
 - accom: camping
-  date: '2012-07-29'
+  date: 2012-07-29
   dist: 58
   end: '14:00'
-  from: Ston
-  from_coord: [17.67496, 42.818414]
+  to: Ston
+  to_coord: [42.818414, 17.67496]
   num: 18
   start: 08:30
+  blog: 2012-08-03-days-16-19-26712-30712-novalja-to-dubrovnik
 - accom: pension
-  date: '2012-07-30'
+  date: 2012-07-30
   dist: 37
-  from: Dubrovnik
-  from_coord: [1891485, 42.649339]
+  to: Dubrovnik
+  to_coord: [42.649339, 18.91485]
   num: 19
-- {accom: pension, date: '2012-07-31'}
-- {accom: pension, date: '2012-08-01'}
+  blog: 2012-08-03-days-16-19-26712-30712-novalja-to-dubrovnik
+- accom: pension
+  date: 2012-07-31
+  blog: 2012-08-03-dubrovnik
+- accom: pension
+  date: 2012-08-01
+  blog: 2012-08-03-dubrovnik
 - accom: camping
-  date: '2012-08-02'
+  date: 2012-08-02
   dist: 84
   end: '18:30'
-  from: Kamenari
-  from_coord: [18.663677, 42.456658]
+  to: Kamenari
+  to_coord: [42.456658, 18.663677]
   num: 20
   start: 07:15
+  blog: 2012-08-03-days-20-21-2812-3812-dubrovnik-to-kotor
 - accom: hostel
-  date: '2012-08-03'
+  date: 2012-08-03
   dist: 35
   end: '16:00'
-  from: Kotor
-  from_coord: [18.76785, 42.430403]
+  to: Kotor
+  to_coord: [42.430403, 18.76785]
   num: 21
   start: 09:30
+  blog: 2012-08-03-days-20-21-2812-3812-dubrovnik-to-kotor
 - accom: hotel
-  date: '2012-08-04'
+  date: 2012-08-04
   dist: 87
   end: '18:00'
-  from: Danilovgrad
-  from_coord: [1988525, 42.553692]
+  to: Danilovgrad
+  to_coord: [42.553692, 19.88525]
   num: 22
   start: 07:00
+  blog: 2012-08-09-days-22-24-4812-7812-kotor-to-pluzine
 - accom: hotel
-  date: '2012-08-05'
+  date: 2012-08-05
   dist: 35
   end: '18:00'
-  from: Nikšić
-  from_coord: [18.950809, 42.77654]
+  to: Nikšić
+  to_coord: [42.77654, 18.950809]
   num: 23
   start: 07:00
-- {accom: hotel, date: '2012-08-06'}
+  blog: 2012-08-09-days-22-24-4812-7812-kotor-to-pluzine
+- accom: hotel
+  date: 2012-08-06
+  blog: 2012-08-09-days-22-24-4812-7812-kotor-to-pluzine
 - accom: pension
-  date: '2012-08-07'
+  date: 2012-08-07
   dist: 60
   end: '13:30'
-  from: Plavineč
-  from_coord: [18.841148, 43.15348]
+  to: Plužine
+  to_coord: [43.15348, 18.841148]
   num: 24
   start: 06:30
-- {accom: pension, date: '2012-08-08'}
-- {accom: pension, date: '2012-08-09'}
+  blog: 2012-08-09-days-22-24-4812-7812-kotor-to-pluzine
+- accom: pension
+  from: Plužine
+  date: 2012-08-08
+  blog: 2012-08-09-days-22-24-4812-7812-kotor-to-pluzine
+- accom: pension
+  date: 2012-08-09
+  blog: 2012-08-09-days-22-24-4812-7812-kotor-to-pluzine
 - accom: bungalow
-  date: '2012-08-10'
+  date: 2012-08-10
   dist: 15
   end: '12:00'
-  from: Trsa
-  from_coord: [18.93462, 43.187083]
+  to: Trsa
+  to_coord: [43.187083, 18.93462]
   num: 25
   start: 09:00
+  blog: 2012-08-16-days-25-28-10812-13812-pluzine-to-rozaje
 - accom: camping
-  date: '2012-08-11'
+  date: 2012-08-11
   dist: 44
   end: '15:00'
-  from: Žabljak
-  from_coord: [1996848, 43.152654]
+  to: Žabljak
+  to_coord: [43.152654, 19.96848]
   num: 26
   start: 08:45
+  blog: 2012-08-16-days-25-28-10812-13812-pluzine-to-rozaje
 - accom: camping
-  date: '2012-08-12'
+  date: 2012-08-12
   dist: 87
   end: '18:00'
-  from: Biogradska jezero
-  from_coord: [19.595141, 42.901051]
+  to: Biogradska jezero
+  to_coord: [42.901051, 19.595141]
   num: 27
   start: '10:00'
+  blog: 2012-08-16-days-25-28-10812-13812-pluzine-to-rozaje
 - accom: camping
-  date: '2012-08-13'
+  date: 2012-08-13
   dist: 89
   end: '16:00'
-  from: Rožaje
-  from_coord: [20.130939, 42.836165]
+  to: Rožaje
+  to_coord: [42.836165, 20.130939]
   num: 28
   start: 08:30
+  blog: 2012-08-16-days-25-28-10812-13812-pluzine-to-rozaje
 - accom: hotel
-  date: '2012-08-14'
+  date: 2012-08-14
   dist: 72
   end: '18:00'
-  from: Deçan
-  from_coord: [20.289725, 42.554573]
+  to: Deçan
+  to_coord: [42.554573, 20.289725]
   num: 29
   start: 09:30
+  blog: 2012-08-16-days-29-30-14812-15812-rozaje-to-prizren
 - accom: hostel
-  date: '2012-08-15'
+  date: 2012-08-15
   dist: 93
   end: '16:00'
-  from: Prizren
-  from_coord: [20.735922, 42.208085]
+  to: Prizren
+  to_coord: [42.208085, 20.735922]
   num: 30
   start: 07:45
-- {accom: hostel, date: '2012-08-16'}
+  blog: 2012-08-16-days-29-30-14812-15812-rozaje-to-prizren
+- accom: hostel
+  date: 2012-08-16
+  blog: 2012-08-16-days-29-30-14812-15812-rozaje-to-prizren
 - accom: hotel
-  date: '2012-08-17'
+  date: 2012-08-17
   dist: 100
   end: '18:00'
-  from: Pershcovcë
-  from_coord: [2167378, 4284394]
+  to: Pershcovcë
+  to_coord: [42.84394, 21.67378]
   num: 31
   start: 08:00
+  blog: 2012-08-23-days-31-35-17812-22812-prizren-to-edessa
 - accom: hotel
-  date: '2012-08-18'
+  date: 2012-08-18
   dist: 70
   end: '15:30'
-  from: Mavrovo
-  from_coord: [20.735519, 41.676779]
+  to: Mavrovo
+  to_coord: [41.676779, 20.735519]
   num: 32
   start: 07:45
+  blog: 2012-08-23-days-31-35-17812-22812-prizren-to-edessa
 - accom: hotel
-  date: '2012-08-19'
+  date: 2012-08-19
   dist: 109
   end: '18:30'
-  from: Struga
-  from_coord: [20.677626, 41.177978]
+  to: Struga
+  to_coord: [41.177978, 20.677626]
   num: 33
   start: 08:30
-- {accom: hotel, date: '2012-08-20'}
+  blog: 2012-08-23-days-31-35-17812-22812-prizren-to-edessa
+- accom: hotel
+  from: Struga
+  date: 2012-08-20
+  blog: 2012-08-23-days-31-35-17812-22812-prizren-to-edessa
 - accom: hostel
-  date: '2012-08-21'
+  date: 2012-08-21
   dist: 122
   end: '19:00'
-  from: Bitola
-  from_coord: [21.341117, 412252]
+  to: Bitola
+  to_coord: [41.2252, 21.341117]
   num: 34
   start: 08:30
+  blog: 2012-08-23-days-31-35-17812-22812-prizren-to-edessa
 - accom: hotel
-  date: '2012-08-22'
+  date: 2012-08-22
   dist: 114
   end: '20:30'
-  from: Edessa
-  from_coord: [2253218, 40.801367]
+  to: Edessa
+  to_coord: [40.801367, 22.53218]
   num: 35
   start: '10:00'
-- {accom: hotel, date: '2012-08-23'}
+  blog: 2012-08-23-days-31-35-17812-22812-prizren-to-edessa
+- accom: hotel
+  date: 2012-08-23
+  from: Edessa
 - accom: hostel
-  date: '2012-08-24'
+  date: 2012-08-24
   dist: 111
   end: '16:00'
-  from: Thessaloniki
-  from_coord: [22.95734, 40.638908]
+  to: Thessaloniki
+  to_coord: [40.638908, 22.95734]
   num: 36
   start: 09:00
-- {accom: hostel, date: '2012-08-25'}
-- {accom: hostel, date: '2012-08-26'}
+  blog: 2012-09-01-days-36-39-24812-30812-edessa-to-skala-prinou
 - accom: hostel
-  date: '2012-08-27'
-  from: Thessaloniki
-  from_coord: [2307713, 40.64079]
+  date: 2012-08-25
+  blog: 2012-09-01-days-36-39-24812-30812-edessa-to-skala-prinou
+- accom: hostel
+  date: 2012-08-26
+  blog: 2012-09-01-days-36-39-24812-30812-edessa-to-skala-prinou
+- accom: hostel
+  date: 2012-08-27
+  to: Thessaloniki
+  to_coord: [40.64079, 23.07713]
+  blog: 2012-09-01-days-36-39-24812-30812-edessa-to-skala-prinou
 - accom: camping
-  date: '2012-08-28'
+  date: 2012-08-28
   dist: 96
   end: '12:00'
-  from: Asprovalta
-  from_coord: [23.718874, 40.734909]
+  to: Asprovalta
+  to_coord: [40.734909, 23.718874]
   num: 37
   start: 05:00
+  blog: 2012-09-01-days-36-39-24812-30812-edessa-to-skala-prinou
 - accom: camping
-  date: '2012-08-29'
+  date: 2012-08-29
   dist: 102
   end: '16:30'
-  from: Nea Karvali
-  from_coord: [24.516254, 40.958936]
+  to: Nea Karvali
+  to_coord: [40.958936, 24.516254]
   num: 38
   start: 07:00
+  blog: 2012-09-01-days-36-39-24812-30812-edessa-to-skala-prinou
 - accom: camping
-  date: '2012-08-30'
+  date: 2012-08-30
   dist: 53
   end: '12:00'
-  from: Skala Prinou
-  from_coord: [24.56402, 40.761777]
+  to: Skala Prinou
+  to_coord: [40.761777, 24.56402]
   num: 39
   start: 06:30
+  blog: 2012-09-01-days-36-39-24812-30812-edessa-to-skala-prinou
 - accom: camping
-  date: '2012-08-31'
+  date: 2012-08-31
   dist: 102
   end: '16:30'
   from: Skala Prinou
-  from_coord: [24.564964, 40.762003]
+  to: Skala Prinou
+  to_coord: [40.761777, 24.56402]
   num: 40
   start: 07:30
-- {accom: camping, date: '2012-09-01'}
+  blog: 2012-09-01-days-36-39-24812-30812-edessa-to-skala-prinou
 - accom: camping
-  date: '2012-09-02'
+  date: 2012-09-01
+  blog: 2012-09-01-days-36-39-24812-30812-edessa-to-skala-prinou
+- accom: camping
+  date: 2012-09-02
   dist: 112
   end: '16:00'
-  from: Fanari
-  from_coord: [25.140355, 40.955655]
+  to: Fanari
+  to_coord: [40.955655, 25.140355]
   num: 41
   start: 07:30
 - accom: camping
-  date: '2012-09-03'
+  date: 2012-09-03
   dist: 100
-  from: Alexandroupoli
-  from_coord: [25.854347, 40.846167]
+  to: Alexandroupoli
+  to_coord: [40.846167, 25.854347]
   num: 42
 - accom: hotel
-  date: '2012-09-04'
+  date: 2012-09-04
   dist: 87
-  from: Keşan
-  from_coord: [26.629541, 40.85003]
+  to: Keşan
+  to_coord: [40.85003, 26.629541]
   num: 43
 - accom: hotel
-  date: '2012-09-05'
+  date: 2012-09-05
   dist: 89
   end: '16:00'
-  from: Tekirdaĝ
-  from_coord: [27.511868, 40.977416]
+  to: Tekirdaĝ
+  to_coord: [40.977416, 27.511868]
   num: 44
   start: 08:00
 - accom: hotel
-  date: '2012-09-06'
+  date: 2012-09-06
   dist: 77
   end: '15:00'
-  from: Silivri
-  from_coord: [28.245279, 4175404]
+  to: Silivri
+  to_coord: [41.75404, 28.245279]
   num: 45
   start: 08:00
 - accom: hostel
-  date: '2012-09-07'
+  date: 2012-09-07
   dist: 87
   end: '15:30'
-  from: Istanbul
-  from_coord: [28.977532, 4131934]
+  to: Istanbul
+  to_coord: [41.31934, 28.977532]
   num: 46
   start: 08:00
-- {accom: hostel, date: '2012-09-08'}
+- {accom: hostel, date: 2012-09-08}
