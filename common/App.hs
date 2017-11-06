@@ -186,8 +186,12 @@ tourSummaryView' name Tour{..} m = div_ [class_ "tour-page-index"]
       [ td_ [ class_ "col-date" ] [ text $ formatDate dayDate ]
       , td_ [ class_ "col-from" ] [ text $ toMisoString dayFrom ]
       , td_ [ class_ "col-to" ] [ text $ toMisoString dayTo ]
-      , td_ [ class_ "col-dist" ] [ text . toMisoString . show $ dayDist ]
+      , td_ [ class_ "col-dist" ] [ text . formatDist $ dayDist ]
       ]
+
+formatDist :: Int -> MisoString
+formatDist 0 = ""
+formatDist n = toMisoString $ show n
 
 formatDate :: Day -> MisoString
 formatDate = toMisoString . formatTime defaultTimeLocale "%e/%m/%Y"
