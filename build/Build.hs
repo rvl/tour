@@ -14,6 +14,7 @@ import qualified Data.ByteString.Lazy.Char8 as BLS8
 import Data.Aeson (ToJSON, encode)
 import Data.Text.Lazy.Encoding (decodeUtf8)
 import System.Directory (pathIsSymbolicLink, createDirectoryIfMissing)
+import Data.Maybe (fromMaybe)
 
 import Types
 import TourJson
@@ -206,8 +207,9 @@ frontendRules wwwDir = do
 
   www "static/tour.css" %> \out -> do
     let src = frontend "tour.sass"
+    bc <- lookupBowerComponents
     need [src]
-    cmd "sassc" src out
+    cmd "sassc -I" [bc, src, out]
 
   ghcjsDist </> "setup-config" %> \out -> do
     need ["tour.cabal"]
@@ -232,6 +234,12 @@ frontendRules wwwDir = do
     let js = dropExtension out
     need [js]
     cmd "zopfli -i1000" [js]
+
+lookupBowerComponents :: Action FilePath
+lookupBowerComponents = subdir . def <$> getEnv "BOWER_COMPONENTS"
+  where
+    subdir = (</> "bower_components")
+    def = fromMaybe "frontend"
 
 needHaskellSources :: Action ()
 needHaskellSources = do
