@@ -40,7 +40,7 @@ instance ToJSON Tour where
   toJSON = genericToJSON prefixOptions
 
 instance ToJSON Geo where
-  toJSON (Geo lat' lon') = Array (V.fromList [num lon', num lat'])
+  toJSON (Geo lat' lon') = Array (V.fromList [num lat', num lon'])
     where
       num :: Angular n => n -> Value
       num = Number . toDegree . toAngle
@@ -49,7 +49,7 @@ instance FromJSON Tour where
     parseJSON (Object v) = Tour <$>
                            v .: "name" <*>
                            v .:? "description" .!= "" <*>
-                           (renumber <$> v .: "days") <*>
+                           v .:? "days" .!= [] <*>
                            v .:? "start_date" <*>
                            v .:? "end_date" <*>
                            v .:? "countries" .!= []
@@ -79,7 +79,7 @@ instance FromJSON TourDay where
 instance FromJSON Geo where
   parseJSON (Object v) = Geo <$> v .: "lat" <*> v .: "lng"
   parseJSON (Array a) = case V.toList a of
-    [lon', lat'] -> Geo <$> parseJSON lon' <*> parseJSON lat'
+    [lat', lon'] -> Geo <$> parseJSON lat' <*> parseJSON lon'
     _ -> fail "expected length 2 array"
   parseJSON v = typeMismatch "Geo" v
 

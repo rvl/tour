@@ -30,7 +30,7 @@ loadTours dir = do
   yamls <- getDirectoryFilesIO "" [dir </> "*.yaml"]
   tours <- mapM decodeFileEither yamls
   mapM_ putStrLn [yaml ++ ": " ++ show err | (yaml, Left err) <- zip yamls tours]
-  return [(takeBaseName yaml, tour) | (yaml, Right tour) <- zip yamls tours]
+  return [(takeBaseName yaml, fillTour tour) | (yaml, Right tour) <- zip yamls tours]
 
 dataFileName :: String -> FilePath
 dataFileName t = "data" </> t <.> "yaml"
