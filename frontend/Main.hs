@@ -281,12 +281,11 @@ initMapViewContext Config{..} = do
       mapM_ (removeLayer leaflet . snd) (s ^. msInfoDaily)
 
       let
-        popup TourDay{..} wher = "Day " <> toMisoString (show dayNum) <> ". " <> formatDate dayDate <> "<br>" <> wher
         dayMarker d@TourDay{..} = case dayFromCoord <|> dayToCoord of
           Just coord -> do
             let title = toMisoString (dayFrom `orElse` dayTo)
             m <- newLayerMarker blueIcon title Nothing (geoLatLng coord)
-            bindPopup m (popup d title)
+            bindPopup m (tourDayPopup title d)
             pure (Just m)
           Nothing -> pure Nothing
 
@@ -297,14 +296,14 @@ initMapViewContext Config{..} = do
           Just geo -> do
             let title = toMisoString dayFrom
             m <- newLayerMarker greenIcon title (Just 1000) (geoLatLng geo)
-            bindPopup m (popup d title)
+            bindPopup m (tourDayPopup title d)
             pure (Just m)
           Nothing -> pure Nothing
         to <- case dayToCoord of
           Just geo -> do
             let title = toMisoString dayTo
             m <- newLayerMarker redIcon title (Just 1000) (geoLatLng geo)
-            bindPopup m (popup d title)
+            bindPopup m (tourDayPopup title d)
             pure (Just m)
           Nothing -> pure Nothing
 
@@ -323,10 +322,14 @@ makeLayer leaflet tooltip geo = do
   pure layer
 
 tourDayTooltip :: TourDay -> MisoString
-tourDayTooltip d@TourDay{..} =
-  mconcat [ "Day ", toMisoString (show dayNum), ". "
-          , formatDate dayDate, "<br>"
-          , tourDayTitle d ]
+tourDayTooltip d = tourDayPopup (tourDayTitle d) d
+
+tourDayPopup :: MisoString -> TourDay -> MisoString
+tourDayPopup loc TourDay{..} = mconcat [ dayStr dayNum
+                                       , formatDate dayDate
+                                       , "<br>" , loc ]
+  where dayStr 0 = ""
+        dayStr n = "Day " <> toMisoString (show n) <> ". "
 
 allTooltip :: Model -> MisoString -> Maybe MisoString
 allTooltip m n = (infoIndex m >>= fmap (toMisoString . tourName) . M.lookup (misoText n))
