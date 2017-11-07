@@ -10,18 +10,22 @@ days:
    start: 08:00
    end: 20:00
    blog: 2011-05-05-day-1-london-rochester
+   from_coord: [51.51595700862927, -0.17930030822753906]
+   to_coord: [51.389893883013926, 0.5035042762756349]
  - date: 2011-04-26
    to: Canterbury
    dist: 69
    start: 09:00
    end: 18:00
    blog: 2011-05-05-day-2-rochester-canterbury
+   to_coord: [51.27712891327069, 1.1128592491149905]
  - date: 2011-04-27
    to: Dunkerque
    dist: 65
    start: 09:00
    end: 20:00
    blog: 2011-05-05-day-3-canterbury-dunkerque
+   to_coord: [51.05188925130967, 2.42025375366211]
  - date: 2011-04-28
    from: Dunkerque
    blog: 2011-05-05-tour-de-gare-avec-velo
