@@ -23,7 +23,7 @@ ln -s ~/Documents/GPS_DATA/*.SBN GPS_DATA
 ### Start build
 
 ```
-nix-shell --run ./build.sh
+nix-shell --run ./build.sh --keep-going
 ```
 
 ## Frontend build
@@ -32,7 +32,6 @@ nix-shell --run ./build.sh
 nix-shell -A frontend
 cabal configure --ghcjs --builddir=dist-ghcjs
 cabal build --builddir=dist-ghcjs
-sassc frontend/tour.sass frontend/static/tour.css
 ```
 
 ## Serve frontend

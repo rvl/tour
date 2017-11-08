@@ -41,11 +41,12 @@ devServerMain host port = do
 -- Any other route will result in the SPA html.
 devServer :: FilePath -> FilePath -> FilePath -> Application
 devServer frontend jsexe bc = rewriteJS (mapUrls urls)
-  where urls = mount "static" (staticServer (frontend </> "static"))
+  where urls = mount "static" ( mount "data" (staticServer "_build")
+                                <|> mountRoot (staticServer "_www/static") )
                <|> mount "jsexe" (staticServer jsexe)
                <|> mount "bower_components" (staticServer bc)
                <|> mountRoot (serveFile (frontend </> "index.html"))
-            
+
 -- | Static file server with caching disabled.
 staticServer :: FilePath -> Application
 staticServer path = staticApp ((defaultFileServerSettings path) & noCache)
